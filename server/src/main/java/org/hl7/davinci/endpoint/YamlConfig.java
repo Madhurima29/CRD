@@ -36,11 +36,21 @@ public class YamlConfig {
   private String localDbRules;
 
   private String localDbFhirArtifacts;
+  
+  private String cdsServer;
 
   private boolean urlEncodeAppContext;
 
   public String getLocalDbFhirArtifacts() {
     return localDbFhirArtifacts;
+  }
+  
+  public String getCdsServer() {
+      return cdsServer;
+  }
+  
+  public void setCdsServer(String cdsServer) {
+      this.cdsServer = cdsServer;
   }
 
   public void setLocalDbFhirArtifacts(String localDbFhirArtifacts) {

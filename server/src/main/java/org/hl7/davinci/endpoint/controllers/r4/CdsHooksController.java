@@ -47,6 +47,7 @@ public class CdsHooksController {
     logger.info("r4/serviceDiscovery");
     CdsServiceInformation serviceInformation = new CdsServiceInformation();
     serviceInformation.addServicesItem(orderReviewService);
+    serviceInformation.addServicesItem(orderSelectService);
     serviceInformation.addServicesItem(medicationPrescribeService);
     return serviceInformation;
   }
@@ -66,6 +67,7 @@ public class CdsHooksController {
     }
     return orderReviewService.handleRequest(request, Utils.getApplicationBaseUrl(httpServletRequest));
   }
+
 
   /**
    * The coverage requirement discovery endpoint for the medication prescribe hook.

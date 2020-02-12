@@ -29,11 +29,19 @@ public class FhirUriFetcherLocal implements FhirUriFetcher {
       //TODO: eventually this should support other fhir uri/url, it could just fetch them in json format and return them
       return null;
     }
+    String path = config.getLocalDbFhirArtifacts();
+    
     fhirUri = fhirUri.replace("urn:hl7:davinci:crd:","");
+    if (fhirUri.contains(":")) {
+            String[] arrOfStr = fhirUri.split(":");
+
+            fhirUri = arrOfStr[1];
+            path = path + "/" + arrOfStr[0];
+        }
     if (!fhirUri.endsWith(".json")) {
       fhirUri = fhirUri + ".json";
     }
-    File file = Paths.get(config.getLocalDbFhirArtifacts(),fhirUri).toFile();
+    File file = Paths.get(path,fhirUri).toFile();
     if (!file.exists()){
       return null;
     }

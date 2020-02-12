@@ -1,14 +1,16 @@
 package org.hl7.davinci.endpoint.cdshooks.services.crd;
 
-import java.io.UnsupportedEncodingException;
+import ca.uhn.fhir.context.FhirContext;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Date;
 import javax.validation.Valid;
 
 import org.cdshooks.CdsRequest;
@@ -23,213 +25,139 @@ import org.hl7.davinci.endpoint.YamlConfig;
 import org.hl7.davinci.endpoint.components.CardBuilder;
 import org.hl7.davinci.endpoint.components.CardBuilder.CqlResultsForCard;
 import org.hl7.davinci.endpoint.components.PrefetchHydrator;
-import org.hl7.davinci.endpoint.database.RequestLog;
 import org.hl7.davinci.endpoint.database.RequestService;
+import org.hl7.davinci.endpoint.results.CRDResult;
 import org.hl7.davinci.endpoint.rules.CoverageRequirementRuleCriteria;
 import org.hl7.davinci.endpoint.rules.CoverageRequirementRuleFinder;
 import org.hl7.davinci.endpoint.rules.CoverageRequirementRuleResult;
+import org.hl7.davinci.r4.crdhook.orderreview.OrderReviewRequest;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.json.simple.JSONObject;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Organization;
+import org.json.JSONObject;
 import org.opencds.cqf.cql.execution.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Component
 public abstract class CdsService<requestTypeT extends CdsRequest<?, ?>> {
-  static final Logger logger = LoggerFactory.getLogger(CdsService.class);
 
-  /**
-   * The {id} portion of the URL to this service which is available at {baseUrl}/cds-services/{id}.
-   * REQUIRED
-   */
-  public String id = null;
+    static final Logger logger = LoggerFactory.getLogger(CdsService.class);
 
-  /**
-   * The hook this service should be invoked on. REQUIRED
-   */
-  public Hook hook = null;
+    /**
+     * The {id} portion of the URL to this service which is available at
+     * {baseUrl}/cds-services/{id}. REQUIRED
+     */
+    public String id = null;
 
-  /**
-   * The human-friendly name of this service. RECOMMENDED
-   */
-  public String title = null;
+    /**
+     * The hook this service should be invoked on. REQUIRED
+     */
+    public Hook hook = null;
 
-  /**
-   * The description of this service. REQUIRED
-   */
-  public String description = null;
+    /**
+     * The human-friendly name of this service. RECOMMENDED
+     */
+    public String title = null;
 
-  /**
-   * An object containing key/value pairs of FHIR queries that this service is requesting that the
-   * EHR prefetch and provide on each service call. The key is a string that describes the type of
-   * data being requested and the value is a string representing the FHIR query. OPTIONAL
-   */
-  public Prefetch prefetch = null;
-  Class<?> requestClass = null;
+    /**
+     * The description of this service. REQUIRED
+     */
+    public String description = null;
 
-  @Autowired
-  private YamlConfig myConfig;
+    /**
+     * An object containing key/value pairs of FHIR queries that this service is
+     * requesting that the EHR prefetch and provide on each service call. The
+     * key is a string that describes the type of data being requested and the
+     * value is a string representing the FHIR query. OPTIONAL
+     */
+    public Prefetch prefetch = null;
+    Class<?> requestClass = null;
 
-  @Autowired
-  RequestService requestService;
+    @Autowired
+    private YamlConfig myConfig;
 
-  @Autowired
-  private CoverageRequirementRuleFinder ruleFinder;
+    @Autowired
+    RequestService requestService;
 
-  private List<PrefetchTemplateElement> prefetchElements = null;
-  private FhirComponentsT fhirComponents;
+    @Autowired
+    private CoverageRequirementRuleFinder ruleFinder;
 
-  /**
-   * Create a new cdsservice.
-   *
-   * @param id Will be used in the url, should be unique.
-   * @param hook Which hook can call this.
-   * @param title Human title.
-   * @param description Human description.
-   * @param prefetchElements List of prefetch elements, will be in prefetch template.
-   * @param fhirComponents Fhir components to use
-   */
-  public CdsService(String id, Hook hook, String title, String description,
-      List<PrefetchTemplateElement> prefetchElements, FhirComponentsT fhirComponents) {
-    if (id == null) {
-      throw new NullPointerException("CDSService id cannot be null");
-    }
-    if (hook == null) {
-      throw new NullPointerException("CDSService hook cannot be null");
-    }
-    if (description == null) {
-      throw new NullPointerException("CDSService description cannot be null");
-    }
-    this.id = id;
-    this.hook = hook;
-    this.title = title;
-    this.description = description;
-    this.prefetchElements = prefetchElements;
-    prefetch = new Prefetch();
-    for (PrefetchTemplateElement prefetchElement : prefetchElements) {
-      this.prefetch.put(prefetchElement.getKey(), prefetchElement.getQuery());
-    }
-    this.fhirComponents = fhirComponents;
-  }
+    private List<PrefetchTemplateElement> prefetchElements = null;
+    private FhirComponentsT fhirComponents;
 
-  public List<PrefetchTemplateElement> getPrefetchElements() {
-    return prefetchElements;
-  }
-
-  /**
-   * Performs generic operations for incoming requests of any type.
-   * @param request the generically typed incoming request
-   * @return The response from the server
-   */
-  public CdsResponse handleRequest(@Valid @RequestBody requestTypeT request, URL applicationBaseUrl) {
-
-    // create the RequestLog
-    RequestLog requestLog = new RequestLog(request, new Date().getTime(), this.fhirComponents.getFhirVersion().toString(),
-        this.id, requestService,5);
-
-    // Parsed request
-    requestLog.advanceTimeline(requestService);
-
-    PrefetchHydrator prefetchHydrator = new PrefetchHydrator(this, request,
-        this.fhirComponents);
-    prefetchHydrator.hydrate();
-
-    // hydrated
-    requestLog.advanceTimeline(requestService);
-
-    // logger.info("***** ***** request from requestLog:  "+requestLog.toString() );
-
-    CdsResponse response = new CdsResponse();
-
-    // CQL Fetched
-    List<CoverageRequirementRuleResult> lookupResults;
-    try {
-      lookupResults = this.createCqlExecutionContexts(request, ruleFinder);
-      requestLog.advanceTimeline(requestService); 
-    } catch (RequestIncompleteException e) {
-      logger.warn(e.getMessage()+"; summary card sent to client");
-      response.addCard(CardBuilder.summaryCard(e.getMessage()));
-      requestLog.setResults(e.getMessage());
-      requestService.edit(requestLog);
-      return response;
-    }
-
-    boolean foundApplicableRule = false;
-    for (CoverageRequirementRuleResult lookupResult: lookupResults) {
-      CqlResultsForCard results = executeCqlAndGetRelevantResults(lookupResult.getContext());
-      if (results.ruleApplies()){
-        foundApplicableRule = true;
-        if ((results.getDocumentationRequired() || results.getPriorAuthRequired()) &&
-            (results.getQuestionnaireUri() != null && !results.getQuestionnaireUri().isEmpty())) {
-          Link smartAppLink = smartLinkBuilder(
-              request.getContext().getPatientId(),
-              request.getFhirServer(),
-              applicationBaseUrl,
-              results.getQuestionnaireUri(),
-              results.getRequestId(),
-              lookupResult.getCriteria(),
-              results.getPriorAuthRequired());
-          response.addCard(CardBuilder.transform(results, smartAppLink));
-        } else{
-          logger.warn("Unspecified Questionnaire URI; summary card sent to client");
-          response.addCard(CardBuilder.transform(results));
+    /**
+     * Create a new cdsservice.
+     *
+     * @param id Will be used in the url, should be unique.
+     * @param hook Which hook can call this.
+     * @param title Human title.
+     * @param description Human description.
+     * @param prefetchElements List of prefetch elements, will be in prefetch
+     * template.
+     * @param fhirComponents Fhir components to use
+     */
+    public CdsService(String id, Hook hook, String title, String description,
+            List<PrefetchTemplateElement> prefetchElements, FhirComponentsT fhirComponents) {
+        if (id == null) {
+            throw new NullPointerException("CDSService id cannot be null");
         }
-      }
+        if (hook == null) {
+            throw new NullPointerException("CDSService hook cannot be null");
+        }
+        if (description == null) {
+            throw new NullPointerException("CDSService description cannot be null");
+        }
+        this.id = id;
+        this.hook = hook;
+        this.title = title;
+        this.description = description;
+        this.prefetchElements = prefetchElements;
+        prefetch = new Prefetch();
+        for (PrefetchTemplateElement prefetchElement : prefetchElements) {
+            this.prefetch.put(prefetchElement.getKey(), prefetchElement.getQuery());
+        }
+        this.fhirComponents = fhirComponents;
     }
 
-    // CQL Executed
-    requestLog.advanceTimeline(requestService);
-
-    if (!foundApplicableRule) {
-      String msg = "No documentation rules found";
-      logger.warn(msg+"; summary card sent to client");
-      response.addCard(CardBuilder.summaryCard(msg));
+    public List<PrefetchTemplateElement> getPrefetchElements() {
+        return prefetchElements;
     }
 
-    CardBuilder.errorCardIfNonePresent(response);
-    return response;
-  }
+    public CdsResponse handleRequest(@Valid @RequestBody requestTypeT request, URL applicationBaseUrl) {
+        CdsResponse response = new CdsResponse();
 
-  private CqlResultsForCard executeCqlAndGetRelevantResults(Context context) {
-    CqlResultsForCard results = new CqlResultsForCard();
+        System.out.println("begin execution");
+        List<CRDResult> res = getRequirements(request);
+        for (Iterator<CRDResult> iterator = res.iterator(); iterator.hasNext();) {
+            CRDResult next = iterator.next();
+            CardBuilder.CqlResultsForCard results = new CardBuilder.CqlResultsForCard();
+            if (next.getErrors().isEmpty()) {
 
+                Link smartAppLink = smartLinkBuilder(next);
+                response.addCard(CardBuilder.transform(results, smartAppLink));
+                next.dumpAppContext();
+            } else {
+                Link smartAppLink = smartLinkBuilder(next);
+                response.addCard(CardBuilder.transform(results, smartAppLink));
+            }
 
-    results.setRuleApplies((Boolean) evaluateStatement("RULE_APPLIES",context));
-    if (!results.ruleApplies()) {
-      return results;
+        }
+
+        return response;
     }
 
-    results.setSummary(evaluateStatement("RESULT_Summary",context).toString())
-        .setDetails(evaluateStatement("RESULT_Details",context).toString())
-        .setInfoLink(evaluateStatement("RESULT_InfoLink",context).toString())
-        .setPriorAuthRequired((Boolean) evaluateStatement("PRIORAUTH_REQUIRED", context))
-        .setDocumentationRequired((Boolean) evaluateStatement("DOCUMENTATION_REQUIRED", context));
-
-    if (evaluateStatement("RESULT_QuestionnaireUri",context) != null) {
-      results
-          .setQuestionnaireUri(evaluateStatement("RESULT_QuestionnaireUri",context).toString())
-          .setRequestId(JSONObject.escape(fhirComponents.getFhirContext().newJsonParser().encodeResourceToString((IBaseResource) evaluateStatement("RESULT_requestId",context))));
+    public List<CRDResult> getRequirements(@Valid @RequestBody requestTypeT request) {
+        List<CRDResult> results = new ArrayList<>();
+        return results;
     }
 
-    return results;
-  }
-
-  private Object evaluateStatement(String statement, Context context) {
-    try {
-      return context.resolveExpressionRef(statement).evaluate(context);
-      // can be thrown if statement is not defined in the cql
-    } catch (IllegalArgumentException e) {
-      logger.error(e.toString());
-      return null;
-    }
-  }
-
-  private Link smartLinkBuilder(String patientId, String fhirBase, URL applicationBaseUrl, String questionnaireUri,
-                                String reqResourceId, CoverageRequirementRuleCriteria criteria, boolean priorAuthRequired) {
+    /*private Link smartLinkBuilder(String patientId, String fhirBase, URL applicationBaseUrl, String questionnaireUri,
+                                String reqResourceId, CoverageRequirementRuleCriteria criteria) {
     URI configLaunchUri = myConfig.getLaunchUrl();
     String launchUrl;
     if (myConfig.getLaunchUrl().isAbsolute()) {
@@ -245,63 +173,123 @@ public abstract class CdsService<requestTypeT extends CdsRequest<?, ?>> {
         throw new RuntimeException(msg);
       }
     }
-
     if (fhirBase != null && fhirBase.endsWith("/")) {
       fhirBase = fhirBase.substring(0, fhirBase.length() - 1);
     }
     if (patientId != null && patientId.startsWith("Patient/")) {
       patientId = patientId.substring(8,patientId.length());
     }
-
     // PARAMS:
     // template is the uri of the questionnaire
     // request is the ID of the device request or medrec (not the full URI like the IG says, since it should be taken from fhirBase
-    //HashMap<String,String> appContextMap = new HashMap<>();
-    //appContextMap.put("template", questionnaireUri);
-    //appContextMap.put("request", reqResourceId);
+    HashMap<String,String> appContextMap = new HashMap<>();
+    appContextMap.put("template", questionnaireUri);
+    appContextMap.put("request", reqResourceId);
     String filepath = "../../getfile/" + criteria.getQueryString();
-
-    String appContext = "template=" + questionnaireUri + "&request=" + reqResourceId;
-    
-    appContext = appContext + "&priorauth=" + (priorAuthRequired?"true":"false");
-    appContext = appContext + "&filepath=";
-    if (myConfig.getUrlEncodeAppContext()) {
-      try {
-        logger.info("CdsService::smartLinkBuilder: URL encoding appcontext");
-        appContext = URLEncoder.encode(appContext, "UTF-8").toString();
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }
-    }
-
+    String appContext = "template=" + questionnaireUri + "&request=" + reqResourceId + "&filepath=";
     if (myConfig.getIncludeFilepathInAppContext()) {
       appContext = appContext + filepath;
     } else {
       appContext = appContext + "_";
     }
     logger.info("smarLinkBuilder: appContext: " + appContext);
-
     if (myConfig.isAppendParamsToSmartLaunchUrl()) {
       launchUrl = launchUrl + "?iss=" + fhirBase + "&patientId=" + patientId + "&template=" + questionnaireUri + "&request=" + reqResourceId;
     }else {
       // TODO: The iss should be set by the EHR?
       launchUrl = launchUrl;
     }
-
     Link link = new Link();
     link.setType("smart");
     link.setLabel("SMART App");
     link.setUrl(launchUrl);
-
     link.setAppContext(appContext);
-
     return link;
-  }
+  }*/
+    private Link smartLinkBuilder(CRDResult result) {
+        Link link = new Link();
 
-  // Implement this in child class
-  public abstract List<CoverageRequirementRuleResult> createCqlExecutionContexts(requestTypeT request, CoverageRequirementRuleFinder ruleFinder)
-      throws RequestIncompleteException;
+        if (result.getErrors().isEmpty()) {
+            String appContext = result.getAppContext();
+            URI configLaunchUri = myConfig.getLaunchUrl();
+            String launchUrl = "";
+            if (myConfig.getLaunchUrl().isAbsolute()) {
+                launchUrl = myConfig.getLaunchUrl().toString();
+            }
+            link.setType("smart");
+            link.setLabel("SMART App");
+            link.setUrl(launchUrl);
+
+            link.setAppContext(appContext);
+        } else {
+            link.setType("Error");
+            String error = "";
+            ArrayList<String> errors = result.getErrors();
+            for (Iterator<String> iterator = errors.iterator(); iterator.hasNext();) {
+                String next = iterator.next();
+                error = error + next + ", ";
+                
+            }
+            link.setLabel(error);
+
+        }
+        return link;
+
+    }
+
+    // Implement this in child class
+    public abstract List<CoverageRequirementRuleResult> createCqlExecutionContexts(requestTypeT request, CoverageRequirementRuleFinder ruleFinder)
+            throws RequestIncompleteException;
+
+    protected CRDResult getResult(Bundle b) {
+        CRDResult result = new CRDResult();
+        try {
+            String cqlJsonStr = FhirContext.forR4().newJsonParser().encodeResourceToString(b);
+            System.out.println("The bundle is " + cqlJsonStr);
+            System.out.println("Trying to connect to " + myConfig.getCdsServer() + "/getCqlData");
+            URL cqlDataUrl = new URL(myConfig.getCdsServer() + "/getCqlData");
+            byte[] cqlReqDataBytes = cqlJsonStr.getBytes("UTF-8");
+            HttpURLConnection cqlDataconn = (HttpURLConnection) cqlDataUrl.openConnection();
+            cqlDataconn.setRequestMethod("POST");
+            cqlDataconn.setRequestProperty("Content-Type", "application/json");
+            cqlDataconn.setRequestProperty("Accept", "application/json");
+
+            cqlDataconn.setDoOutput(true);
+            cqlDataconn.getOutputStream().write(cqlReqDataBytes);
+            BufferedReader cqlResReader = new BufferedReader(new InputStreamReader(cqlDataconn.getInputStream(),
+                    "UTF-8"));
+            String line = null;
+            StringBuilder cqlResStrBuilder = new StringBuilder();
+            while ((line = cqlResReader.readLine()) != null) {
+                cqlResStrBuilder.append(line);
+            }
+
+            JSONObject cqlResObj = new JSONObject(cqlResStrBuilder.toString());
+
+            result.setResources(b);
+            result.setCdsResult(cqlResObj);
+        } catch (Exception e) {
+            result.addError("An unexpected error occured with the connection to the backend cds service");
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    
+    protected Identifier getPayerIdentifier(Organization payer) {
+        Identifier id = new Identifier();
+        id.setSystem("http://identifiers.mettles.com/payer");
+        id.setValue("unknown");
+        String name = payer.getName();
+        name = name.toLowerCase();
+        if ((name.indexOf("cms") >= 0 ) || (name.indexOf("medicare") >= 0)) {
+            id.setValue("medicare_fee_for_service");
+        } else if (name.indexOf("united") >= 0) {
+            id.setValue("united_health_care");
+        } else if (name.indexOf("cigna") >= 0) {
+            id.setValue("cigna");
+        } 
+        return id;
+    }
 
 }
-
-
