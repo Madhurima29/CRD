@@ -17,7 +17,6 @@ public abstract class CdsRequest<prefetchTypeT, serviceContextTypeT extends Enco
 
   private FhirAuthorization fhirAuthorization = null;
 
-  @NotNull
   private String user = null;
 
   @NotNull
