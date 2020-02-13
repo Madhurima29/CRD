@@ -135,104 +135,102 @@ public class OrderSelectService extends CdsService<OrderSelectRequest> {
             }
 
         }
-        
+
         if (patient == null) {
 
-        patient = getPatientFromFhir(patientId,request.getFhirServer(),request.getFhirAuthorization());
+            patient = getPatientFromFhir(patientId, request.getFhirServer(), request.getFhirAuthorization());
         }
-        
+
         if (org == null) {
-            List<Organization> orgs = getOrganizationFromFhirbyPatientId(patientId,request.getFhirServer(),request.getFhirAuthorization() );
+            List<Organization> orgs = getOrganizationFromFhirbyPatientId(patientId, request.getFhirServer(), request.getFhirAuthorization());
             for (Iterator<Organization> iterator = orgs.iterator(); iterator.hasNext();) {
                 org = iterator.next();
-                
-                
+
             }
-            
+
         }
-        
-        
 
         return checkPriorServiceAuthRequirements(serviceRequest, org, patient);
     }
-    
-    private Patient getPatientFromFhir(String id,String fullUrl, FhirAuthorization auth) {
+
+    private Patient getPatientFromFhir(String id, String fullUrl, FhirAuthorization auth) {
         String query = "/Patient/" + id;
         IBaseResource resource = executeFhirQuery(fullUrl, auth, query);
-        if (resource.getIdElement().getIdPart().equals("Patient")) {
-            return (Patient)resource;
+        if (resource instanceof Patient) {
+            return (Patient) resource;
         }
+        
         return null;
     }
-    
-    private Coverage getCoverageFromFhir(String id,String fullUrl, FhirAuthorization auth) {
+
+    private Coverage getCoverageFromFhir(String id, String fullUrl, FhirAuthorization auth) {
         String query = "/Coverage/" + id;
         IBaseResource resource = executeFhirQuery(fullUrl, auth, query);
         if (resource.getIdElement().getIdPart().equals("Coverage")) {
-            return (Coverage)resource;
+            return (Coverage) resource;
         }
         return null;
     }
-    
-    private Organization getOrganizationFromFhir(String id,String fullUrl, FhirAuthorization auth) {
+
+    private Organization getOrganizationFromFhir(String id, String fullUrl, FhirAuthorization auth) {
         String query = "/Organization/" + id;
         IBaseResource resource = executeFhirQuery(fullUrl, auth, query);
         if (resource.getIdElement().getIdPart().equals("Organization")) {
-            return (Organization)resource;
+            return (Organization) resource;
         }
         return null;
     }
-    
+
     private List<Organization> getOrganizationFromFhirbyPatientId(String patientid, String fullUrl, FhirAuthorization auth) {
         String query = "/Coverage?patient=id";
         List<Organization> orgs = new ArrayList();
         IBaseResource resource = executeFhirQuery(fullUrl, auth, query);
         if (resource.getIdElement().getIdPart().equals("Bundle")) {
-            Bundle bundle = (Bundle)resource;
+            Bundle bundle = (Bundle) resource;
             List<Bundle.BundleEntryComponent> entries = bundle.getEntry();
             for (Iterator<Bundle.BundleEntryComponent> iterator = entries.iterator(); iterator.hasNext();) {
                 Bundle.BundleEntryComponent next = iterator.next();
-                if (next.getResource().getResourceType()==ResourceType.Coverage) {
-                    Coverage cov = (Coverage)(next.getResource());
+                if (next.getResource().getResourceType() == ResourceType.Coverage) {
+                    Coverage cov = (Coverage) (next.getResource());
                     List<Reference> orgRefs = cov.getPayor();
                     for (Iterator<Reference> iterator1 = orgRefs.iterator(); iterator1.hasNext();) {
                         Reference next1 = iterator1.next();
-                        orgs.add(getOrganizationFromFhir(next1.getReferenceElement().getValue(),fullUrl,auth));
-                        
+                        orgs.add(getOrganizationFromFhir(next1.getReferenceElement().getValue(), fullUrl, auth));
+
                     }
                 }
-                
+
             }
-            
+
         }
         return orgs;
     }
-    
+
     private List<Coverage> getCoverageFromFhirbyPatientId(String patientid, String fullUrl, FhirAuthorization auth) {
         String query = "/Coverage?patient=id";
         List<Coverage> coverages = new ArrayList();
         IBaseResource resource = executeFhirQuery(fullUrl, auth, query);
         if (resource.getIdElement().getIdPart().equals("Bundle")) {
-            Bundle bundle = (Bundle)resource;
+            Bundle bundle = (Bundle) resource;
             List<Bundle.BundleEntryComponent> entries = bundle.getEntry();
             for (Iterator<Bundle.BundleEntryComponent> iterator = entries.iterator(); iterator.hasNext();) {
                 Bundle.BundleEntryComponent next = iterator.next();
-                if (next.getResource().getResourceType()==ResourceType.Coverage) {
-                    Coverage cov = (Coverage)(next.getResource());
+                if (next.getResource().getResourceType() == ResourceType.Coverage) {
+                    Coverage cov = (Coverage) (next.getResource());
                     coverages.add(cov);
                 }
-                
+
             }
-            
+
         }
         return coverages;
     }
 
     private IBaseResource executeFhirQuery(String fullUrl, FhirAuthorization auth,
             String query) {
-        
+
         String token = auth.getAccessToken();
-        
+
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -245,10 +243,12 @@ public class OrderSelectService extends CdsService<OrderSelectRequest> {
             System.out.println("The full url is " + fullUrl);
             System.out.println("The toekn url is " + token);
             System.out.println("The query is " + query);
-            
-            ResponseEntity<String> response = restTemplate.exchange(fullUrl+query, HttpMethod.GET,
+
+            ResponseEntity<String> response = restTemplate.exchange(fullUrl + query, HttpMethod.GET,
                     entity, String.class);
             System.out.println("The response is " + response.getBody());
+            System.out.println("======================================" );
+            System.out.println("======================================" );
             return FhirContext.forR4().newJsonParser().parseResource(response.getBody());
         } catch (RestClientException e) {
             logger.warn("Unable to make the fetch request", e);
