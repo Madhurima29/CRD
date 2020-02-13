@@ -165,7 +165,7 @@ public class CardBuilder {
       Card card = new Card();
       card.setIndicator(Card.IndicatorEnum.WARNING);
       Source source = new Source();
-      source.setLabel("Da Vinci CRD Reference Implementation");
+      source.setLabel("Mettles Coverage Rules lookup information");
       card.setSource(source);
       String msg = "Unable to process hook request from provided information.";
       card.setSummary(msg);
@@ -178,7 +178,7 @@ public class CardBuilder {
     Card card = new Card();
     card.setIndicator(Card.IndicatorEnum.INFO);
     Source source = new Source();
-    source.setLabel("Da Vinci CRD Reference Implementation");
+    source.setLabel("Mettles Coverage Rules lookup information");
     card.setSource(source);
     return card;
   }
