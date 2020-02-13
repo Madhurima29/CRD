@@ -1201,23 +1201,23 @@
                 U = Object(O.getHostOrg)(),
                 A = [{
                     name: "FHIR STU3 endpoint",
-                    link: P + "stu3/cds-services",
+                    link: P + "crd/stu3/cds-services",
                     description: "The provider systems would interact with the CDS Hooks endpoints. These endpoints provide the JSON descriptions of the CDS Hooks services."
                 }, {
                     name: "FHIR R4 endpoint",
-                    link: P + "r4/cds-services",
+                    link: P + "crd/r4/cds-services",
                     description: "The provider systems would interact with the CDS Hooks endpoints. These endpoints provide the JSON descriptions of the CDS Hooks services."
                 }, {
                     name: "Rules endpoint",
-                    link: P + "api/data",
+                    link: P + "crd/api/data",
                     description: "Endpoint for retrieving and manipulating rules."
                 }, {
                     name: "Requests endpoint",
-                    link: P + "api/requests",
+                    link: P + "crd/api/requests",
                     description: "Endpoint for retrieving the requests made to the server as JSON."
                 }, {
                     name: "Public Key endpoint",
-                    link: P + "api/public",
+                    link: P + "crd/api/public",
                     description: "Endpoint for retrieving keys from and adding keys to the server database"
                 }],
                 F = function(e) {

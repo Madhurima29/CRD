@@ -10,27 +10,27 @@ let hostOrg = getHostOrg();
 const links = [
     {
         name: "FHIR STU3 endpoint",
-        link: baseUrl + "stu3/cds-services",
+        link: baseUrl + "crd/stu3/cds-services",
         description: "The provider systems would interact with the CDS Hooks endpoints. These endpoints provide the JSON descriptions of the CDS Hooks services."
     },
     {
         name: "FHIR R4 endpoint",
-        link: baseUrl + "r4/cds-services",
+        link: baseUrl + "crd/r4/cds-services",
         description: "The provider systems would interact with the CDS Hooks endpoints. These endpoints provide the JSON descriptions of the CDS Hooks services."
     },
     {
         name: "Rules endpoint",
-        link: baseUrl + "api/data",
+        link: baseUrl + "crd/api/data",
         description: "Endpoint for retrieving and manipulating rules."
     },
     {
         name: "Requests endpoint",
-        link: baseUrl + "api/requests",
+        link: baseUrl + "crd/api/requests",
         description: "Endpoint for retrieving the requests made to the server as JSON."
     },
     {
         name: "Public Key endpoint",
-        link: baseUrl + "api/public",
+        link: baseUrl + "crd/api/public",
         description: "Endpoint for retrieving keys from and adding keys to the server database"
     },
     
