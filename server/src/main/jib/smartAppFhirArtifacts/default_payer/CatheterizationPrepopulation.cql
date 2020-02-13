@@ -116,10 +116,7 @@ define Practitioner:
 	if "Catheterization".performer[0] is null then singleton from (
   		[Practitioner]practitioner
     		where ('Practitioner/' + practitioner.id.value) = "Catheterization".recorder.reference.value)
-	else if "Catheterization".performer[0] is not null then singleton from (
-  		[Practitioner]practitioner
-    		where ('Practitioner/' + practitioner.id.value) = "Catheterization".performer[0].actor.reference.value)
-    	else ''
+	else ''
     
 define PractitionerNameObject: 
 	singleton from ("Practitioner".name)
@@ -196,9 +193,7 @@ define Requestor:
 	if "Catheterization".performer[0] is null then singleton from (
   		[Practitioner]practitioner
     		where ('Practitioner/' + practitioner.id.value) = "Catheterization".recorder.reference.value)
-	else  singleton from (
-  		[Practitioner]practitioner
-    		where ('Practitioner/' + practitioner.id.value) = "Catheterization".performer[0].actor.reference.value)
+	else ''
 define RequestorNameObject: 
 	singleton from ("Requestor".name)
 	
