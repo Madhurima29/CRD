@@ -79,11 +79,8 @@ code "R68.84" : 'R68.84' from "ICD-10-CM"
 code "R06.02" : 'R06.02' from "ICD-10-CM"
 //Chest pain, unspecified
 code "R07.9" : 'R07.9' from "ICD-10-CM"
-
 parameter "Measurement Period" Interval<DateTime>
-
 context Patient
-
 define "F2FEncounterCodes": { '99354', '99355', '99356', '99357' }
 define "StressEchocardiographyCodes": { '93350', '93351'}
 define "CatheterizationCodes": { '93452', '93453', '93454', '93455', '93456', '93457', '93458', '93459', '93460', '93461'}
@@ -112,7 +109,6 @@ define BeneficiaryIdentificationNumber: Patient.identifier[0].value.value
 	//(singleton from (
   	//Patient.identifier identifier
    	 //where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
-
 // Practitioner info
 define Practitioner: 
 	//singleton from (
@@ -120,9 +116,10 @@ define Practitioner:
 	if "Catheterization".performer[0] is null then singleton from (
   		[Practitioner]practitioner
     		where ('Practitioner/' + practitioner.id.value) = "Catheterization".recorder.reference.value)
-	else singleton from (
+	else if "Catheterization".performer[0] is not null then singleton from (
   		[Practitioner]practitioner
     		where ('Practitioner/' + practitioner.id.value) = "Catheterization".performer[0].actor.reference.value)
+    	else ''
     
 define PractitionerNameObject: 
 	singleton from ("Practitioner".name)
@@ -189,14 +186,9 @@ define "Shortness of Breath":
 		where P.code.coding[0].code = 'R06.02')
 		then true
 	else false
-
 define "Patient waken due to pain": false
-
 define "Pain with exertion": false
-
 define "Pain at Rest": false
-
-
 //Requestor info
 define Requestor: 
 	//singleton from (
@@ -204,10 +196,9 @@ define Requestor:
 	if "Catheterization".performer[0] is null then singleton from (
   		[Practitioner]practitioner
     		where ('Practitioner/' + practitioner.id.value) = "Catheterization".recorder.reference.value)
-	else singleton from (
+	else  singleton from (
   		[Practitioner]practitioner
     		where ('Practitioner/' + practitioner.id.value) = "Catheterization".performer[0].actor.reference.value)
-
 define RequestorNameObject: 
 	singleton from ("Requestor".name)
 	
