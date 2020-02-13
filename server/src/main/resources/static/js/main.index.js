@@ -1328,7 +1328,7 @@
                     return Object(d.a)(t, e), Object(c.a)(t, [{
                         key: "render",
                         value: function() {
-                        	//Q = Q+"crd/";
+                        	Q = Q+"crd/";
                             var e = Q,
                                 t = Q+ "public",
                                 a = Q +"requests",
