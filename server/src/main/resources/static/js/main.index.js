@@ -1201,28 +1201,23 @@
                 U = Object(O.getHostOrg)(),
                 A = [{
                     name: "FHIR STU3 endpoint",
-                    link: P + "crd/stu3/cds-services",
-                    ui_link:"/stu3/cds-services",
+                    link: P + "stu3/cds-services",
                     description: "The provider systems would interact with the CDS Hooks endpoints. These endpoints provide the JSON descriptions of the CDS Hooks services."
                 }, {
                     name: "FHIR R4 endpoint",
-                    link: P + "crd/r4/cds-services",
-                    ui_link:"/r4/cds-services",
+                    link: P + "r4/cds-services",
                     description: "The provider systems would interact with the CDS Hooks endpoints. These endpoints provide the JSON descriptions of the CDS Hooks services."
                 }, {
                     name: "Rules endpoint",
-                    link: P + "crd/api/data",
-                    ui_link:"/api/data",
+                    link: P + "api/data",
                     description: "Endpoint for retrieving and manipulating rules."
                 }, {
                     name: "Requests endpoint",
-                    link: P + "crd/api/requests",
-                    ui_link:"/api/requests",
+                    link: P + "api/requests",
                     description: "Endpoint for retrieving the requests made to the server as JSON."
                 }, {
                     name: "Public Key endpoint",
-                    link: P + "crd/api/public",
-                    ui_link:"/api/public",
+                    link: P + "api/public",
                     description: "Endpoint for retrieving keys from and adding keys to the server database"
                 }],
                 F = function(e) {
@@ -1243,7 +1238,7 @@
                             switch (U) {
                                 case "AHRQ":
                                     return s.a.createElement("p", null, "This server hosts the prototype of the Documentation Requirement Lookup Service (DRLS) clinical decision support (CDS) service. The DRLS CDS Service is a software project that conforms to the implementation guides for ", s.a.createElement("a", {
-                                        href: "http://build.fhir.org/ig/HL7/davinci-crd/"
+                                        href: "http://build.fhir.org/ig/HL7/davinci-"
                                     }, "Coverage Requirements Discovery (CRD)"), " and ", s.a.createElement("a", {
                                         href: "http://build.fhir.org/ig/HL7/davinci-dtr/"
                                     }, "Documentation Templates and Rules (DTR)"), " developed by the MITRE Corporation for the Centers for Medicare & Medicaid Services (CMS), and under the ", s.a.createElement("a", {
@@ -1309,7 +1304,7 @@
                                     scope: "row"
                                 }, e.name), s.a.createElement("td", null, s.a.createElement("a", {
                                     href: e.link
-                                }, e.ui_link)), s.a.createElement("td", null, e.description))
+                                }, e.link)), s.a.createElement("td", null, e.description))
                             })))))
                         }
                     }]), t
@@ -1328,7 +1323,7 @@
                     return Object(d.a)(t, e), Object(c.a)(t, [{
                         key: "render",
                         value: function() {
-                        	Q = Q+"crd/";
+                        	Q = Q;
                             var e = Q,
                                 t = Q+ "public",
                                 a = Q +"requests",
