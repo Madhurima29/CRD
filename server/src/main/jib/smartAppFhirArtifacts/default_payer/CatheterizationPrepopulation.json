@@ -1,27 +1,5 @@
 {
    "library": {
-      "annotation": [
-         {
-            "startLine": 118,
-            "startChar": 75,
-            "endLine": 118,
-            "endChar": 82,
-            "message": "Member recorder not found for type FHIR.Procedure.",
-            "errorType": "semantic",
-            "errorSeverity": "error",
-            "type": "CqlToElmError"
-         },
-         {
-            "startLine": 195,
-            "startChar": 75,
-            "endLine": 195,
-            "endChar": 82,
-            "message": "Member recorder not found for type FHIR.Procedure.",
-            "errorType": "semantic",
-            "errorSeverity": "error",
-            "type": "CqlToElmError"
-         }
-      ],
       "identifier": {
          "id": "Catheterization"
       },
@@ -914,66 +892,19 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "type": "If",
-                  "condition": {
-                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                     "type": "As",
-                     "operand": {
-                        "type": "IsNull",
-                        "operand": {
-                           "type": "Indexer",
-                           "operand": [
-                              {
-                                 "path": "performer",
-                                 "type": "Property",
-                                 "source": {
-                                    "name": "Catheterization",
-                                    "type": "ExpressionRef"
-                                 }
-                              },
-                              {
-                                 "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value": "0",
-                                 "type": "Literal"
-                              }
-                           ]
-                        }
-                     }
-                  },
-                  "then": {
-                     "type": "SingletonFrom",
-                     "operand": {
-                        "type": "Query",
-                        "source": [
-                           {
-                              "alias": "practitioner",
-                              "expression": {
-                                 "dataType": "{http://hl7.org/fhir}Practitioner",
-                                 "type": "Retrieve"
-                              }
+                  "type": "SingletonFrom",
+                  "operand": {
+                     "type": "Query",
+                     "source": [
+                        {
+                           "alias": "practitioner",
+                           "expression": {
+                              "dataType": "{http://hl7.org/fhir}Practitioner",
+                              "type": "Retrieve"
                            }
-                        ],
-                        "relationship": [],
-                        "where": {
-                           "type": "Null"
                         }
-                     }
-                  },
-                  "else": {
-                     "type": "SingletonFrom",
-                     "operand": {
-                        "type": "Query",
-                        "source": [
-                           {
-                              "alias": "practitioner",
-                              "expression": {
-                                 "dataType": "{http://hl7.org/fhir}Practitioner",
-                                 "type": "Retrieve"
-                              }
-                           }
-                        ],
-                        "relationship": []
-                     }
+                     ],
+                     "relationship": []
                   }
                }
             },
@@ -2018,66 +1949,19 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "type": "If",
-                  "condition": {
-                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                     "type": "As",
-                     "operand": {
-                        "type": "IsNull",
-                        "operand": {
-                           "type": "Indexer",
-                           "operand": [
-                              {
-                                 "path": "performer",
-                                 "type": "Property",
-                                 "source": {
-                                    "name": "Catheterization",
-                                    "type": "ExpressionRef"
-                                 }
-                              },
-                              {
-                                 "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                 "value": "0",
-                                 "type": "Literal"
-                              }
-                           ]
-                        }
-                     }
-                  },
-                  "then": {
-                     "type": "SingletonFrom",
-                     "operand": {
-                        "type": "Query",
-                        "source": [
-                           {
-                              "alias": "practitioner",
-                              "expression": {
-                                 "dataType": "{http://hl7.org/fhir}Practitioner",
-                                 "type": "Retrieve"
-                              }
+                  "type": "SingletonFrom",
+                  "operand": {
+                     "type": "Query",
+                     "source": [
+                        {
+                           "alias": "practitioner",
+                           "expression": {
+                              "dataType": "{http://hl7.org/fhir}Practitioner",
+                              "type": "Retrieve"
                            }
-                        ],
-                        "relationship": [],
-                        "where": {
-                           "type": "Null"
                         }
-                     }
-                  },
-                  "else": {
-                     "type": "SingletonFrom",
-                     "operand": {
-                        "type": "Query",
-                        "source": [
-                           {
-                              "alias": "practitioner",
-                              "expression": {
-                                 "dataType": "{http://hl7.org/fhir}Practitioner",
-                                 "type": "Retrieve"
-                              }
-                           }
-                        ],
-                        "relationship": []
-                     }
+                     ],
+                     "relationship": []
                   }
                }
             },

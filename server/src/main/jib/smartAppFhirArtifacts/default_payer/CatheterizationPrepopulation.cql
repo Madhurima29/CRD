@@ -111,12 +111,12 @@ define BeneficiaryIdentificationNumber: Patient.identifier[0].value.value
    	 //where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
 // Practitioner info
 define Practitioner: 
-	//singleton from (
-  	//	[Practitioner]practitioner)
-	if "Catheterization".performer[0] is null then singleton from (
-  		[Practitioner]practitioner
-    		where ('Practitioner/' + practitioner.id.value) = "Catheterization".recorder.reference.value)
-	else  singleton from ([Practitioner]practitioner)
+	singleton from (
+  		[Practitioner]practitioner)
+	//if "Catheterization".performer[0] is null then singleton from (
+  		//[Practitioner]practitioner
+    		//where ('Practitioner/' + practitioner.id.value) = "Catheterization".recorder.reference.value)
+	//else  singleton from ([Practitioner]practitioner)
     
 define PractitionerNameObject: 
 	singleton from ("Practitioner".name)
@@ -188,12 +188,12 @@ define "Pain with exertion": false
 define "Pain at Rest": false
 //Requestor info
 define Requestor: 
-	//singleton from (
-  	//	[Practitioner]practitioner)
-	if "Catheterization".performer[0] is null then singleton from (
-  		[Practitioner]practitioner
-    		where ('Practitioner/' + practitioner.id.value) = "Catheterization".recorder.reference.value)
-	else singleton from ([Practitioner]practitioner)
+	singleton from (
+  		[Practitioner]practitioner)
+	//if "Catheterization".performer[0] is null then singleton from (
+  		//[Practitioner]practitioner
+    		//where ('Practitioner/' + practitioner.id.value) = "Catheterization".recorder.reference.value)
+	//else singleton from ([Practitioner]practitioner)
 define RequestorNameObject: 
 	singleton from ("Requestor".name)
 	
