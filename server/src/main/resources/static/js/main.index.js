@@ -1202,22 +1202,27 @@
                 A = [{
                     name: "FHIR STU3 endpoint",
                     link: P + "crd/stu3/cds-services",
+                    ui_link:"/stu3/cds-services",
                     description: "The provider systems would interact with the CDS Hooks endpoints. These endpoints provide the JSON descriptions of the CDS Hooks services."
                 }, {
                     name: "FHIR R4 endpoint",
                     link: P + "crd/r4/cds-services",
+                    ui_link:"/r4/cds-services",
                     description: "The provider systems would interact with the CDS Hooks endpoints. These endpoints provide the JSON descriptions of the CDS Hooks services."
                 }, {
                     name: "Rules endpoint",
                     link: P + "crd/api/data",
+                    ui_link:"/api/data",
                     description: "Endpoint for retrieving and manipulating rules."
                 }, {
                     name: "Requests endpoint",
                     link: P + "crd/api/requests",
+                    ui_link:"/api/requests",
                     description: "Endpoint for retrieving the requests made to the server as JSON."
                 }, {
                     name: "Public Key endpoint",
                     link: P + "crd/api/public",
+                    ui_link:"/api/public",
                     description: "Endpoint for retrieving keys from and adding keys to the server database"
                 }],
                 F = function(e) {
@@ -1304,7 +1309,7 @@
                                     scope: "row"
                                 }, e.name), s.a.createElement("td", null, s.a.createElement("a", {
                                     href: e.link
-                                }, e.link)), s.a.createElement("td", null, e.description))
+                                }, e.ui_link)), s.a.createElement("td", null, e.description))
                             })))))
                         }
                     }]), t
@@ -1323,7 +1328,7 @@
                     return Object(d.a)(t, e), Object(c.a)(t, [{
                         key: "render",
                         value: function() {
-                        	Q = Q+"crd/";
+                        	//Q = Q+"crd/";
                             var e = Q,
                                 t = Q+ "public",
                                 a = Q +"requests",
