@@ -166,7 +166,7 @@ public class OrderSelectService extends CdsService<OrderSelectRequest> {
     private Coverage getCoverageFromFhir(String id, String fullUrl, FhirAuthorization auth) {
         String query = "/Coverage/" + id;
         IBaseResource resource = executeFhirQuery(fullUrl, auth, query);
-        if (resource.getIdElement().getIdPart().equals("Coverage")) {
+        if (resource instanceof Coverage) {
             return (Coverage) resource;
         }
         return null;
@@ -175,17 +175,17 @@ public class OrderSelectService extends CdsService<OrderSelectRequest> {
     private Organization getOrganizationFromFhir(String id, String fullUrl, FhirAuthorization auth) {
         String query = "/Organization/" + id;
         IBaseResource resource = executeFhirQuery(fullUrl, auth, query);
-        if (resource.getIdElement().getIdPart().equals("Organization")) {
+        if (resource instanceof Organization) {
             return (Organization) resource;
         }
         return null;
     }
 
     private List<Organization> getOrganizationFromFhirbyPatientId(String patientid, String fullUrl, FhirAuthorization auth) {
-        String query = "/Coverage?patient=id";
+        String query = "/Coverage?patient=" + patientid;
         List<Organization> orgs = new ArrayList();
         IBaseResource resource = executeFhirQuery(fullUrl, auth, query);
-        if (resource.getIdElement().getIdPart().equals("Bundle")) {
+        if (resource instanceof Bundle) {
             Bundle bundle = (Bundle) resource;
             List<Bundle.BundleEntryComponent> entries = bundle.getEntry();
             for (Iterator<Bundle.BundleEntryComponent> iterator = entries.iterator(); iterator.hasNext();) {
@@ -193,9 +193,11 @@ public class OrderSelectService extends CdsService<OrderSelectRequest> {
                 if (next.getResource().getResourceType() == ResourceType.Coverage) {
                     Coverage cov = (Coverage) (next.getResource());
                     List<Reference> orgRefs = cov.getPayor();
+                    System.out.println("Got covs" + orgRefs.size());
                     for (Iterator<Reference> iterator1 = orgRefs.iterator(); iterator1.hasNext();) {
                         Reference next1 = iterator1.next();
-                        orgs.add(getOrganizationFromFhir(next1.getReferenceElement().getValue(), fullUrl, auth));
+                        System.out.println("element " + next1.getReferenceElement().getValue());
+                        orgs.add(getOrganizationFromFhir(next1.getReferenceElement().getIdPart(), fullUrl, auth));
 
                     }
                 }
