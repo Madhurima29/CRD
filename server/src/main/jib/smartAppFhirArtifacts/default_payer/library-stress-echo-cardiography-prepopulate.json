@@ -27,30 +27,12 @@
        }
     ],
     "dataRequirement":[
-       {
-          "type":"Procedure",
-          "codeFilter":[
-             {
-                "path":"code",
-                "valueSetString":"93350"
-             }
-          ]
-       },
-       {
-         "type":"Procedure",
-         "codeFilter":[
-            {
-               "path":"code",
-               "valueSetString":"93351"
-            }
-         ]
-      },
       {
-         "type":"Procedure",
-         "codeFilter":[
+         "type": "Procedure",
+         "codeFilter": [
             {
-               "path":"code",
-               "valueSetString":"164847006"
+               "path": "code",
+               "valueSetString": "93350,93351,164847006"
             }
          ]
       },
