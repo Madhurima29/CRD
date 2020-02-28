@@ -1,0 +1,352 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "urn:hl7:davinci:crd:brain-pet-questionnaire",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/cqif-questionnaire"
+    ]
+  },
+  "title": "Brain PET",
+  "status": "draft",
+  "subjectType": [
+    "Patient"
+  ],
+  "date": "2020-02-25",
+  "publisher": "Mettle Solutions",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/cqif-library",
+      "valueReference": {
+        "reference": "urn:hl7:davinci:crd:cigna:library-brain-pet-prepopulate"
+      }
+    }
+  ],
+  "contained": [
+    {
+      "resourceType": "ValueSet",
+      "id": "gender",
+      "name": "Gender",
+      "status": "draft",
+      "description": "Gender",
+      "compose": {
+        "include": [
+          {
+            "concept": [
+              {
+                "code": "male",
+                "display": "Male"
+              },
+              {
+                "code": "female",
+                "display": "Female"
+              },
+              {
+                "code": "other",
+                "display": "Other"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "linkId": "1",
+      "text": "Beneficiary Information",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "1.1",
+          "text": "Beneficiary’s Name",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "BeneficiaryName"
+            }
+          ]
+        },
+        {
+          "linkId": "1.2",
+          "text": "Beneficiary’s Date Of Birth",
+          "type": "date",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "BeneficiaryDateOfBirth"
+            }
+          ]
+        },
+        {
+          "linkId": "1.3",
+          "text": "Beneficiary’s Medicare Number",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "BeneficiaryMedicareNumber"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "2",
+      "text": "Certifying Physician/Practitioner Information",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "2.1",
+          "text": "Physician/Practitioner’s Name",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "PractitionerName"
+            }
+          ]
+        },
+        {
+          "linkId": "2.2",
+          "text": "Physician/Practitioner’s NPI",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "PractitionerNPI"
+            }
+          ]
+        },
+        {
+          "linkId": "2.3",
+          "text": "Physician/Practitioner’s Address",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "PractitionerAddress"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "3",
+      "text": "Facility Information",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "3.1",
+          "text": "Facility Name",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "FacilityName"
+            }
+          ]
+        },
+        {
+          "linkId": "3.2",
+          "text": "Facility NPI",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "FacilityNPI"
+            }
+          ]
+        },
+        {
+          "linkId": "3.3",
+          "text": "Facility TaxID",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "FacilityTaxID"
+            }
+          ]
+        },
+        {
+          "linkId": "3.4",
+          "text": "Facility Phone",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "FacilityTaxID"
+            }
+          ]
+        },
+        {
+          "linkId": "3.4",
+          "text": "Facility Address",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "FacilityAddress"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "4",
+      "text": "Diagnosis",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "4.1",
+          "text": "Primary Diagnosis",
+          "type": "string",
+          "required": true,
+          "code": {
+            "coding": [
+              {
+                "system": "https://www.icd10data.com",
+                "code": "F03.90",
+                "display": "Dementia"
+              },
+              {
+                "system": "https://www.icd10data.com",
+                "code": "G30.9",
+                "display": "Alzheimer's Disease"
+              },
+              {
+                "system": "https://www.icd10data.com",
+                "code": "G31.09",
+                "display": "Frontotemporal Dementia"
+              },
+              {
+                "system": "https://www.icd10data.com",
+                "code": "G40.919",
+                "display": "Epilepsy, unspecified"
+              }
+            ]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "Dementia/AD"
+            }
+          ]
+        },
+        {
+          "linkId": "4.2",
+          "text": "Date of first Office visit",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "Date of Service"
+            }
+          ]
+        },
+        {
+          "linkId": "4.3",
+          "text": "Type of Tumour",
+          "type": "string",
+          "required": true,
+          "code": {
+            "coding": [
+              {
+                "system": "https://www.icd10data.com",
+                "code": "C80.1",
+                "display": "Malignant(Primary) Neoplasm"
+              }
+            ]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "Malignant Neoplasm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "5",
+      "text": "Submitter Information",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "5.1",
+          "text": "Contact Name",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "SubmitterName"
+            }
+          ]
+        },
+        {
+          "linkId": "5.2",
+          "text": "Telephone Number",
+          "type": "string",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "SubmitterTelephone"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "6",
+      "text": "Additional Documentation Required",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "6.1",
+          "text": "Any neuropsychological testing performed",
+          "type": "attachment",
+          "required": true
+        },
+        {
+          "linkId": "6.2",
+          "text": "Diagnosis of clinical syndrome (normal aging; mild cognitive impairment (MCI); mild, moderate or severe dementia)",
+          "type": "attachment",
+          "required": true
+        },
+        {
+          "linkId": "6.3",
+          "text": "Mini mental status exam (MMSE) or similar test score",
+          "type": "attachment",
+          "required": true
+        },
+        {
+          "linkId": "6.4",
+          "text": "Relevant laboratory tests (B12, thyroid hormone)",
+          "type": "attachment",
+          "required": true
+        },
+        {
+          "linkId": "6.5",
+          "text": "Medical Records",
+          "type": "attachment",
+          "required": true
+        }
+      ]
+    }
+  ]
+}
