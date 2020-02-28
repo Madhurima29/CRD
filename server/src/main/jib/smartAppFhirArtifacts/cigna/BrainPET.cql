@@ -152,7 +152,7 @@ define "Epilepsy, unspecified":
 define "Dementia/AD":
 	{"Dementia","Alzheimer's Disease","Frontotemporal Dementia","Epilepsy, unspecified"}
 
-define "Date of Service": singleton from([Encounter]).period.start.value
+//define "Date of Service": singleton from([Encounter]).period.start.value
 
 define "Malignant Neoplasm":
 	if exists([Condition]P
