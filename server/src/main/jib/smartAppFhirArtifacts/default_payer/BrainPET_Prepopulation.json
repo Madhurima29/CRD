@@ -541,11 +541,24 @@
                "expression": {
                   "type": "SingletonFrom",
                   "operand": {
-                     "path": "name",
-                     "type": "Property",
-                     "source": {
-                        "name": "Practitioner",
-                        "type": "ExpressionRef"
+                     "type": "ToList",
+                     "operand": {
+                        "type": "Indexer",
+                        "operand": [
+                           {
+                              "path": "name",
+                              "type": "Property",
+                              "source": {
+                                 "name": "Practitioner",
+                                 "type": "ExpressionRef"
+                              }
+                           },
+                           {
+                              "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                              "value": "0",
+                              "type": "Literal"
+                           }
+                        ]
                      }
                   }
                }
@@ -2002,11 +2015,24 @@
                "expression": {
                   "type": "SingletonFrom",
                   "operand": {
-                     "path": "name",
-                     "type": "Property",
-                     "source": {
-                        "name": "Requestor",
-                        "type": "ExpressionRef"
+                     "type": "ToList",
+                     "operand": {
+                        "type": "Indexer",
+                        "operand": [
+                           {
+                              "path": "name",
+                              "type": "Property",
+                              "source": {
+                                 "name": "Requestor",
+                                 "type": "ExpressionRef"
+                              }
+                           },
+                           {
+                              "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                              "value": "0",
+                              "type": "Literal"
+                           }
+                        ]
                      }
                   }
                }

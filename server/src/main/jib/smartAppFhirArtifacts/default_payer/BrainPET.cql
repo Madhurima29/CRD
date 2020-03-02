@@ -73,7 +73,7 @@ define Practitioner:
     		//where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
     
 define PractitionerNameObject: 
-	singleton from ("Practitioner".name)
+	singleton from ("Practitioner".name[0])
 	
 define PractitionerName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
@@ -166,7 +166,7 @@ define Requestor:
     		//where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
 
 define RequestorNameObject: 
-	singleton from ("Requestor".name)
+	singleton from ("Requestor".name[0])
 	
 define SubmitterName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
