@@ -95,10 +95,14 @@ define PractitionerPTAN:
   		"Practitioner".identifier identifier
     		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
 
-define PractitionerAddressObject: singleton from ("Practitioner".address address where address.use.value = 'home')  
+define PractitionerAddressObject: 
+	if exists("Practitioner".address) then
+	singleton from ("Practitioner".address address where address.use.value = 'home') else null  
 
 define PractitionerAddress: 
+	if exists("PractitionerAddressObject") then
 	"PractitionerAddressObject".line[0].value +', ' +"PractitionerAddressObject".city.value +', ' +"PractitionerAddressObject".state.value+', ' +"PractitionerAddressObject".postalCode.value
+	else ''
 
 
 //Facility info
@@ -164,7 +168,9 @@ define "Epilepsy Code":
 define "Dementia or AD":
 	{"Dementia Code","Alzheimers Disease","Frontotemporal Dementia","Epilepsy Code"}
 
-define "Date of Service": singleton from([Encounter]).period.start.value
+//define "Date of Service": 
+//	if exists([Encounter]) then
+//	singleton from([Encounter]).period.start.value else null
 
 define "Malignant Neoplasm":
 	if exists([Condition]P

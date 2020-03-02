@@ -847,41 +847,66 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "type": "SingletonFrom",
-                  "operand": {
-                     "type": "Query",
-                     "source": [
-                        {
-                           "alias": "address",
-                           "expression": {
-                              "path": "address",
-                              "type": "Property",
-                              "source": {
-                                 "name": "Practitioner",
-                                 "type": "ExpressionRef"
-                              }
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "path": "address",
+                           "type": "Property",
+                           "source": {
+                              "name": "Practitioner",
+                              "type": "ExpressionRef"
                            }
                         }
-                     ],
-                     "relationship": [],
-                     "where": {
-                        "type": "Equal",
-                        "operand": [
+                     }
+                  },
+                  "then": {
+                     "type": "SingletonFrom",
+                     "operand": {
+                        "type": "Query",
+                        "source": [
                            {
-                              "path": "value",
-                              "type": "Property",
-                              "source": {
-                                 "path": "use",
-                                 "scope": "address",
-                                 "type": "Property"
+                              "alias": "address",
+                              "expression": {
+                                 "path": "address",
+                                 "type": "Property",
+                                 "source": {
+                                    "name": "Practitioner",
+                                    "type": "ExpressionRef"
+                                 }
                               }
-                           },
-                           {
-                              "valueType": "{urn:hl7-org:elm-types:r1}String",
-                              "value": "home",
-                              "type": "Literal"
                            }
-                        ]
+                        ],
+                        "relationship": [],
+                        "where": {
+                           "type": "Equal",
+                           "operand": [
+                              {
+                                 "path": "value",
+                                 "type": "Property",
+                                 "source": {
+                                    "path": "use",
+                                    "scope": "address",
+                                    "type": "Property"
+                                 }
+                              },
+                              {
+                                 "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                 "value": "home",
+                                 "type": "Literal"
+                              }
+                           ]
+                        }
+                     }
+                  },
+                  "else": {
+                     "asType": "{http://hl7.org/fhir}Address",
+                     "type": "As",
+                     "operand": {
+                        "type": "Null"
                      }
                   }
                }
@@ -891,107 +916,129 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "type": "Concatenate",
-                  "operand": [
-                     {
-                        "type": "Concatenate",
-                        "operand": [
-                           {
-                              "type": "Concatenate",
-                              "operand": [
-                                 {
-                                    "type": "Concatenate",
-                                    "operand": [
-                                       {
-                                          "type": "Concatenate",
-                                          "operand": [
-                                             {
-                                                "type": "Concatenate",
-                                                "operand": [
-                                                   {
-                                                      "path": "value",
-                                                      "type": "Property",
-                                                      "source": {
-                                                         "type": "Indexer",
-                                                         "operand": [
-                                                            {
-                                                               "path": "line",
-                                                               "type": "Property",
-                                                               "source": {
-                                                                  "name": "PractitionerAddressObject",
-                                                                  "type": "ExpressionRef"
-                                                               }
-                                                            },
-                                                            {
-                                                               "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                               "value": "0",
-                                                               "type": "Literal"
-                                                            }
-                                                         ]
-                                                      }
-                                                   },
-                                                   {
-                                                      "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                                      "value": ", ",
-                                                      "type": "Literal"
-                                                   }
-                                                ]
-                                             },
-                                             {
-                                                "path": "value",
-                                                "type": "Property",
-                                                "source": {
-                                                   "path": "city",
-                                                   "type": "Property",
-                                                   "source": {
-                                                      "name": "PractitionerAddressObject",
-                                                      "type": "ExpressionRef"
-                                                   }
-                                                }
-                                             }
-                                          ]
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                          "value": ", ",
-                                          "type": "Literal"
-                                       }
-                                    ]
-                                 },
-                                 {
-                                    "path": "value",
-                                    "type": "Property",
-                                    "source": {
-                                       "path": "state",
-                                       "type": "Property",
-                                       "source": {
-                                          "name": "PractitionerAddressObject",
-                                          "type": "ExpressionRef"
-                                       }
-                                    }
-                                 }
-                              ]
-                           },
-                           {
-                              "valueType": "{urn:hl7-org:elm-types:r1}String",
-                              "value": ", ",
-                              "type": "Literal"
-                           }
-                        ]
-                     },
-                     {
-                        "path": "value",
-                        "type": "Property",
-                        "source": {
-                           "path": "postalCode",
-                           "type": "Property",
-                           "source": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "ToList",
+                           "operand": {
                               "name": "PractitionerAddressObject",
                               "type": "ExpressionRef"
                            }
                         }
                      }
-                  ]
+                  },
+                  "then": {
+                     "type": "Concatenate",
+                     "operand": [
+                        {
+                           "type": "Concatenate",
+                           "operand": [
+                              {
+                                 "type": "Concatenate",
+                                 "operand": [
+                                    {
+                                       "type": "Concatenate",
+                                       "operand": [
+                                          {
+                                             "type": "Concatenate",
+                                             "operand": [
+                                                {
+                                                   "type": "Concatenate",
+                                                   "operand": [
+                                                      {
+                                                         "path": "value",
+                                                         "type": "Property",
+                                                         "source": {
+                                                            "type": "Indexer",
+                                                            "operand": [
+                                                               {
+                                                                  "path": "line",
+                                                                  "type": "Property",
+                                                                  "source": {
+                                                                     "name": "PractitionerAddressObject",
+                                                                     "type": "ExpressionRef"
+                                                                  }
+                                                               },
+                                                               {
+                                                                  "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                                  "value": "0",
+                                                                  "type": "Literal"
+                                                               }
+                                                            ]
+                                                         }
+                                                      },
+                                                      {
+                                                         "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                         "value": ", ",
+                                                         "type": "Literal"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "path": "value",
+                                                   "type": "Property",
+                                                   "source": {
+                                                      "path": "city",
+                                                      "type": "Property",
+                                                      "source": {
+                                                         "name": "PractitionerAddressObject",
+                                                         "type": "ExpressionRef"
+                                                      }
+                                                   }
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                             "value": ", ",
+                                             "type": "Literal"
+                                          }
+                                       ]
+                                    },
+                                    {
+                                       "path": "value",
+                                       "type": "Property",
+                                       "source": {
+                                          "path": "state",
+                                          "type": "Property",
+                                          "source": {
+                                             "name": "PractitionerAddressObject",
+                                             "type": "ExpressionRef"
+                                          }
+                                       }
+                                    }
+                                 ]
+                              },
+                              {
+                                 "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                 "value": ", ",
+                                 "type": "Literal"
+                              }
+                           ]
+                        },
+                        {
+                           "path": "value",
+                           "type": "Property",
+                           "source": {
+                              "path": "postalCode",
+                              "type": "Property",
+                              "source": {
+                                 "name": "PractitionerAddressObject",
+                                 "type": "ExpressionRef"
+                              }
+                           }
+                        }
+                     ]
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
                }
             },
             {
@@ -2076,7 +2123,7 @@
                }
             },
             {
-               "name": "Dementia or ADs",
+               "name": "Dementia or AD",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
@@ -2099,114 +2146,6 @@
                         "type": "ExpressionRef"
                      }
                   ]
-               }
-            },
-            {
-               "name": "Date of Service",
-               "context": "Patient",
-               "accessLevel": "Public",
-               "expression": {
-                  "type": "SingletonFrom",
-                  "operand": {
-                     "type": "Query",
-                     "source": [
-                        {
-                           "alias": "$this",
-                           "expression": {
-                              "type": "Query",
-                              "source": [
-                                 {
-                                    "alias": "$this",
-                                    "expression": {
-                                       "type": "Query",
-                                       "source": [
-                                          {
-                                             "alias": "$this",
-                                             "expression": {
-                                                "dataType": "{http://hl7.org/fhir}Encounter",
-                                                "type": "Retrieve"
-                                             }
-                                          }
-                                       ],
-                                       "where": {
-                                          "type": "Not",
-                                          "operand": {
-                                             "type": "IsNull",
-                                             "operand": {
-                                                "path": "period",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "$this",
-                                                   "type": "AliasRef"
-                                                }
-                                             }
-                                          }
-                                       },
-                                       "return": {
-                                          "expression": {
-                                             "path": "period",
-                                             "type": "Property",
-                                             "source": {
-                                                "name": "$this",
-                                                "type": "AliasRef"
-                                             }
-                                          }
-                                       }
-                                    }
-                                 }
-                              ],
-                              "where": {
-                                 "type": "Not",
-                                 "operand": {
-                                    "type": "IsNull",
-                                    "operand": {
-                                       "path": "start",
-                                       "type": "Property",
-                                       "source": {
-                                          "name": "$this",
-                                          "type": "AliasRef"
-                                       }
-                                    }
-                                 }
-                              },
-                              "return": {
-                                 "expression": {
-                                    "path": "start",
-                                    "type": "Property",
-                                    "source": {
-                                       "name": "$this",
-                                       "type": "AliasRef"
-                                    }
-                                 }
-                              }
-                           }
-                        }
-                     ],
-                     "where": {
-                        "type": "Not",
-                        "operand": {
-                           "type": "IsNull",
-                           "operand": {
-                              "path": "value",
-                              "type": "Property",
-                              "source": {
-                                 "name": "$this",
-                                 "type": "AliasRef"
-                              }
-                           }
-                        }
-                     },
-                     "return": {
-                        "expression": {
-                           "path": "value",
-                           "type": "Property",
-                           "source": {
-                              "name": "$this",
-                              "type": "AliasRef"
-                           }
-                        }
-                     }
-                  }
                }
             },
             {
