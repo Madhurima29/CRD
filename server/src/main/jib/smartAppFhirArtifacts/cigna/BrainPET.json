@@ -241,7 +241,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "Dementia/AD"
+              "valueString": "Dementia or AD"
             }
           ]
         },

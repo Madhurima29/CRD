@@ -1636,7 +1636,7 @@
                }
             },
             {
-               "name": "Dementia",
+               "name": "Dementia Code",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
@@ -1746,7 +1746,7 @@
                }
             },
             {
-               "name": "Alzheimer's Disease",
+               "name": "Alzheimers Disease",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
@@ -1966,7 +1966,7 @@
                }
             },
             {
-               "name": "Epilepsy, unspecified",
+               "name": "Epilepsy Code",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
@@ -2076,18 +2076,18 @@
                }
             },
             {
-               "name": "Dementia/AD",
+               "name": "Dementia or AD",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
                   "type": "List",
                   "element": [
                      {
-                        "name": "Dementia",
+                        "name": "Dementia Code",
                         "type": "ExpressionRef"
                      },
                      {
-                        "name": "Alzheimer's Disease",
+                        "name": "Alzheimers Disease",
                         "type": "ExpressionRef"
                      },
                      {
@@ -2095,7 +2095,7 @@
                         "type": "ExpressionRef"
                      },
                      {
-                        "name": "Epilepsy, unspecified",
+                        "name": "Epilepsy Code",
                         "type": "ExpressionRef"
                      }
                   ]

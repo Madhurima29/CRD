@@ -137,13 +137,13 @@ define FacilityAddress:
 
 
 //Diagnoses/Procedures
-define "Dementia":
+define "Dementia Code":
 	if exists([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"F03.90" 
 			and (P.onset as Period) starts during "Measurement Period") then 'F03.90'
 	else ''
 
-define "Alzheimer's Disease":
+define "Alzheimers Disease":
 	if exists([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"G30.9" 
 			and (P.onset as Period) starts during "Measurement Period") then 'G30.9'
@@ -155,14 +155,14 @@ define "Frontotemporal Dementia":
 			and (P.onset as Period) starts during "Measurement Period") then 'G31.09'
 	else ''
 
-define "Epilepsy, unspecified":
+define "Epilepsy Code":
 	if exists([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"G40.919" 
 			and (P.onset as Period) starts during "Measurement Period") then 'G40.919'
 	else ''
 
-define "Dementia/AD":
-	{"Dementia","Alzheimer's Disease","Frontotemporal Dementia","Epilepsy, unspecified"}
+define "Dementia or AD":
+	{"Dementia Code","Alzheimers Disease","Frontotemporal Dementia","Epilepsy Code"}
 
 define "Date of Service": singleton from([Encounter]).period.start.value
 
