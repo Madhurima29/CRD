@@ -2076,7 +2076,7 @@
                }
             },
             {
-               "name": "Dementia or AD",
+               "name": "Dementia or ADs",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
