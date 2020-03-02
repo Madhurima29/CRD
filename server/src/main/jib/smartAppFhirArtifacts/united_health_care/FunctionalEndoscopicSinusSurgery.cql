@@ -79,20 +79,26 @@ define FESS:
   		[Procedure] procedure
     		where procedure.code.coding[0].code.value in "FESSCodes"
     		 )
+
 // Beneficiary info
 define BeneficiaryNameObject: 
-	singleton from (Patient.name)
+	singleton from (Patient.name name where name.use.value='official')
+
 define BeneficiaryName: 
 	PatientFirstName +' '+PatientMiddleInitial + ' '+ PatientLastName
 	//PatientFirstName + ' '+ PatientLastName
+
 define PatientLastName: "BeneficiaryNameObject".family.value
 define PatientMiddleInitial: 
 	if (Length("BeneficiaryNameObject".given)>1) then GetMiddleInitials("BeneficiaryNameObject")
 	else ''
 	
 define PatientFirstName: "BeneficiaryNameObject".given[0].value
+
 define BeneficiaryGender: Patient.gender.value
+
 define BeneficiaryDateOfBirth: Patient.birthDate.value
+
 define BeneficiaryIdentificationNumber: Patient.identifier[0].value.value
 	//(singleton from (
   	//Patient.identifier identifier
@@ -110,18 +116,25 @@ define PractitionerNameObject:
 define PractitionerName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
 	PractitionerFirstName + ' '+ PractitionerLastName
+
 define PractitionerLastName: "PractitionerNameObject".family.value
+
 define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
+
 define PractitionerFirstName: "PractitionerNameObject".given[0].value
+
 define PractitionerNPI: 
 	(singleton from (
   		"Practitioner".identifier identifier
     		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+
 define PractitionerPTAN:
 	(singleton from (
   		"Practitioner".identifier identifier
     		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
+
 define PractitionerAddressObject: singleton from ("Practitioner".address address where address.use.value = 'home')  
+
 define PractitionerAddress: 
 	"PractitionerAddressObject".line[0].value +', ' +"PractitionerAddressObject".city.value +', ' +"PractitionerAddressObject".state.value+', ' +"PractitionerAddressObject".postalCode.value
 
@@ -295,14 +308,21 @@ define RequestorNameObject:
 define SubmitterName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
 	RequestorFirstName + ' '+ RequestorLastName
+
 define RequestorLastName: "RequestorNameObject".family.value
+
 define RequestorMiddleInitial: GetMiddleInitials("RequestorNameObject")
+
 define RequestorFirstName: "RequestorNameObject".given[0].value
+
 define SubmitterTelephone: 
 	(singleton from (
   		"Requestor".telecom tele
     		where tele.system.value = 'phone')).value.value
+
+
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)
+
 define function GetProcedure(ProcedureList List<Procedure>, ProcedureCode String):
   ProcedureList P where P.code.coding[0].code.value= ProcedureCode

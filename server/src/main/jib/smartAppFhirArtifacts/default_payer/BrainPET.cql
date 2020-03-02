@@ -42,7 +42,7 @@ define Today: Today()
 
 // Beneficiary info
 define BeneficiaryNameObject: 
-	singleton from (Patient.name)
+	singleton from (Patient.name name where name.use.value='official')
 
 define BeneficiaryName: 
 	PatientFirstName +' '+PatientMiddleInitial + ' '+ PatientLastName
@@ -85,10 +85,10 @@ define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
 
 define PractitionerFirstName: "PractitionerNameObject".given[0].value
 
-define PractitionerNPI: ''
-	//(singleton from (
-  	//	"Practitioner".identifier identifier
-    	//	where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+define PractitionerNPI: 
+	(singleton from (
+  		"Practitioner".identifier identifier
+    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
 	''
