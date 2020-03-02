@@ -91,7 +91,9 @@ define PractitionerNPI:
     		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
-	''
+	(singleton from (
+  		"Practitioner".identifier identifier
+    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
 
 define PractitionerAddressObject: singleton from ("Practitioner".address address where address.use.value = 'home')  
 
@@ -101,25 +103,37 @@ define PractitionerAddress:
 
 //Facility info
 define Facility: 
+	if exists([Organization]) and exists([Encounter]) then
 	 singleton from (
   		[Organization]org
     		where ('Organization/' + org.id.value) = singleton from ([Encounter]).serviceProvider.reference.value)
+	else null
 
-define FacilityName: Facility.name.value
+define FacilityName: 
+	if exists("Facility") then "Facility".name.value else ''
 
-define FacilityNPI: (singleton from (
+define FacilityNPI: 
+	if exists("Facility") then (singleton from (
   		"Facility".identifier identifier
     		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+	else ''
 
 define FacilityTaxID:
+	if exists("Facility") then	
 	(singleton from (
   		"Facility".identifier identifier
     		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
+	else ''
 
-define FacilityAddressObject: singleton from ("Facility".address address where address.use.value = 'work')  
+define FacilityAddressObject: 
+	if exists("Facility") then	
+	singleton from ("Facility".address address where address.use.value = 'work')  
+	else null
 
 define FacilityAddress: 
+	if exists("Facility") and exists("FacilityAddressObject") then
 	"FacilityAddressObject".line[0].value +', ' +"FacilityAddressObject".city.value +', ' +"FacilityAddressObject".state.value+', ' +"FacilityAddressObject".postalCode.value
+	else ''
 
 
 //Diagnoses/Procedures
