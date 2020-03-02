@@ -191,7 +191,7 @@
           ]
         },
         {
-          "linkId": "3.4",
+          "linkId": "3.5",
           "text": "Facility Address",
           "type": "string",
           "required": true,

@@ -69,8 +69,8 @@ define BeneficiaryIdentificationNumber:
 // Practitioner info
 define Practitioner: 
 	singleton from (
-  		[Practitioner]practitioner
-    		where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
+  		[Practitioner]practitioner)
+    		//where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
     
 define PractitionerNameObject: 
 	singleton from ("Practitioner".name)
@@ -152,7 +152,7 @@ define "Epilepsy, unspecified":
 define "Dementia/AD":
 	{"Dementia","Alzheimer's Disease","Frontotemporal Dementia","Epilepsy, unspecified"}
 
-define "Date of Service": singleton from([Encounter]).period.start.value
+//define "Date of Service": singleton from([Encounter]).period.start.value
 
 define "Malignant Neoplasm":
 	if exists([Condition]P
@@ -164,8 +164,8 @@ define "Malignant Neoplasm":
 //Requestor info
 define Requestor: 
 	 singleton from (
-  		[Practitioner]practitioner
-    		where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
+  		[Practitioner]practitioner)
+    		//where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
 
 define RequestorNameObject: 
 	singleton from ("Requestor".name)
