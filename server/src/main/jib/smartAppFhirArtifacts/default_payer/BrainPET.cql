@@ -85,15 +85,13 @@ define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
 
 define PractitionerFirstName: "PractitionerNameObject".given[0].value
 
-define PractitionerNPI: 
-	(singleton from (
-  		"Practitioner".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+define PractitionerNPI: ''
+	//(singleton from (
+  	//	"Practitioner".identifier identifier
+    	//	where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
-	(singleton from (
-  		"Practitioner".identifier identifier
-    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
+	''
 
 define PractitionerAddressObject: singleton from ("Practitioner".address address where address.use.value = 'home')  
 
@@ -152,7 +150,7 @@ define "Epilepsy, unspecified":
 define "Dementia/AD":
 	{"Dementia","Alzheimer's Disease","Frontotemporal Dementia","Epilepsy, unspecified"}
 
-//define "Date of Service": singleton from([Encounter]).period.start.value
+define "Date of Service": singleton from([Encounter]).period.start.value
 
 define "Malignant Neoplasm":
 	if exists([Condition]P

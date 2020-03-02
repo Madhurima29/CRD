@@ -642,51 +642,9 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "path": "value",
-                  "type": "Property",
-                  "source": {
-                     "path": "value",
-                     "type": "Property",
-                     "source": {
-                        "type": "SingletonFrom",
-                        "operand": {
-                           "type": "Query",
-                           "source": [
-                              {
-                                 "alias": "identifier",
-                                 "expression": {
-                                    "path": "identifier",
-                                    "type": "Property",
-                                    "source": {
-                                       "name": "Practitioner",
-                                       "type": "ExpressionRef"
-                                    }
-                                 }
-                              }
-                           ],
-                           "relationship": [],
-                           "where": {
-                              "type": "Equal",
-                              "operand": [
-                                 {
-                                    "path": "value",
-                                    "type": "Property",
-                                    "source": {
-                                       "path": "system",
-                                       "scope": "identifier",
-                                       "type": "Property"
-                                    }
-                                 },
-                                 {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "http://hl7.org.fhir/sid/us-npi",
-                                    "type": "Literal"
-                                 }
-                              ]
-                           }
-                        }
-                     }
-                  }
+                  "valueType": "{urn:hl7-org:elm-types:r1}String",
+                  "value": "",
+                  "type": "Literal"
                }
             },
             {
@@ -694,111 +652,9 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "path": "value",
-                  "type": "Property",
-                  "source": {
-                     "path": "value",
-                     "type": "Property",
-                     "source": {
-                        "type": "SingletonFrom",
-                        "operand": {
-                           "type": "Query",
-                           "source": [
-                              {
-                                 "alias": "identifier",
-                                 "expression": {
-                                    "path": "identifier",
-                                    "type": "Property",
-                                    "source": {
-                                       "name": "Practitioner",
-                                       "type": "ExpressionRef"
-                                    }
-                                 }
-                              }
-                           ],
-                           "relationship": [],
-                           "where": {
-                              "type": "And",
-                              "operand": [
-                                 {
-                                    "type": "Equal",
-                                    "operand": [
-                                       {
-                                          "path": "value",
-                                          "type": "Property",
-                                          "source": {
-                                             "path": "system",
-                                             "type": "Property",
-                                             "source": {
-                                                "type": "Indexer",
-                                                "operand": [
-                                                   {
-                                                      "path": "coding",
-                                                      "type": "Property",
-                                                      "source": {
-                                                         "path": "type",
-                                                         "scope": "identifier",
-                                                         "type": "Property"
-                                                      }
-                                                   },
-                                                   {
-                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                      "value": "0",
-                                                      "type": "Literal"
-                                                   }
-                                                ]
-                                             }
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                          "value": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                          "type": "Literal"
-                                       }
-                                    ]
-                                 },
-                                 {
-                                    "type": "Equal",
-                                    "operand": [
-                                       {
-                                          "path": "value",
-                                          "type": "Property",
-                                          "source": {
-                                             "path": "code",
-                                             "type": "Property",
-                                             "source": {
-                                                "type": "Indexer",
-                                                "operand": [
-                                                   {
-                                                      "path": "coding",
-                                                      "type": "Property",
-                                                      "source": {
-                                                         "path": "type",
-                                                         "scope": "identifier",
-                                                         "type": "Property"
-                                                      }
-                                                   },
-                                                   {
-                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                      "value": "0",
-                                                      "type": "Literal"
-                                                   }
-                                                ]
-                                             }
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                          "value": "TAX",
-                                          "type": "Literal"
-                                       }
-                                    ]
-                                 }
-                              ]
-                           }
-                        }
-                     }
-                  }
+                  "valueType": "{urn:hl7-org:elm-types:r1}String",
+                  "value": "",
+                  "type": "Literal"
                }
             },
             {
@@ -1898,6 +1754,114 @@
                         "type": "ExpressionRef"
                      }
                   ]
+               }
+            },
+            {
+               "name": "Date of Service",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "SingletonFrom",
+                  "operand": {
+                     "type": "Query",
+                     "source": [
+                        {
+                           "alias": "$this",
+                           "expression": {
+                              "type": "Query",
+                              "source": [
+                                 {
+                                    "alias": "$this",
+                                    "expression": {
+                                       "type": "Query",
+                                       "source": [
+                                          {
+                                             "alias": "$this",
+                                             "expression": {
+                                                "dataType": "{http://hl7.org/fhir}Encounter",
+                                                "type": "Retrieve"
+                                             }
+                                          }
+                                       ],
+                                       "where": {
+                                          "type": "Not",
+                                          "operand": {
+                                             "type": "IsNull",
+                                             "operand": {
+                                                "path": "period",
+                                                "type": "Property",
+                                                "source": {
+                                                   "name": "$this",
+                                                   "type": "AliasRef"
+                                                }
+                                             }
+                                          }
+                                       },
+                                       "return": {
+                                          "expression": {
+                                             "path": "period",
+                                             "type": "Property",
+                                             "source": {
+                                                "name": "$this",
+                                                "type": "AliasRef"
+                                             }
+                                          }
+                                       }
+                                    }
+                                 }
+                              ],
+                              "where": {
+                                 "type": "Not",
+                                 "operand": {
+                                    "type": "IsNull",
+                                    "operand": {
+                                       "path": "start",
+                                       "type": "Property",
+                                       "source": {
+                                          "name": "$this",
+                                          "type": "AliasRef"
+                                       }
+                                    }
+                                 }
+                              },
+                              "return": {
+                                 "expression": {
+                                    "path": "start",
+                                    "type": "Property",
+                                    "source": {
+                                       "name": "$this",
+                                       "type": "AliasRef"
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     ],
+                     "where": {
+                        "type": "Not",
+                        "operand": {
+                           "type": "IsNull",
+                           "operand": {
+                              "path": "value",
+                              "type": "Property",
+                              "source": {
+                                 "name": "$this",
+                                 "type": "AliasRef"
+                              }
+                           }
+                        }
+                     },
+                     "return": {
+                        "expression": {
+                           "path": "value",
+                           "type": "Property",
+                           "source": {
+                              "name": "$this",
+                              "type": "AliasRef"
+                           }
+                        }
+                     }
+                  }
                }
             },
             {
