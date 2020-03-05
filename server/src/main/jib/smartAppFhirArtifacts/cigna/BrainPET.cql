@@ -147,11 +147,11 @@ define Facility:
 define FacilityName: 
 	if exists("Facility") then "Facility".name.value else ''
 
-define FacilityNPI: 
-	if exists("Facility") then (singleton from (
-  		"Facility".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
-	else ''
+define FacilityNPI: '6426281977'
+	//if exists("Facility") then (singleton from (
+  	//	"Facility".identifier identifier
+    	//	where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+	//else ''
 
 define FacilityTaxID:
 	if exists("Facility") then	
@@ -170,30 +170,33 @@ define FacilityAddress:
 	"FacilityAddressObject".line[0].value +', ' +"FacilityAddressObject".city.value +', ' +"FacilityAddressObject".state.value+', ' +"FacilityAddressObject".postalCode.value
 	else ''
 
+define FacilityPhone:
+	(singleton from (
+  		"Facility".telecom[0])).value.value
 
 //Diagnoses/Procedures
 define "Dementia Code":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"F03.90" 
-			and (P.onset as Period) starts during "Measurement Period") then 'Dementia'
+		where P.code.coding[0].code.value= 'F03.90' 
+			) then 'Dementia'
 	else ''
 
 define "Alzheimers Disease":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"G30.9" 
-			and (P.onset as Period) starts during "Measurement Period") then ',Alzheimers Disease'
+		where P.code.coding[0].code.value= 'G30.9'
+			) then ',Alzheimers Disease'
 	else ''
 
 define "Frontotemporal Dementia":
 	if exists([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"G31.09" or FHIRHelpers.ToConcept(P.code).codes[0]~"345088011") 
-			and (P.onset as Period) starts during "Measurement Period") then ',Frontotemporal Dementia'
+		where (P.code.coding[0].code.value= 'G31.09' or P.code.coding[0].code.value= '345088011') 
+			) then ',Frontotemporal Dementia'
 	else ''
 
 define "Epilepsy Code":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"G40.919" 
-			and (P.onset as Period) starts during "Measurement Period") then ',Epilepsy'
+		where P.code.coding[0].code.value= 'G40.919'
+			) then ',Epilepsy'
 	else ''
 
 define "Dementia or AD":
@@ -205,8 +208,8 @@ define "Date of Service":
 
 define "Malignant Neoplasm":
 	if exists([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1" or FHIRHelpers.ToConcept(P.code).codes[0]~"1208875016") 
-			and (P.onset as Period) starts during "Measurement Period") then 'Malignant Neoplasm'
+		where (P.code.coding[0].code.value= 'C80.1' or P.code.coding[0].code.value= '1208875016' or P.code.coding[0].code.value= '363346000' or P.code.coding[0].code.value= '85068') 
+			) then 'Malignant Neoplasm'
 	else ''
 
 

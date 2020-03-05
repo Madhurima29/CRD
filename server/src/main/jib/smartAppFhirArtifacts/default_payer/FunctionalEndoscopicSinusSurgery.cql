@@ -179,64 +179,44 @@ define "Recurrent Acute Rhinosinusitis":
 	else ''
 
 define "Mucocele confirmed":
-	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"K11.6") then
-	Last([Condition]P
+	singleton from([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"K11.6" 
 			)
-	else null
 
 define "Concha bullosa confirmed":
-	if exists([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"J34.9" or FHIRHelpers.ToConcept(P.code).codes[0]~"348121018" )) then
-	Last([Condition]P
+	singleton from([Condition]P
 		where (FHIRHelpers.ToConcept(P.code).codes[0]~"J34.9" or FHIRHelpers.ToConcept(P.code).codes[0]~"348121018" )
 			)
-	else null
 
 define "Malignancy":
-	if exists([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1"  or FHIRHelpers.ToConcept(P.code).codes[0]~"1208875016")) then
-	Last([Condition]P
+	singleton from([Condition]P
 		where (FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1"  or FHIRHelpers.ToConcept(P.code).codes[0]~"1208875016")
 			)
-	else null
 
 define "Polyposis":
-	if exists([Condition]P
-		where( FHIRHelpers.ToConcept(P.code).codes[0]~"J33" or FHIRHelpers.ToConcept(P.code).codes[0]~"87779011" )) then
-	Last([Condition]P
+	singleton from([Condition]P
 		where( FHIRHelpers.ToConcept(P.code).codes[0]~"J33" or FHIRHelpers.ToConcept(P.code).codes[0]~"87779011" )
 			)
-	else null
 
 define "Mucocele confirmed Scan":
-	if "Mucocele confirmed" is not null then
 	if exists([ImagingStudy]P
 		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Mucocele confirmed".id.value)) then ',Mucocele confirmed Scan'
-	else ''
 	else ''
 
 
 define "Concha bullosa confirmed Scan":
-	if "Concha bullosa confirmed" is not null then
 	if exists([ImagingStudy]P
 		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Concha bullosa confirmed".id.value)) then ',Concha bullosa confirmed Scan'
 	else ''
-	else ''
 
 define "Malignancy Scan":
-	if "Malignancy" is not null then
 	if exists([ImagingStudy]P
 		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Malignancy".id.value)) then ',Malignancy Scan'
 	else ''
-	else ''
 
 define "Polyposis Scan":
-	if "Polyposis" is not null then
 	if exists([ImagingStudy]P
 		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Polyposis".id.value)) then ',Polyposis Scan'
-	else ''
 	else ''
 
 define "Relevant Diagnoses":
@@ -271,83 +251,54 @@ define "Treatments performed":
 
 
 define "Mucosal thickening":
-	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" ) then
 	Last([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
 			)
-	else null
 
 define "Bony remodeling":
-	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"M89.9" 
-			) then
 	Last([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"M89.9" 
 			)
-	else null
 
 define "Bony thickening":
-	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"M89.30" 
-			) then
 	Last([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"M89.30" 
 			)
-	else null
 
 define "Obstruction of the ostiomeatal complex":
-	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
-			) then
 	Last([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
 			)
-	else null
 
 define "Opacified sinus":
-	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
-			) then
 	Last([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
 			)
-	else null
 
 define "Mucosal thickening Scan":
-	if "Mucosal thickening" is not null then
 	if exists([ImagingStudy]P
 		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Mucosal thickening".id.value)) then 'Mucosal thickening'
 	else ''
-	else ''
 
 define "Bony remodeling Scan":
-	if "Bony remodeling" is not null then
 	if exists([ImagingStudy]P
 		where exists(P.reasonReference R where R.reference.value = 'Condition/'+"Bony remodeling".id.value)) then ',Bony remodeling'
-	else ''
 	else ''
 
 
 define "Bony thickening Scan":
-	if "Bony thickening" is not null then
 	if exists([ImagingStudy]P
 		where exists(P.reasonReference R where R.reference.value = 'Condition/'+"Bony thickening".id.value)) then ',Bony thickening'
 	else ''
-	else ''
 
 define "Obstruction of the ostiomeatal complex Scan":
-	if "Obstruction of the ostiomeatal complex" is not null then
 	if exists([ImagingStudy]P
 		where exists(P.reasonReference R where R.reference.value = 'Condition/'+"Obstruction of the ostiomeatal complex".id.value)) then ',Obstruction of the ostiomeatal complex'
 	else ''
-	else ''
 
 define "Opacified sinus Scan":
-	if "Opacified sinus" is not null then
 	if exists([ImagingStudy]P
 		where exists(P.reasonReference R where R.reference.value = 'Condition/'+"Opacified sinus".id.value)) then ',Opacified sinus'
-	else ''
 	else ''
 
 define "Findings on the CT scan":
@@ -363,16 +314,12 @@ define "Ostial occlusion":
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"I25.82" 
 			)
 
-define "Condition 2":
-	if "Mucosal thickening" is not null and "Ostial occlusion" is not null then
-	if  exists([ImagingStudy]P
-		where exists(P.reasonReference R where R.reference.value = 'Condition/'+"Mucosal thickening".id.value or R.reference.value = 'Condition/'+"Ostial occlusion".id.value)) then ',CT evidence of ostial occlusion and/or mucosal thickening in the sinus to be treated'
-	else ''
-	else ''
 
 define "Additional Info":
-	"Sinonasal symptoms"+ "Condition 2"
-	
+	"Sinonasal symptoms"+
+	if  exists([ImagingStudy]P
+		where exists(P.reasonReference R where R.reference.value = 'Condition/'+"Mucosal thickening".id.value or R.reference.value = 'Condition/'+"Ostial occlusion".id.value)) then 'CT evidence of ostial occlusion and/or mucosal thickening in the sinus to be treated'
+	else ''
 
 
 //Requestor info

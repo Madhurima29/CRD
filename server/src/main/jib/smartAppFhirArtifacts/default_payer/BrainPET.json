@@ -156,37 +156,13 @@
         },
         {
           "linkId": "3.3",
-          "text": "Facility TaxID",
-          "type": "string",
-          "required": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "FacilityTaxID"
-            }
-          ]
-        },
-        {
-          "linkId": "3.4",
           "text": "Facility Phone",
           "type": "string",
           "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "FacilityTaxID"
-            }
-          ]
-        },
-        {
-          "linkId": "3.5",
-          "text": "Facility Address",
-          "type": "string",
-          "required": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "FacilityAddress"
+              "valueString": "FacilityPhone"
             }
           ]
         }
