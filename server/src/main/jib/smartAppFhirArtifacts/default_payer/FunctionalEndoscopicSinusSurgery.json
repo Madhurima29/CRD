@@ -189,7 +189,7 @@
           "required": true,
      
           "code": {
-            "coding": [
+            "coding":[
               {
                 "valueCoding": {
                   "code": "Antibiotic therapy, if bacterial infection is suspected"
@@ -197,7 +197,8 @@
               },
               {
                 "valueCoding": {
-                  "code": "Nasal lavage"
+                  "code": "Nasal lavage",
+		"initialSelected":true
                 }
               },
               {
@@ -216,60 +217,9 @@
         },
         {
           "linkId": "3.3",
-          "text": "Findings on the CT scan",
-          "required": true,
-          "type": "string",
-          
-          "code": {
-            "coding": [
-              {
-                "valueCoding": {
-                  "code": "Mucosal thickening"
-                }
-              },
-              {
-                "valueCoding": {
-                  "code": "Bony remodeling"
-                }
-              },
-              {
-                "valueCoding": {
-                  "code": "Bony thickening"
-                }
-              },
-              {
-                "valueCoding": {
-                  "code": "Obstruction of the ostiomeatal complex"
-                }
-              },
-              {
-                "valueCoding": {
-                  "code": "Opacified sinus"
-                }
-              }
-            ]
-          },
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "Findings on the CT scan"
-            }
-          ]
-        },
-        {
-          "linkId": "3.4",
-          "text": "Number of episodes per year with distinct symptom free intervals between episodes",
+          "text": "Number of episodes  of Recurrent Acute Rhinosinusitis per year with distinct symptom free intervals between episodes",
           "type": "integer",
           "required": true,
-          "enableWhen": [
-            {
-              "question": "3.1",
-              "answerCoding": {
-                "display": "Recurrent Acute Rhinosinusitis",
-                "code": "J01.91"
-              }
-            }
-          ],
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -278,7 +228,7 @@
           ]
         },
         {
-          "linkId": "3.5",
+          "linkId": "3.4",
           "text": "Information additional to Recurrent Acute Rhinosinusitis",
           "required": true,
           "type": "string",

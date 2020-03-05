@@ -5112,15 +5112,14 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "path": "value",
-                  "type": "Property",
-                  "source": {
-                     "path": "value",
-                     "type": "Property",
-                     "source": {
-                        "type": "SingletonFrom",
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Not",
                         "operand": {
-                           "type": "ToList",
+                           "type": "IsNull",
                            "operand": {
                               "type": "Indexer",
                               "operand": [
@@ -5141,6 +5140,43 @@
                            }
                         }
                      }
+                  },
+                  "then": {
+                     "path": "value",
+                     "type": "Property",
+                     "source": {
+                        "path": "value",
+                        "type": "Property",
+                        "source": {
+                           "type": "SingletonFrom",
+                           "operand": {
+                              "type": "ToList",
+                              "operand": {
+                                 "type": "Indexer",
+                                 "operand": [
+                                    {
+                                       "path": "telecom",
+                                       "type": "Property",
+                                       "source": {
+                                          "name": "Requestor",
+                                          "type": "ExpressionRef"
+                                       }
+                                    },
+                                    {
+                                       "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                       "value": "0",
+                                       "type": "Literal"
+                                    }
+                                 ]
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "8243618190",
+                     "type": "Literal"
                   }
                }
             },
