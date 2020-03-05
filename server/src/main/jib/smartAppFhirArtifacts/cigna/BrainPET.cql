@@ -231,8 +231,10 @@ define RequestorMiddleInitial: GetMiddleInitials("RequestorNameObject")
 define RequestorFirstName: "RequestorNameObject".given[0].value
 
 define SubmitterTelephone: 
+	if "Requestor".telecom[0] is not null then
 	(singleton from (
   		"Requestor".telecom[0])).value.value
+	else '8243618190'
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)
