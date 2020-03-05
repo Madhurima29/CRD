@@ -88,7 +88,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "BeneficiaryMedicareNumber"
+              "valueString": "BeneficiaryIdentificationNumber"
             }
           ]
         }
@@ -120,18 +120,6 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
               "valueString": "PractitionerNPI"
-            }
-          ]
-        },
-        {
-          "linkId": "2.3",
-          "text": "Physician/Practitioner’s Address",
-          "type": "string",
-          "required": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "PractitionerAddress"
             }
           ]
         }
@@ -248,7 +236,7 @@
         {
           "linkId": "4.2",
           "text": "Date of first Office visit",
-          "type": "string",
+          "type": "date",
           "required": true,
           "extension": [
             {

@@ -10,6 +10,7 @@ codesystem "SNOMED-CT": 'http://snomed.info/sct'
 codesystem "CPT": 'https://www.aapc.com/resources/medical-coding/cpt.aspx'
 codesystem "NUCCPT":'https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NUCCPT/sourcerepresentation.html'
 
+//"valueSetString":"F03.90,G30.9,G31.09,G40.919,C80.1,G40"
 //Medicare or comparable number 
 code "45397-7" : '45397-7' from "LOINC"
 //National provider ID
@@ -27,14 +28,18 @@ code "G30.9" : 'G30.9' from "ICD-10-CM"
 
 //Frontotemporal Dementia
 code "G31.09" : 'G31.09' from "ICD-10-CM"
+code "345088011" : '345088011' from "SNOMED-CT"
 
 //Epilepsy, unspecified
 code "G40.919" : 'G40.919' from "ICD-10-CM"
 
 //Malignant(Primary) Neoplasm
 code "C80.1" : 'C80.1' from "ICD-10-CM"
+code "1208875016" : '1208875016' from "SNOMED-CT"
 
 parameter "Measurement Period" Interval<DateTime>
+//parameter coverage Coverage
+//parameter encounter Encounter
 
 context Patient
 	
@@ -45,8 +50,9 @@ define BeneficiaryNameObject:
 	singleton from (Patient.name name where name.use.value='official')
 
 define BeneficiaryName: 
+	if (PatientFirstName is not null and PatientMiddleInitial is not null and PatientLastName is not null) then
 	PatientFirstName +' '+PatientMiddleInitial + ' '+ PatientLastName
-	//PatientFirstName + ' '+ PatientLastName
+	else PatientFirstName + ' '+ PatientLastName
 
 define PatientLastName: "BeneficiaryNameObject".family.value
 
@@ -60,20 +66,45 @@ define BeneficiaryGender: Patient.gender.value
 
 define BeneficiaryDateOfBirth: Patient.birthDate.value
 
+define "Coverage Subscriber":
+	if exists([Coverage]) then
+	([Patient]P where 'Patient/'+Patient.id.value= singleton from([Coverage]).subscriber.reference.value)
+	else null
+
 define BeneficiaryIdentificationNumber: 
+	if exists("Coverage Subscriber") then
 	(singleton from (
-  	Patient.identifier identifier
-   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
+  	"Coverage Subscriber".identifier identifier
+   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='urn:oid:2.16.840.1.113883.3.787.0.0' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
+	else ''
 
 
 // Practitioner info
-define Practitioner: 
-	singleton from (
-  		[Practitioner]practitioner)
-    		//where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
+
+//define "Encounter resource": 
+//	(singleton from([Encounter]E where (Last(E.participant p where p.individual is not null) is not null)))enc
+//	return enc.participant
+
+//define "Encounter participant":
+//	Last(("Encounter resource" p where p.type is not null)P
+//		sort by start of period)
+
+define "Encounter resource": 
+	(Last([Encounter]E sort by start of period)).participant
+
+define "Encounter participant":
+	Last("Encounter resource")
+
+define Practitioner: Last([Practitioner])
+	//if "Encounter participant" is not null then
+	//singleton from (
+  	//	[Practitioner]practitioner
+    	//	where ('Practitioner/' + practitioner.id.value) = "Encounter participant".individual.reference.value)
+	//else null
     
 define PractitionerNameObject: 
-	singleton from ("Practitioner".name[0])
+	if "Practitioner" is not null then
+	singleton from ("Practitioner".name[0]) else null
 	
 define PractitionerName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
@@ -85,10 +116,10 @@ define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
 
 define PractitionerFirstName: "PractitionerNameObject".given[0].value
 
-define PractitionerNPI: 
-	(singleton from (
-  		"Practitioner".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+define PractitionerNPI:  '1986352488'
+	//(singleton from (
+  	//	"Practitioner".identifier identifier
+    	//	where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
 	(singleton from (
@@ -97,7 +128,7 @@ define PractitionerPTAN:
 
 define PractitionerAddressObject: 
 	if exists("Practitioner".address) then
-	singleton from ("Practitioner".address address where address.use.value = 'home') else null  
+	singleton from ("Practitioner".address[0]) else null  
 
 define PractitionerAddress: 
 	if exists("PractitionerAddressObject") then
@@ -107,10 +138,10 @@ define PractitionerAddress:
 
 //Facility info
 define Facility: 
-	if exists([Organization]) and exists([Encounter]) then
+	if exists([Organization]) and Last([Encounter]) is not null then
 	 singleton from (
   		[Organization]org
-    		where ('Organization/' + org.id.value) = singleton from ([Encounter]).serviceProvider.reference.value)
+    		where ('Organization/' + org.id.value) = Last([Encounter]).serviceProvider.reference.value)
 	else null
 
 define FacilityName: 
@@ -131,7 +162,7 @@ define FacilityTaxID:
 
 define FacilityAddressObject: 
 	if exists("Facility") then	
-	singleton from ("Facility".address address where address.use.value = 'work')  
+	singleton from ("Facility".address[0])  
 	else null
 
 define FacilityAddress: 
@@ -144,47 +175,45 @@ define FacilityAddress:
 define "Dementia Code":
 	if exists([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"F03.90" 
-			and (P.onset as Period) starts during "Measurement Period") then 'F03.90'
+			and (P.onset as Period) starts during "Measurement Period") then 'Dementia'
 	else ''
 
 define "Alzheimers Disease":
 	if exists([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"G30.9" 
-			and (P.onset as Period) starts during "Measurement Period") then 'G30.9'
+			and (P.onset as Period) starts during "Measurement Period") then ',Alzheimers Disease'
 	else ''
 
 define "Frontotemporal Dementia":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"G31.09" 
-			and (P.onset as Period) starts during "Measurement Period") then 'G31.09'
+		where (FHIRHelpers.ToConcept(P.code).codes[0]~"G31.09" or FHIRHelpers.ToConcept(P.code).codes[0]~"345088011") 
+			and (P.onset as Period) starts during "Measurement Period") then ',Frontotemporal Dementia'
 	else ''
 
 define "Epilepsy Code":
 	if exists([Condition]P
 		where FHIRHelpers.ToConcept(P.code).codes[0]~"G40.919" 
-			and (P.onset as Period) starts during "Measurement Period") then 'G40.919'
+			and (P.onset as Period) starts during "Measurement Period") then ',Epilepsy'
 	else ''
 
 define "Dementia or AD":
-	{"Dementia Code","Alzheimers Disease","Frontotemporal Dementia","Epilepsy Code"}
+	"Dementia Code"+"Alzheimers Disease"+"Frontotemporal Dementia"+"Epilepsy Code"
 
-//define "Date of Service": 
-//	if exists([Encounter]) then
-//	singleton from([Encounter]).period.start.value else null
+define "Date of Service": 
+	//if exists([Encounter]) then
+	Last([Encounter]).period.start.value
 
 define "Malignant Neoplasm":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1" 
-			and (P.onset as Period) starts during "Measurement Period") then 'C80.1'
+		where (FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1" or FHIRHelpers.ToConcept(P.code).codes[0]~"1208875016") 
+			and (P.onset as Period) starts during "Measurement Period") then 'Malignant Neoplasm'
 	else ''
 
 
 //Requestor info
 define Requestor: 
-	 singleton from (
-  		[Practitioner]practitioner)
-    		//where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
-
+	Practitioner	 
+	
 define RequestorNameObject: 
 	singleton from ("Requestor".name[0])
 	
@@ -200,8 +229,7 @@ define RequestorFirstName: "RequestorNameObject".given[0].value
 
 define SubmitterTelephone: 
 	(singleton from (
-  		"Requestor".telecom tele
-    		where tele.system.value = 'phone')).value.value
+  		"Requestor".telecom[0])).value.value
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)

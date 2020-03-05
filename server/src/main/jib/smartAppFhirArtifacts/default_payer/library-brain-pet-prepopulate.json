@@ -1,42 +1,48 @@
 {
-    "resourceType":"Library",
-    "id":"urn:hl7:davinci:crd:cigna:library-brain-pet-prepopulate",
-    "version":"0.0.1",
-    "title":"Brain PET",
-    "status":"draft",
- "claimEndpoint":"http://cdex.mettles.com/payerfhir/hapi-fhir-jpaserver/fhir/Claim/$submit",
-    "type":{
-       "coding":[
-          {
-             "code":"logic-library"
-          }
-       ]
-    },
-    "relatedArtifact":[
-       {
-          "type":"depends-on",
-          "resource":{
-             "reference":"urn:hl7:davinci:crd:library-fhir-helpers"
-          }
-       }
-    ],
-    "content":[
-       {
-          "contentType":"application/elm+json",
-          "url":"urn:hl7:davinci:crd:cigna:BrainPET_Prepopulation.json"
-       }
-    ],
-    "dataRequirement":[
-       {
-          "type":"Condition",
-          "codeFilter":[
-             {
-                "path":"code",
-                "valueSetString":"F03.90,G30.9,G31.09,G40.919,C80.1"
-             }
-          ]
-       }
-       
+  "resourceType": "Library",
+  "id": "urn:hl7:davinci:crd:cigna:library-brain-pet-prepopulate",
+  "version": "0.0.1",
+  "title": "Brain PET",
+  "status": "draft",
+  "claimEndpoint": "http://cdex.mettles.com/payerfhir/hapi-fhir-jpaserver/fhir/Claim/$submit",
+  "type": {
+    "coding": [
+      {
+        "code": "logic-library"
+      }
     ]
- }
- 
+  },
+  "relatedArtifact": [
+    {
+      "type": "depends-on",
+      "resource": {
+        "reference": "urn:hl7:davinci:crd:library-fhir-helpers"
+      }
+    }
+  ],
+  "content": [
+    {
+      "contentType": "application/elm+json",
+      "url": "urn:hl7:davinci:crd:cigna:BrainPET_Prepopulation.json"
+    }
+  ],
+  "dataRequirement": [
+    {
+      "type": "Condition",
+      "codeFilter": [
+	{
+          "path": "clinical-status",
+          "valueSetString": "active"
+        },
+        {
+          "path": "category",
+          "valueSetString": "problem-list-item"
+        }
+        
+      ]
+    },
+    {
+      "type": "Coverage"
+    }
+  ]
+}

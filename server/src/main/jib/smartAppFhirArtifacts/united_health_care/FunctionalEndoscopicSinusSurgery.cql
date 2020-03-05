@@ -21,26 +21,27 @@ code "46456-0" : '46456-0' from "LOINC"
 //Facility Address
 code "65833-6" : '65833-6' from "LOINC"
 
-//Chest X-ray
-code "71010": '71010' from "CPT"
-code "71020": '71020' from "CPT"
 
 //Chronic sinusitis, unspecified(used for Complications of sinusitis such as abscess as well)
 code "J32.9" : 'J32.9' from "ICD-10-CM"
 
 //Acute recurrent sinusitis, unspecified
 code "J01.91" : 'J01.91' from "ICD-10-CM"
+code "26785019": '26785019' from "SNOMED-CT"
 
 //Mucocele of salivary gland
 code "K11.6" : 'K11.6' from "ICD-10-CM"
 
 //Unspecified disorder of nose and nasal sinuses(Concha bullosa)
 code "J34.9" : 'J34.9' from "ICD-10-CM"
+code "348121018": '348121018' from "SNOMED-CT"
 
 //Malignant (primary) neoplasm, unspecified
 code "C80.1" : 'C80.1' from "ICD-10-CM"
+code "1208875016": '1208875016' from "SNOMED-CT"
 //Nasal polyp
 code "J33" : 'J33' from "ICD-10-CM"
+code "87779011": '87779011' from "SNOMED-CT"
 
 //Bacterial infection, unspecified
 code "A49.9" : 'A49.9' from "ICD-10-CM"
@@ -72,14 +73,6 @@ context Patient
 	
 define Today: Today()
 
-define "FESSCodes": { '31240','31254','31256','31259','31253','31255','31257','31267','31276', '31287','31288'}
-
-define FESS:
-	singleton from (
-  		[Procedure] procedure
-    		where procedure.code.coding[0].code.value in "FESSCodes"
-    		 )
-
 // Beneficiary info
 define BeneficiaryNameObject: 
 	singleton from (Patient.name name where name.use.value='official')
@@ -89,6 +82,7 @@ define BeneficiaryName:
 	//PatientFirstName + ' '+ PatientLastName
 
 define PatientLastName: "BeneficiaryNameObject".family.value
+
 define PatientMiddleInitial: 
 	if (Length("BeneficiaryNameObject".given)>1) then GetMiddleInitials("BeneficiaryNameObject")
 	else ''
@@ -99,19 +93,45 @@ define BeneficiaryGender: Patient.gender.value
 
 define BeneficiaryDateOfBirth: Patient.birthDate.value
 
-define BeneficiaryIdentificationNumber: Patient.identifier[0].value.value
-	//(singleton from (
-  	//Patient.identifier identifier
-   	 //where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
+define "Coverage Subscriber":
+	if exists([Coverage]) then
+	([Patient]P where 'Patient/'+Patient.id.value= singleton from([Coverage]).subscriber.reference.value)
+	else null
+
+define BeneficiaryIdentificationNumber: 
+	if exists("Coverage Subscriber") then
+	(singleton from (
+  	"Coverage Subscriber".identifier identifier
+   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
+	else ''
+
 
 // Practitioner info
+
+//define "Encounter resource": 
+//	(singleton from([Encounter]E where (Last(E.participant p where p.individual is not null) is not null)))enc
+//	return enc.participant
+
+//define "Encounter participant":
+//	Last(("Encounter resource" p where p.type is not null)P
+//		sort by start of period)
+
+define "Encounter resource": 
+	(Last([Encounter]E sort by start of period)).participant
+
+define "Encounter participant":
+	Last("Encounter resource")
+
 define Practitioner: 
+	if "Encounter participant" is not null then
 	singleton from (
-  		[Practitioner]practitioner)
-    		//where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
+  		[Practitioner]practitioner
+    		where ('Practitioner/' + practitioner.id.value) = "Encounter participant".individual.reference.value)
+	else null
     
 define PractitionerNameObject: 
-	singleton from ("Practitioner".name)
+	if "Practitioner" is not null then
+	singleton from ("Practitioner".name[0]) else null
 	
 define PractitionerName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
@@ -133,10 +153,15 @@ define PractitionerPTAN:
   		"Practitioner".identifier identifier
     		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
 
-define PractitionerAddressObject: singleton from ("Practitioner".address address where address.use.value = 'home')  
+define PractitionerAddressObject: 
+	if exists("Practitioner".address) then
+	singleton from ("Practitioner".address[0]) else null  
 
 define PractitionerAddress: 
+	if exists("PractitionerAddressObject") then
 	"PractitionerAddressObject".line[0].value +', ' +"PractitionerAddressObject".city.value +', ' +"PractitionerAddressObject".state.value+', ' +"PractitionerAddressObject".postalCode.value
+	else ''
+
 
 //Diagnoses/Procedures
 define "Chronic Rhinosinusitis":
@@ -148,7 +173,7 @@ define "Chronic Rhinosinusitis":
 
 define "Recurrent Acute Rhinosinusitis":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J01.91" 
+		where (FHIRHelpers.ToConcept(P.code).codes[0]~"J01.91" or FHIRHelpers.ToConcept(P.code).codes[0]~"26785019" )
 			and (P.onset as Period) starts during "Measurement Period") then 'J01.91'
 	else ''
 
@@ -159,17 +184,17 @@ define "Mucocele confirmed":
 
 define "Concha bullosa confirmed":
 	singleton from([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.9" 
+		where (FHIRHelpers.ToConcept(P.code).codes[0]~"J34.9" or FHIRHelpers.ToConcept(P.code).codes[0]~"348121018" )
 			and (P.onset as Period) starts during "Measurement Period")
 
 define "Malignancy":
 	singleton from([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1" 
+		where (FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1"  or FHIRHelpers.ToConcept(P.code).codes[0]~"1208875016")
 			and (P.onset as Period) starts during "Measurement Period")
 
 define "Polyposis":
 	singleton from([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J33" 
+		where( FHIRHelpers.ToConcept(P.code).codes[0]~"J33" or FHIRHelpers.ToConcept(P.code).codes[0]~"87779011" )
 			and (P.onset as Period) starts during "Measurement Period")
 
 define "Mucocele confirmed Scan":
@@ -298,12 +323,10 @@ define "Additional Info":
 
 //Requestor info
 define Requestor: 
-	 singleton from (
-  		[Practitioner]practitioner)
-    		//where ('Practitioner/' + practitioner.id.value) = singleton from ([ServiceRequest]).performer[0].reference.value)
-
+	Practitioner	 
+	
 define RequestorNameObject: 
-	singleton from ("Requestor".name)
+	singleton from ("Requestor".name[0])
 	
 define SubmitterName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
@@ -317,9 +340,7 @@ define RequestorFirstName: "RequestorNameObject".given[0].value
 
 define SubmitterTelephone: 
 	(singleton from (
-  		"Requestor".telecom tele
-    		where tele.system.value = 'phone')).value.value
-
+  		"Requestor".telecom[0])).value.value
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)

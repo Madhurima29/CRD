@@ -45,6 +45,20 @@
           }
          ]
        },
+	{
+      "type": "Condition",
+      "codeFilter": [
+	{
+          "path": "clinical-status",
+          "valueSetString": "active"
+        },
+        {
+          "path": "category",
+          "valueSetString": "problem-list-item"
+        }
+        
+      ]
+    },
 	{ 
           "type":"ImagingStudy"
        },
