@@ -167,46 +167,47 @@ define PractitionerAddress:
 //Diagnoses/Procedures
 define "Chronic Rhinosinusitis":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J32.9" 
+		where P.code.coding[0].code.value= 'J32.9'
 			//and (P.onset as Period) starts during "Measurement Period" 
-			and (duration in weeks between start of (P.onset as Period) and Today() > 12)) then 'Chronic Rhinosinusitis'
+			//and (duration in weeks between start of (P.onset as Period) and Today() > 12)
+		) then 'Chronic Rhinosinusitis'
 	else ''
 
 define "Recurrent Acute Rhinosinusitis":
 	if exists([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"J01.91" or FHIRHelpers.ToConcept(P.code).codes[0]~"26785019" )
+		where (P.code.coding[0].code.value= 'J01.91' or P.code.coding[0].code.value= '26785019' )
 			) then ',Recurrent Acute Rhinosinusitis'
 	else ''
 
 define "Mucocele confirmed":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"K11.6") then
+		where P.code.coding[0].code.value= 'K11.6') then
 	Last([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"K11.6" 
+		where P.code.coding[0].code.value= 'K11.6'
 			)
 	else null
 
 define "Concha bullosa confirmed":
 	if exists([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"J34.9" or FHIRHelpers.ToConcept(P.code).codes[0]~"348121018" )) then
+		where (P.code.coding[0].code.value= 'J34.9' or P.code.coding[0].code.value= '348121018' )) then
 	Last([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"J34.9" or FHIRHelpers.ToConcept(P.code).codes[0]~"348121018" )
+		where (P.code.coding[0].code.value= 'J34.9' or P.code.coding[0].code.value= '348121018' )
 			)
 	else null
 
 define "Malignancy":
 	if exists([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1"  or FHIRHelpers.ToConcept(P.code).codes[0]~"1208875016")) then
+		where (P.code.coding[0].code.value= 'C80.1' or P.code.coding[0].code.value= '1208875016' or P.code.coding[0].code.value= '363346000' or P.code.coding[0].code.value= '85068')) then
 	Last([Condition]P
-		where (FHIRHelpers.ToConcept(P.code).codes[0]~"C80.1"  or FHIRHelpers.ToConcept(P.code).codes[0]~"1208875016")
+		where (P.code.coding[0].code.value= 'C80.1' or P.code.coding[0].code.value= '1208875016' or P.code.coding[0].code.value= '363346000' or P.code.coding[0].code.value= '85068')
 			)
 	else null
 
 define "Polyposis":
 	if exists([Condition]P
-		where( FHIRHelpers.ToConcept(P.code).codes[0]~"J33" or FHIRHelpers.ToConcept(P.code).codes[0]~"87779011" )) then
+		where( P.code.coding[0].code.value= 'J33' or P.code.coding[0].code.value= '87779011' )) then
 	Last([Condition]P
-		where( FHIRHelpers.ToConcept(P.code).codes[0]~"J33" or FHIRHelpers.ToConcept(P.code).codes[0]~"87779011" )
+		where( P.code.coding[0].code.value= 'J33' or P.code.coding[0].code.value= '87779011' )
 			)
 	else null
 
@@ -245,16 +246,16 @@ define "Relevant Diagnoses":
 
 define "Antibiotic therapy":
 	if (exists([Procedure]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"281789004") 
+		where P.code.coding[0].code.value= '281789004') 
 		and exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"A49.9" 
+		where P.code.coding[0].code.value= 'A49.9' 
 			)) then 'Antibiotic therapy, if bacterial infection is suspected'
 			
 	else ''
 
 define "Nasal lavage":
 	if exists([Procedure]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"72202003") 
+		where P.code.coding[0].code.value= '72202003') 
 		 then ',Nasal lavage'
 			
 	else ''
@@ -272,45 +273,45 @@ define "Treatments performed":
 
 define "Mucosal thickening":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" ) then
+		where P.code.coding[0].code.value= 'J34.89' ) then
 	Last([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
+		where P.code.coding[0].code.value= 'J34.89' 
 			)
 	else null
 
 define "Bony remodeling":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"M89.9" 
+		where P.code.coding[0].code.value= 'M89.9' 
 			) then
 	Last([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"M89.9" 
+		where P.code.coding[0].code.value= 'M89.9' 
 			)
 	else null
 
 define "Bony thickening":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"M89.30" 
+		where P.code.coding[0].code.value= 'M89.30' 
 			) then
 	Last([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"M89.30" 
+		where P.code.coding[0].code.value= 'M89.30' 
 			)
 	else null
 
 define "Obstruction of the ostiomeatal complex":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
+		where P.code.coding[0].code.value= 'J34.89' 
 			) then
 	Last([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
+		where P.code.coding[0].code.value= 'J34.89' 
 			)
 	else null
 
 define "Opacified sinus":
 	if exists([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
+		where P.code.coding[0].code.value= 'J34.89'
 			) then
 	Last([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"J34.89" 
+		where P.code.coding[0].code.value= 'J34.89' 
 			)
 	else null
 
@@ -355,12 +356,12 @@ define "Findings on the CT scan":
 
 define "Sinonasal symptoms":
 	if exists(Last([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"R09.81" 
+		where P.code.coding[0].code.value= 'R09.81' 
 			)) then 'Sinonasal symptoms' else ''
 
 define "Ostial occlusion":
 	Last([Condition]P
-		where FHIRHelpers.ToConcept(P.code).codes[0]~"I25.82" 
+		where P.code.coding[0].code.value= 'I25.82' 
 			)
 
 define "Condition 2":

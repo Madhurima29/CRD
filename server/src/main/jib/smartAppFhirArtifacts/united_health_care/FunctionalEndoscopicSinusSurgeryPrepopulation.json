@@ -1514,28 +1514,24 @@
                            ],
                            "relationship": [],
                            "where": {
-                              "type": "And",
+                              "type": "Equal",
                               "operand": [
                                  {
-                                    "type": "Equivalent",
-                                    "operand": [
-                                       {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
                                           "type": "Indexer",
                                           "operand": [
                                              {
-                                                "path": "codes",
+                                                "path": "coding",
                                                 "type": "Property",
                                                 "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
-                                                         "path": "code",
-                                                         "scope": "P",
-                                                         "type": "Property"
-                                                      }
-                                                   ]
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
                                                 }
                                              },
                                              {
@@ -1544,57 +1540,13 @@
                                                 "type": "Literal"
                                              }
                                           ]
-                                       },
-                                       {
-                                          "name": "J32.9",
-                                          "type": "CodeRef"
                                        }
-                                    ]
+                                    }
                                  },
                                  {
-                                    "type": "Greater",
-                                    "operand": [
-                                       {
-                                          "precision": "Week",
-                                          "type": "DurationBetween",
-                                          "operand": [
-                                             {
-                                                "type": "Start",
-                                                "operand": {
-                                                   "name": "ToInterval",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
-                                                         "strict": false,
-                                                         "type": "As",
-                                                         "operand": {
-                                                            "path": "onset",
-                                                            "scope": "P",
-                                                            "type": "Property"
-                                                         },
-                                                         "asTypeSpecifier": {
-                                                            "name": "{http://hl7.org/fhir}Period",
-                                                            "type": "NamedTypeSpecifier"
-                                                         }
-                                                      }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "type": "ToDateTime",
-                                                "operand": {
-                                                   "type": "Today"
-                                                }
-                                             }
-                                          ]
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value": "12",
-                                          "type": "Literal"
-                                       }
-                                    ]
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "J32.9",
+                                    "type": "Literal"
                                  }
                               ]
                            }
@@ -1640,72 +1592,76 @@
                               "type": "Or",
                               "operand": [
                                  {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "J01.91",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "J01.91",
+                                          "type": "Literal"
                                        }
                                     ]
                                  },
                                  {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "26785019",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "26785019",
+                                          "type": "Literal"
                                        }
                                     ]
                                  }
@@ -1750,37 +1706,39 @@
                            ],
                            "relationship": [],
                            "where": {
-                              "type": "Equivalent",
+                              "type": "Equal",
                               "operand": [
                                  {
-                                    "type": "Indexer",
-                                    "operand": [
-                                       {
-                                          "path": "codes",
-                                          "type": "Property",
-                                          "source": {
-                                             "name": "ToConcept",
-                                             "libraryName": "FHIRHelpers",
-                                             "type": "FunctionRef",
-                                             "operand": [
-                                                {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
                                                    "path": "code",
                                                    "scope": "P",
                                                    "type": "Property"
                                                 }
-                                             ]
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value": "0",
-                                          "type": "Literal"
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
                                        }
-                                    ]
+                                    }
                                  },
                                  {
-                                    "name": "K11.6",
-                                    "type": "CodeRef"
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "K11.6",
+                                    "type": "Literal"
                                  }
                               ]
                            }
@@ -1802,37 +1760,39 @@
                         ],
                         "relationship": [],
                         "where": {
-                           "type": "Equivalent",
+                           "type": "Equal",
                            "operand": [
                               {
-                                 "type": "Indexer",
-                                 "operand": [
-                                    {
-                                       "path": "codes",
-                                       "type": "Property",
-                                       "source": {
-                                          "name": "ToConcept",
-                                          "libraryName": "FHIRHelpers",
-                                          "type": "FunctionRef",
-                                          "operand": [
-                                             {
+                                 "path": "value",
+                                 "type": "Property",
+                                 "source": {
+                                    "path": "code",
+                                    "type": "Property",
+                                    "source": {
+                                       "type": "Indexer",
+                                       "operand": [
+                                          {
+                                             "path": "coding",
+                                             "type": "Property",
+                                             "source": {
                                                 "path": "code",
                                                 "scope": "P",
                                                 "type": "Property"
                                              }
-                                          ]
-                                       }
-                                    },
-                                    {
-                                       "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value": "0",
-                                       "type": "Literal"
+                                          },
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value": "0",
+                                             "type": "Literal"
+                                          }
+                                       ]
                                     }
-                                 ]
+                                 }
                               },
                               {
-                                 "name": "K11.6",
-                                 "type": "CodeRef"
+                                 "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                 "value": "K11.6",
+                                 "type": "Literal"
                               }
                            ]
                         }
@@ -1874,72 +1834,76 @@
                               "type": "Or",
                               "operand": [
                                  {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "J34.9",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "J34.9",
+                                          "type": "Literal"
                                        }
                                     ]
                                  },
                                  {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "348121018",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "348121018",
+                                          "type": "Literal"
                                        }
                                     ]
                                  }
@@ -1966,72 +1930,76 @@
                            "type": "Or",
                            "operand": [
                               {
-                                 "type": "Equivalent",
+                                 "type": "Equal",
                                  "operand": [
                                     {
-                                       "type": "Indexer",
-                                       "operand": [
-                                          {
-                                             "path": "codes",
-                                             "type": "Property",
-                                             "source": {
-                                                "name": "ToConcept",
-                                                "libraryName": "FHIRHelpers",
-                                                "type": "FunctionRef",
-                                                "operand": [
-                                                   {
+                                       "path": "value",
+                                       "type": "Property",
+                                       "source": {
+                                          "path": "code",
+                                          "type": "Property",
+                                          "source": {
+                                             "type": "Indexer",
+                                             "operand": [
+                                                {
+                                                   "path": "coding",
+                                                   "type": "Property",
+                                                   "source": {
                                                       "path": "code",
                                                       "scope": "P",
                                                       "type": "Property"
                                                    }
-                                                ]
-                                             }
-                                          },
-                                          {
-                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                             "value": "0",
-                                             "type": "Literal"
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                   "value": "0",
+                                                   "type": "Literal"
+                                                }
+                                             ]
                                           }
-                                       ]
+                                       }
                                     },
                                     {
-                                       "name": "J34.9",
-                                       "type": "CodeRef"
+                                       "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                       "value": "J34.9",
+                                       "type": "Literal"
                                     }
                                  ]
                               },
                               {
-                                 "type": "Equivalent",
+                                 "type": "Equal",
                                  "operand": [
                                     {
-                                       "type": "Indexer",
-                                       "operand": [
-                                          {
-                                             "path": "codes",
-                                             "type": "Property",
-                                             "source": {
-                                                "name": "ToConcept",
-                                                "libraryName": "FHIRHelpers",
-                                                "type": "FunctionRef",
-                                                "operand": [
-                                                   {
+                                       "path": "value",
+                                       "type": "Property",
+                                       "source": {
+                                          "path": "code",
+                                          "type": "Property",
+                                          "source": {
+                                             "type": "Indexer",
+                                             "operand": [
+                                                {
+                                                   "path": "coding",
+                                                   "type": "Property",
+                                                   "source": {
                                                       "path": "code",
                                                       "scope": "P",
                                                       "type": "Property"
                                                    }
-                                                ]
-                                             }
-                                          },
-                                          {
-                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                             "value": "0",
-                                             "type": "Literal"
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                   "value": "0",
+                                                   "type": "Literal"
+                                                }
+                                             ]
                                           }
-                                       ]
+                                       }
                                     },
                                     {
-                                       "name": "348121018",
-                                       "type": "CodeRef"
+                                       "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                       "value": "348121018",
+                                       "type": "Literal"
                                     }
                                  ]
                               }
@@ -2075,72 +2043,160 @@
                               "type": "Or",
                               "operand": [
                                  {
-                                    "type": "Equivalent",
+                                    "type": "Or",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
+                                          "type": "Or",
                                           "operand": [
                                              {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                                "type": "Equal",
+                                                "operand": [
+                                                   {
+                                                      "path": "value",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
-                                                         "scope": "P",
-                                                         "type": "Property"
+                                                         "type": "Property",
+                                                         "source": {
+                                                            "type": "Indexer",
+                                                            "operand": [
+                                                               {
+                                                                  "path": "coding",
+                                                                  "type": "Property",
+                                                                  "source": {
+                                                                     "path": "code",
+                                                                     "scope": "P",
+                                                                     "type": "Property"
+                                                                  }
+                                                               },
+                                                               {
+                                                                  "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                                  "value": "0",
+                                                                  "type": "Literal"
+                                                               }
+                                                            ]
+                                                         }
                                                       }
-                                                   ]
-                                                }
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                      "value": "C80.1",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              },
                                              {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                "type": "Equal",
+                                                "operand": [
+                                                   {
+                                                      "path": "value",
+                                                      "type": "Property",
+                                                      "source": {
+                                                         "path": "code",
+                                                         "type": "Property",
+                                                         "source": {
+                                                            "type": "Indexer",
+                                                            "operand": [
+                                                               {
+                                                                  "path": "coding",
+                                                                  "type": "Property",
+                                                                  "source": {
+                                                                     "path": "code",
+                                                                     "scope": "P",
+                                                                     "type": "Property"
+                                                                  }
+                                                               },
+                                                               {
+                                                                  "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                                  "value": "0",
+                                                                  "type": "Literal"
+                                                               }
+                                                            ]
+                                                         }
+                                                      }
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                      "value": "1208875016",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
                                           ]
                                        },
                                        {
-                                          "name": "C80.1",
-                                          "type": "CodeRef"
+                                          "type": "Equal",
+                                          "operand": [
+                                             {
+                                                "path": "value",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "type": "Property",
+                                                   "source": {
+                                                      "type": "Indexer",
+                                                      "operand": [
+                                                         {
+                                                            "path": "coding",
+                                                            "type": "Property",
+                                                            "source": {
+                                                               "path": "code",
+                                                               "scope": "P",
+                                                               "type": "Property"
+                                                            }
+                                                         },
+                                                         {
+                                                            "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                            "value": "0",
+                                                            "type": "Literal"
+                                                         }
+                                                      ]
+                                                   }
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                "value": "363346000",
+                                                "type": "Literal"
+                                             }
+                                          ]
                                        }
                                     ]
                                  },
                                  {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "1208875016",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "85068",
+                                          "type": "Literal"
                                        }
                                     ]
                                  }
@@ -2167,72 +2223,160 @@
                            "type": "Or",
                            "operand": [
                               {
-                                 "type": "Equivalent",
+                                 "type": "Or",
                                  "operand": [
                                     {
-                                       "type": "Indexer",
+                                       "type": "Or",
                                        "operand": [
                                           {
-                                             "path": "codes",
-                                             "type": "Property",
-                                             "source": {
-                                                "name": "ToConcept",
-                                                "libraryName": "FHIRHelpers",
-                                                "type": "FunctionRef",
-                                                "operand": [
-                                                   {
+                                             "type": "Equal",
+                                             "operand": [
+                                                {
+                                                   "path": "value",
+                                                   "type": "Property",
+                                                   "source": {
                                                       "path": "code",
-                                                      "scope": "P",
-                                                      "type": "Property"
+                                                      "type": "Property",
+                                                      "source": {
+                                                         "type": "Indexer",
+                                                         "operand": [
+                                                            {
+                                                               "path": "coding",
+                                                               "type": "Property",
+                                                               "source": {
+                                                                  "path": "code",
+                                                                  "scope": "P",
+                                                                  "type": "Property"
+                                                               }
+                                                            },
+                                                            {
+                                                               "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                               "value": "0",
+                                                               "type": "Literal"
+                                                            }
+                                                         ]
+                                                      }
                                                    }
-                                                ]
-                                             }
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                   "value": "C80.1",
+                                                   "type": "Literal"
+                                                }
+                                             ]
                                           },
                                           {
-                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                             "value": "0",
-                                             "type": "Literal"
+                                             "type": "Equal",
+                                             "operand": [
+                                                {
+                                                   "path": "value",
+                                                   "type": "Property",
+                                                   "source": {
+                                                      "path": "code",
+                                                      "type": "Property",
+                                                      "source": {
+                                                         "type": "Indexer",
+                                                         "operand": [
+                                                            {
+                                                               "path": "coding",
+                                                               "type": "Property",
+                                                               "source": {
+                                                                  "path": "code",
+                                                                  "scope": "P",
+                                                                  "type": "Property"
+                                                               }
+                                                            },
+                                                            {
+                                                               "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                               "value": "0",
+                                                               "type": "Literal"
+                                                            }
+                                                         ]
+                                                      }
+                                                   }
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                   "value": "1208875016",
+                                                   "type": "Literal"
+                                                }
+                                             ]
                                           }
                                        ]
                                     },
                                     {
-                                       "name": "C80.1",
-                                       "type": "CodeRef"
+                                       "type": "Equal",
+                                       "operand": [
+                                          {
+                                             "path": "value",
+                                             "type": "Property",
+                                             "source": {
+                                                "path": "code",
+                                                "type": "Property",
+                                                "source": {
+                                                   "type": "Indexer",
+                                                   "operand": [
+                                                      {
+                                                         "path": "coding",
+                                                         "type": "Property",
+                                                         "source": {
+                                                            "path": "code",
+                                                            "scope": "P",
+                                                            "type": "Property"
+                                                         }
+                                                      },
+                                                      {
+                                                         "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                         "value": "0",
+                                                         "type": "Literal"
+                                                      }
+                                                   ]
+                                                }
+                                             }
+                                          },
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                             "value": "363346000",
+                                             "type": "Literal"
+                                          }
+                                       ]
                                     }
                                  ]
                               },
                               {
-                                 "type": "Equivalent",
+                                 "type": "Equal",
                                  "operand": [
                                     {
-                                       "type": "Indexer",
-                                       "operand": [
-                                          {
-                                             "path": "codes",
-                                             "type": "Property",
-                                             "source": {
-                                                "name": "ToConcept",
-                                                "libraryName": "FHIRHelpers",
-                                                "type": "FunctionRef",
-                                                "operand": [
-                                                   {
+                                       "path": "value",
+                                       "type": "Property",
+                                       "source": {
+                                          "path": "code",
+                                          "type": "Property",
+                                          "source": {
+                                             "type": "Indexer",
+                                             "operand": [
+                                                {
+                                                   "path": "coding",
+                                                   "type": "Property",
+                                                   "source": {
                                                       "path": "code",
                                                       "scope": "P",
                                                       "type": "Property"
                                                    }
-                                                ]
-                                             }
-                                          },
-                                          {
-                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                             "value": "0",
-                                             "type": "Literal"
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                   "value": "0",
+                                                   "type": "Literal"
+                                                }
+                                             ]
                                           }
-                                       ]
+                                       }
                                     },
                                     {
-                                       "name": "1208875016",
-                                       "type": "CodeRef"
+                                       "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                       "value": "85068",
+                                       "type": "Literal"
                                     }
                                  ]
                               }
@@ -2276,72 +2420,76 @@
                               "type": "Or",
                               "operand": [
                                  {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "J33",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "J33",
+                                          "type": "Literal"
                                        }
                                     ]
                                  },
                                  {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "87779011",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "87779011",
+                                          "type": "Literal"
                                        }
                                     ]
                                  }
@@ -2368,72 +2516,76 @@
                            "type": "Or",
                            "operand": [
                               {
-                                 "type": "Equivalent",
+                                 "type": "Equal",
                                  "operand": [
                                     {
-                                       "type": "Indexer",
-                                       "operand": [
-                                          {
-                                             "path": "codes",
-                                             "type": "Property",
-                                             "source": {
-                                                "name": "ToConcept",
-                                                "libraryName": "FHIRHelpers",
-                                                "type": "FunctionRef",
-                                                "operand": [
-                                                   {
+                                       "path": "value",
+                                       "type": "Property",
+                                       "source": {
+                                          "path": "code",
+                                          "type": "Property",
+                                          "source": {
+                                             "type": "Indexer",
+                                             "operand": [
+                                                {
+                                                   "path": "coding",
+                                                   "type": "Property",
+                                                   "source": {
                                                       "path": "code",
                                                       "scope": "P",
                                                       "type": "Property"
                                                    }
-                                                ]
-                                             }
-                                          },
-                                          {
-                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                             "value": "0",
-                                             "type": "Literal"
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                   "value": "0",
+                                                   "type": "Literal"
+                                                }
+                                             ]
                                           }
-                                       ]
+                                       }
                                     },
                                     {
-                                       "name": "J33",
-                                       "type": "CodeRef"
+                                       "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                       "value": "J33",
+                                       "type": "Literal"
                                     }
                                  ]
                               },
                               {
-                                 "type": "Equivalent",
+                                 "type": "Equal",
                                  "operand": [
                                     {
-                                       "type": "Indexer",
-                                       "operand": [
-                                          {
-                                             "path": "codes",
-                                             "type": "Property",
-                                             "source": {
-                                                "name": "ToConcept",
-                                                "libraryName": "FHIRHelpers",
-                                                "type": "FunctionRef",
-                                                "operand": [
-                                                   {
+                                       "path": "value",
+                                       "type": "Property",
+                                       "source": {
+                                          "path": "code",
+                                          "type": "Property",
+                                          "source": {
+                                             "type": "Indexer",
+                                             "operand": [
+                                                {
+                                                   "path": "coding",
+                                                   "type": "Property",
+                                                   "source": {
                                                       "path": "code",
                                                       "scope": "P",
                                                       "type": "Property"
                                                    }
-                                                ]
-                                             }
-                                          },
-                                          {
-                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                             "value": "0",
-                                             "type": "Literal"
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                   "value": "0",
+                                                   "type": "Literal"
+                                                }
+                                             ]
                                           }
-                                       ]
+                                       }
                                     },
                                     {
-                                       "name": "87779011",
-                                       "type": "CodeRef"
+                                       "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                       "value": "87779011",
+                                       "type": "Literal"
                                     }
                                  ]
                               }
@@ -2983,37 +3135,39 @@
                                  ],
                                  "relationship": [],
                                  "where": {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "281789004",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "281789004",
+                                          "type": "Literal"
                                        }
                                     ]
                                  }
@@ -3034,37 +3188,39 @@
                                  ],
                                  "relationship": [],
                                  "where": {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "A49.9",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "A49.9",
+                                          "type": "Literal"
                                        }
                                     ]
                                  }
@@ -3109,37 +3265,39 @@
                            ],
                            "relationship": [],
                            "where": {
-                              "type": "Equivalent",
+                              "type": "Equal",
                               "operand": [
                                  {
-                                    "type": "Indexer",
-                                    "operand": [
-                                       {
-                                          "path": "codes",
-                                          "type": "Property",
-                                          "source": {
-                                             "name": "ToConcept",
-                                             "libraryName": "FHIRHelpers",
-                                             "type": "FunctionRef",
-                                             "operand": [
-                                                {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
                                                    "path": "code",
                                                    "scope": "P",
                                                    "type": "Property"
                                                 }
-                                             ]
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value": "0",
-                                          "type": "Literal"
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
                                        }
-                                    ]
+                                    }
                                  },
                                  {
-                                    "name": "72202003",
-                                    "type": "CodeRef"
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "72202003",
+                                    "type": "Literal"
                                  }
                               ]
                            }
@@ -3287,37 +3445,39 @@
                            ],
                            "relationship": [],
                            "where": {
-                              "type": "Equivalent",
+                              "type": "Equal",
                               "operand": [
                                  {
-                                    "type": "Indexer",
-                                    "operand": [
-                                       {
-                                          "path": "codes",
-                                          "type": "Property",
-                                          "source": {
-                                             "name": "ToConcept",
-                                             "libraryName": "FHIRHelpers",
-                                             "type": "FunctionRef",
-                                             "operand": [
-                                                {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
                                                    "path": "code",
                                                    "scope": "P",
                                                    "type": "Property"
                                                 }
-                                             ]
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value": "0",
-                                          "type": "Literal"
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
                                        }
-                                    ]
+                                    }
                                  },
                                  {
-                                    "name": "J34.89",
-                                    "type": "CodeRef"
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "J34.89",
+                                    "type": "Literal"
                                  }
                               ]
                            }
@@ -3339,37 +3499,39 @@
                         ],
                         "relationship": [],
                         "where": {
-                           "type": "Equivalent",
+                           "type": "Equal",
                            "operand": [
                               {
-                                 "type": "Indexer",
-                                 "operand": [
-                                    {
-                                       "path": "codes",
-                                       "type": "Property",
-                                       "source": {
-                                          "name": "ToConcept",
-                                          "libraryName": "FHIRHelpers",
-                                          "type": "FunctionRef",
-                                          "operand": [
-                                             {
+                                 "path": "value",
+                                 "type": "Property",
+                                 "source": {
+                                    "path": "code",
+                                    "type": "Property",
+                                    "source": {
+                                       "type": "Indexer",
+                                       "operand": [
+                                          {
+                                             "path": "coding",
+                                             "type": "Property",
+                                             "source": {
                                                 "path": "code",
                                                 "scope": "P",
                                                 "type": "Property"
                                              }
-                                          ]
-                                       }
-                                    },
-                                    {
-                                       "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value": "0",
-                                       "type": "Literal"
+                                          },
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value": "0",
+                                             "type": "Literal"
+                                          }
+                                       ]
                                     }
-                                 ]
+                                 }
                               },
                               {
-                                 "name": "J34.89",
-                                 "type": "CodeRef"
+                                 "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                 "value": "J34.89",
+                                 "type": "Literal"
                               }
                            ]
                         }
@@ -3408,37 +3570,39 @@
                            ],
                            "relationship": [],
                            "where": {
-                              "type": "Equivalent",
+                              "type": "Equal",
                               "operand": [
                                  {
-                                    "type": "Indexer",
-                                    "operand": [
-                                       {
-                                          "path": "codes",
-                                          "type": "Property",
-                                          "source": {
-                                             "name": "ToConcept",
-                                             "libraryName": "FHIRHelpers",
-                                             "type": "FunctionRef",
-                                             "operand": [
-                                                {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
                                                    "path": "code",
                                                    "scope": "P",
                                                    "type": "Property"
                                                 }
-                                             ]
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value": "0",
-                                          "type": "Literal"
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
                                        }
-                                    ]
+                                    }
                                  },
                                  {
-                                    "name": "M89.9",
-                                    "type": "CodeRef"
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "M89.9",
+                                    "type": "Literal"
                                  }
                               ]
                            }
@@ -3460,37 +3624,39 @@
                         ],
                         "relationship": [],
                         "where": {
-                           "type": "Equivalent",
+                           "type": "Equal",
                            "operand": [
                               {
-                                 "type": "Indexer",
-                                 "operand": [
-                                    {
-                                       "path": "codes",
-                                       "type": "Property",
-                                       "source": {
-                                          "name": "ToConcept",
-                                          "libraryName": "FHIRHelpers",
-                                          "type": "FunctionRef",
-                                          "operand": [
-                                             {
+                                 "path": "value",
+                                 "type": "Property",
+                                 "source": {
+                                    "path": "code",
+                                    "type": "Property",
+                                    "source": {
+                                       "type": "Indexer",
+                                       "operand": [
+                                          {
+                                             "path": "coding",
+                                             "type": "Property",
+                                             "source": {
                                                 "path": "code",
                                                 "scope": "P",
                                                 "type": "Property"
                                              }
-                                          ]
-                                       }
-                                    },
-                                    {
-                                       "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value": "0",
-                                       "type": "Literal"
+                                          },
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value": "0",
+                                             "type": "Literal"
+                                          }
+                                       ]
                                     }
-                                 ]
+                                 }
                               },
                               {
-                                 "name": "M89.9",
-                                 "type": "CodeRef"
+                                 "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                 "value": "M89.9",
+                                 "type": "Literal"
                               }
                            ]
                         }
@@ -3529,37 +3695,39 @@
                            ],
                            "relationship": [],
                            "where": {
-                              "type": "Equivalent",
+                              "type": "Equal",
                               "operand": [
                                  {
-                                    "type": "Indexer",
-                                    "operand": [
-                                       {
-                                          "path": "codes",
-                                          "type": "Property",
-                                          "source": {
-                                             "name": "ToConcept",
-                                             "libraryName": "FHIRHelpers",
-                                             "type": "FunctionRef",
-                                             "operand": [
-                                                {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
                                                    "path": "code",
                                                    "scope": "P",
                                                    "type": "Property"
                                                 }
-                                             ]
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value": "0",
-                                          "type": "Literal"
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
                                        }
-                                    ]
+                                    }
                                  },
                                  {
-                                    "name": "M89.30",
-                                    "type": "CodeRef"
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "M89.30",
+                                    "type": "Literal"
                                  }
                               ]
                            }
@@ -3581,37 +3749,39 @@
                         ],
                         "relationship": [],
                         "where": {
-                           "type": "Equivalent",
+                           "type": "Equal",
                            "operand": [
                               {
-                                 "type": "Indexer",
-                                 "operand": [
-                                    {
-                                       "path": "codes",
-                                       "type": "Property",
-                                       "source": {
-                                          "name": "ToConcept",
-                                          "libraryName": "FHIRHelpers",
-                                          "type": "FunctionRef",
-                                          "operand": [
-                                             {
+                                 "path": "value",
+                                 "type": "Property",
+                                 "source": {
+                                    "path": "code",
+                                    "type": "Property",
+                                    "source": {
+                                       "type": "Indexer",
+                                       "operand": [
+                                          {
+                                             "path": "coding",
+                                             "type": "Property",
+                                             "source": {
                                                 "path": "code",
                                                 "scope": "P",
                                                 "type": "Property"
                                              }
-                                          ]
-                                       }
-                                    },
-                                    {
-                                       "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value": "0",
-                                       "type": "Literal"
+                                          },
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value": "0",
+                                             "type": "Literal"
+                                          }
+                                       ]
                                     }
-                                 ]
+                                 }
                               },
                               {
-                                 "name": "M89.30",
-                                 "type": "CodeRef"
+                                 "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                 "value": "M89.30",
+                                 "type": "Literal"
                               }
                            ]
                         }
@@ -3650,37 +3820,39 @@
                            ],
                            "relationship": [],
                            "where": {
-                              "type": "Equivalent",
+                              "type": "Equal",
                               "operand": [
                                  {
-                                    "type": "Indexer",
-                                    "operand": [
-                                       {
-                                          "path": "codes",
-                                          "type": "Property",
-                                          "source": {
-                                             "name": "ToConcept",
-                                             "libraryName": "FHIRHelpers",
-                                             "type": "FunctionRef",
-                                             "operand": [
-                                                {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
                                                    "path": "code",
                                                    "scope": "P",
                                                    "type": "Property"
                                                 }
-                                             ]
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value": "0",
-                                          "type": "Literal"
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
                                        }
-                                    ]
+                                    }
                                  },
                                  {
-                                    "name": "J34.89",
-                                    "type": "CodeRef"
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "J34.89",
+                                    "type": "Literal"
                                  }
                               ]
                            }
@@ -3702,37 +3874,39 @@
                         ],
                         "relationship": [],
                         "where": {
-                           "type": "Equivalent",
+                           "type": "Equal",
                            "operand": [
                               {
-                                 "type": "Indexer",
-                                 "operand": [
-                                    {
-                                       "path": "codes",
-                                       "type": "Property",
-                                       "source": {
-                                          "name": "ToConcept",
-                                          "libraryName": "FHIRHelpers",
-                                          "type": "FunctionRef",
-                                          "operand": [
-                                             {
+                                 "path": "value",
+                                 "type": "Property",
+                                 "source": {
+                                    "path": "code",
+                                    "type": "Property",
+                                    "source": {
+                                       "type": "Indexer",
+                                       "operand": [
+                                          {
+                                             "path": "coding",
+                                             "type": "Property",
+                                             "source": {
                                                 "path": "code",
                                                 "scope": "P",
                                                 "type": "Property"
                                              }
-                                          ]
-                                       }
-                                    },
-                                    {
-                                       "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value": "0",
-                                       "type": "Literal"
+                                          },
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value": "0",
+                                             "type": "Literal"
+                                          }
+                                       ]
                                     }
-                                 ]
+                                 }
                               },
                               {
-                                 "name": "J34.89",
-                                 "type": "CodeRef"
+                                 "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                 "value": "J34.89",
+                                 "type": "Literal"
                               }
                            ]
                         }
@@ -3771,37 +3945,39 @@
                            ],
                            "relationship": [],
                            "where": {
-                              "type": "Equivalent",
+                              "type": "Equal",
                               "operand": [
                                  {
-                                    "type": "Indexer",
-                                    "operand": [
-                                       {
-                                          "path": "codes",
-                                          "type": "Property",
-                                          "source": {
-                                             "name": "ToConcept",
-                                             "libraryName": "FHIRHelpers",
-                                             "type": "FunctionRef",
-                                             "operand": [
-                                                {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
                                                    "path": "code",
                                                    "scope": "P",
                                                    "type": "Property"
                                                 }
-                                             ]
-                                          }
-                                       },
-                                       {
-                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                          "value": "0",
-                                          "type": "Literal"
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
                                        }
-                                    ]
+                                    }
                                  },
                                  {
-                                    "name": "J34.89",
-                                    "type": "CodeRef"
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "J34.89",
+                                    "type": "Literal"
                                  }
                               ]
                            }
@@ -3823,37 +3999,39 @@
                         ],
                         "relationship": [],
                         "where": {
-                           "type": "Equivalent",
+                           "type": "Equal",
                            "operand": [
                               {
-                                 "type": "Indexer",
-                                 "operand": [
-                                    {
-                                       "path": "codes",
-                                       "type": "Property",
-                                       "source": {
-                                          "name": "ToConcept",
-                                          "libraryName": "FHIRHelpers",
-                                          "type": "FunctionRef",
-                                          "operand": [
-                                             {
+                                 "path": "value",
+                                 "type": "Property",
+                                 "source": {
+                                    "path": "code",
+                                    "type": "Property",
+                                    "source": {
+                                       "type": "Indexer",
+                                       "operand": [
+                                          {
+                                             "path": "coding",
+                                             "type": "Property",
+                                             "source": {
                                                 "path": "code",
                                                 "scope": "P",
                                                 "type": "Property"
                                              }
-                                          ]
-                                       }
-                                    },
-                                    {
-                                       "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                       "value": "0",
-                                       "type": "Literal"
+                                          },
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value": "0",
+                                             "type": "Literal"
+                                          }
+                                       ]
                                     }
-                                 ]
+                                 }
                               },
                               {
-                                 "name": "J34.89",
-                                 "type": "CodeRef"
+                                 "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                 "value": "J34.89",
+                                 "type": "Literal"
                               }
                            ]
                         }
@@ -4506,37 +4684,39 @@
                                  ],
                                  "relationship": [],
                                  "where": {
-                                    "type": "Equivalent",
+                                    "type": "Equal",
                                     "operand": [
                                        {
-                                          "type": "Indexer",
-                                          "operand": [
-                                             {
-                                                "path": "codes",
-                                                "type": "Property",
-                                                "source": {
-                                                   "name": "ToConcept",
-                                                   "libraryName": "FHIRHelpers",
-                                                   "type": "FunctionRef",
-                                                   "operand": [
-                                                      {
+                                          "path": "value",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "code",
+                                             "type": "Property",
+                                             "source": {
+                                                "type": "Indexer",
+                                                "operand": [
+                                                   {
+                                                      "path": "coding",
+                                                      "type": "Property",
+                                                      "source": {
                                                          "path": "code",
                                                          "scope": "P",
                                                          "type": "Property"
                                                       }
-                                                   ]
-                                                }
-                                             },
-                                             {
-                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                "value": "0",
-                                                "type": "Literal"
+                                                   },
+                                                   {
+                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                      "value": "0",
+                                                      "type": "Literal"
+                                                   }
+                                                ]
                                              }
-                                          ]
+                                          }
                                        },
                                        {
-                                          "name": "R09.81",
-                                          "type": "CodeRef"
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "R09.81",
+                                          "type": "Literal"
                                        }
                                     ]
                                  }
@@ -4576,37 +4756,39 @@
                      ],
                      "relationship": [],
                      "where": {
-                        "type": "Equivalent",
+                        "type": "Equal",
                         "operand": [
                            {
-                              "type": "Indexer",
-                              "operand": [
-                                 {
-                                    "path": "codes",
-                                    "type": "Property",
-                                    "source": {
-                                       "name": "ToConcept",
-                                       "libraryName": "FHIRHelpers",
-                                       "type": "FunctionRef",
-                                       "operand": [
-                                          {
+                              "path": "value",
+                              "type": "Property",
+                              "source": {
+                                 "path": "code",
+                                 "type": "Property",
+                                 "source": {
+                                    "type": "Indexer",
+                                    "operand": [
+                                       {
+                                          "path": "coding",
+                                          "type": "Property",
+                                          "source": {
                                              "path": "code",
                                              "scope": "P",
                                              "type": "Property"
                                           }
-                                       ]
-                                    }
-                                 },
-                                 {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                    "value": "0",
-                                    "type": "Literal"
+                                       },
+                                       {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                          "value": "0",
+                                          "type": "Literal"
+                                       }
+                                    ]
                                  }
-                              ]
+                              }
                            },
                            {
-                              "name": "I25.82",
-                              "type": "CodeRef"
+                              "valueType": "{urn:hl7-org:elm-types:r1}String",
+                              "value": "I25.82",
+                              "type": "Literal"
                            }
                         ]
                      }
