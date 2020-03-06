@@ -126,6 +126,43 @@
       ]
     },
     {
+      "linkId": "5",
+      "text": "Additional Documentation Required",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "5.1",
+          "text": "Any neuropsychological testing performed",
+          "type": "attachment",
+          "required": true
+        },
+        {
+          "linkId": "5.2",
+          "text": "Diagnosis of clinical syndrome (normal aging; mild cognitive impairment (MCI); mild, moderate or severe dementia)",
+          "type": "attachment",
+          "required": true
+        },
+        {
+          "linkId": "5.3",
+          "text": "Mini mental status exam (MMSE) or similar test score",
+          "type": "attachment",
+          "required": true
+        },
+        {
+          "linkId": "5.4",
+          "text": "Relevant laboratory tests (B12, thyroid hormone)",
+          "type": "attachment",
+          "required": true
+        },
+        {
+          "linkId": "5.5",
+          "text": "Medical Records",
+          "type": "attachment",
+          "required": true
+        }
+      ]
+    },
+    {
       "linkId": "3",
       "text": "Facility Information",
       "type": "group",
@@ -244,43 +281,7 @@
         }
       ]
     },
-    {
-      "linkId": "5",
-      "text": "Additional Documentation Required",
-      "type": "group",
-      "item": [
-        {
-          "linkId": "5.1",
-          "text": "Any neuropsychological testing performed",
-          "type": "attachment",
-          "required": true
-        },
-        {
-          "linkId": "5.2",
-          "text": "Diagnosis of clinical syndrome (normal aging; mild cognitive impairment (MCI); mild, moderate or severe dementia)",
-          "type": "attachment",
-          "required": true
-        },
-        {
-          "linkId": "5.3",
-          "text": "Mini mental status exam (MMSE) or similar test score",
-          "type": "attachment",
-          "required": true
-        },
-        {
-          "linkId": "5.4",
-          "text": "Relevant laboratory tests (B12, thyroid hormone)",
-          "type": "attachment",
-          "required": true
-        },
-        {
-          "linkId": "5.5",
-          "text": "Medical Records",
-          "type": "attachment",
-          "required": true
-        }
-      ]
-    },
+    
     {
       "linkId": "6",
       "text": "Submitter Information",
