@@ -1,4 +1,4 @@
-library BrainPET
+library EpiduralAdhesiolysis
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
@@ -10,7 +10,6 @@ codesystem "SNOMED-CT": 'http://snomed.info/sct'
 codesystem "CPT": 'https://www.aapc.com/resources/medical-coding/cpt.aspx'
 codesystem "NUCCPT":'https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NUCCPT/sourcerepresentation.html'
 
-//"valueSetString":"F03.90,G30.9,G31.09,G40.919,C80.1,G40"
 //Medicare or comparable number 
 code "45397-7" : '45397-7' from "LOINC"
 //National provider ID
@@ -20,26 +19,10 @@ code "46456-0" : '46456-0' from "LOINC"
 //Facility Address
 code "65833-6" : '65833-6' from "LOINC"
 
-//Dementia
-code "F03.90" : 'F03.90' from "ICD-10-CM"
-
-//Alzheimer's Disease
-code "G30.9" : 'G30.9' from "ICD-10-CM"
-
-//Frontotemporal Dementia
-code "G31.09" : 'G31.09' from "ICD-10-CM"
-code "345088011" : '345088011' from "SNOMED-CT"
-
-//Epilepsy, unspecified
-code "G40.919" : 'G40.919' from "ICD-10-CM"
-
-//Malignant(Primary) Neoplasm
-code "C80.1" : 'C80.1' from "ICD-10-CM"
-code "1208875016" : '1208875016' from "SNOMED-CT"
+//Meningeal adhesions (cerebral) (spinal)
+code "G96.12" : 'G96.12' from "ICD-10-CM"
 
 parameter "Measurement Period" Interval<DateTime>
-//parameter coverage Coverage
-//parameter encounter Encounter
 
 context Patient
 	
@@ -73,9 +56,9 @@ define "Coverage Subscriber":
 
 define BeneficiaryIdentificationNumber: 
 	if exists("Coverage Subscriber") then
-	(Last(
+	(singleton from (
   	"Coverage Subscriber".identifier identifier
-   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='urn:oid:2.16.840.1.113883.3.787.0.0' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare' or identifier.system.value ='urn:oid:2.2.2.2.2.2')).value.value
+   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='urn:oid:2.16.840.1.113883.3.787.0.0' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
 	else ''
 
 
@@ -93,15 +76,14 @@ define "Encounter resource":
 	(Last([Encounter]E sort by start of period)).participant
 
 define "Encounter participant":
-	"Encounter resource"
+	Last("Encounter resource")
 
-define Practitioner: //Last([Practitioner])
-	if "Encounter participant" is not null then
-	Last(
-  		[Practitioner]practitioner 
-			with "Encounter participant" E
-    		such that ('Practitioner/' + practitioner.id.value) = E.individual.reference.value)
-	else Last([Practitioner])
+define Practitioner: Last([Practitioner])
+	//if "Encounter participant" is not null then
+	//singleton from (
+  	//	[Practitioner]practitioner
+    	//	where ('Practitioner/' + practitioner.id.value) = "Encounter participant".individual.reference.value)
+	//else null
     
 define PractitionerNameObject: 
 	if "Practitioner" is not null then
@@ -117,10 +99,10 @@ define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
 
 define PractitionerFirstName: "PractitionerNameObject".given[0].value
 
-define PractitionerNPI:  //'1986352488'
-	(singleton from (
-  		"Practitioner".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+define PractitionerNPI:  '1986352488'
+	//(singleton from (
+  	//	"Practitioner".identifier identifier
+    	//	where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
 	(singleton from (
@@ -137,81 +119,19 @@ define PractitionerAddress:
 	else ''
 
 
-//Facility info
-define Facility: 
-	if exists([Organization]) and Last([Encounter]) is not null then
-	 singleton from (
-  		[Organization]org
-    		where ('Organization/' + org.id.value) = Last([Encounter]).serviceProvider.reference.value)
-	else null
-
-define FacilityName: 
-	if exists("Facility") then "Facility".name.value else ''
-
-define FacilityNPI: 
-	if exists("Facility") then (singleton from (
-  		"Facility".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
-	else ''
-
-define FacilityTaxID:
-	if exists("Facility") then	
-	(singleton from (
-  		"Facility".identifier identifier
-    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX' or identifier.type.coding[0].code.value = 'TAXID')).value.value
-	else ''
-
-define FacilityAddressObject: 
-	if exists("Facility") then	
-	singleton from ("Facility".address[0])  
-	else null
-
-define FacilityAddress: 
-	if exists("Facility") and exists("FacilityAddressObject") then
-	"FacilityAddressObject".line[0].value +', ' +"FacilityAddressObject".city.value +', ' +"FacilityAddressObject".state.value+', ' +"FacilityAddressObject".postalCode.value
-	else ''
-
-define FacilityPhone:
-	(singleton from (
-  		"Facility".telecom[0])).value.value
-
-//Diagnoses/Procedures
-define "Dementia Code":
+//Diagnoses
+define "Meningeal adhesions Code":
 	if exists([Condition]P
-		where P.code.coding[0].code.value= 'F03.90' 
-			) then 'Dementia'
+		where P.code.coding[0].code.value= 'G96.12' 
+			) then 'Meningeal adhesions (cerebral) (spinal)'
 	else ''
 
-define "Alzheimers Disease":
-	if exists([Condition]P
-		where P.code.coding[0].code.value= 'G30.9'
-			) then ',Alzheimers Disease'
-	else ''
-
-define "Frontotemporal Dementia":
-	if exists([Condition]P
-		where (P.code.coding[0].code.value= 'G31.09' or P.code.coding[0].code.value= '345088011') 
-			) then ',Frontotemporal Dementia'
-	else ''
-
-define "Epilepsy Code":
-	if exists([Condition]P
-		where P.code.coding[0].code.value= 'G40.919'
-			) then ',Epilepsy'
-	else ''
-
-define "Dementia or AD":
-	"Dementia Code"+"Alzheimers Disease"+"Frontotemporal Dementia"+"Epilepsy Code"
+define "Disruption of fibrous tissue from the epidural space":
+	"Meningeal adhesions Code"
 
 define "Date of Service": 
 	//if exists([Encounter]) then
 	Last([Encounter]).period.start.value
-
-define "Malignant Neoplasm":
-	if exists([Condition]P
-		where (P.code.coding[0].code.value= 'C80.1' or P.code.coding[0].code.value= '1208875016' or P.code.coding[0].code.value= '363346000' or P.code.coding[0].code.value= '85068') 
-			) then 'Malignant Neoplasm'
-	else ''
 
 
 //Requestor info
@@ -235,7 +155,7 @@ define SubmitterTelephone:
 	if "Requestor".telecom[0] is not null then
 	(singleton from (
   		"Requestor".telecom[0])).value.value
-	else ''
+	else '8243618190'
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)

@@ -1,0 +1,48 @@
+{
+  "resourceType": "Library",
+  "id": "urn:hl7:davinci:crd:cigna:library-epidural-adhesiolysis-prepopulate",
+  "version": "0.0.1",
+  "title": "Epidural Adhesiolysis",
+  "status": "draft",
+  "claimEndpoint": "http://cdex.mettles.com/payerfhir/hapi-fhir-jpaserver/fhir/Claim/$submit",
+  "type": {
+    "coding": [
+      {
+        "code": "logic-library"
+      }
+    ]
+  },
+  "relatedArtifact": [
+    {
+      "type": "depends-on",
+      "resource": {
+        "reference": "urn:hl7:davinci:crd:library-fhir-helpers"
+      }
+    }
+  ],
+  "content": [
+    {
+      "contentType": "application/elm+json",
+      "url": "urn:hl7:davinci:crd:cigna:EpiduralAdhesiolysis_prepopulation.json"
+    }
+  ],
+  "dataRequirement": [
+    {
+      "type": "Condition",
+      "codeFilter": [
+	{
+          "path": "clinical-status",
+          "valueSetString": "active"
+        },
+        {
+          "path": "category",
+          "valueSetString": "problem-list-item"
+        }
+        
+      ]
+    },
+    {
+      "type": "Coverage"
+    }
+  ]
+}
