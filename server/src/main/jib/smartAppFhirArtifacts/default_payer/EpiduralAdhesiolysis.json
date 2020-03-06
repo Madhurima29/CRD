@@ -1,0 +1,200 @@
+{
+    "resourceType":"Questionnaire",
+    "id":"urn:hl7:davinci:crd:epidural-adhesiolysis-questionnaire",
+    "meta":{
+       "profile":[
+          "http://hl7.org/fhir/StructureDefinition/cqif-questionnaire"
+       ]
+    },
+    "title":"Epidural Adhesiolysis",
+    "status":"draft",
+    "subjectType":[
+       "Patient"
+    ],
+    "date":"2020-03-04",
+    "publisher":"Mettle Solutions",
+    "extension":[
+       {
+          "url":"http://hl7.org/fhir/StructureDefinition/cqif-library",
+          "valueReference":{
+             "reference":"urn:hl7:davinci:crd:united_health_care:library-epidural-adhesiolysis-prepopulate"
+          }
+       }
+    ],
+    "contained":[
+       {
+          "resourceType":"ValueSet",
+          "id":"gender",
+          "name":"Gender",
+          "status":"draft",
+          "description":"Gender",
+          "compose":{
+             "include":[
+                {
+                   "concept":[
+                      {
+                         "code":"male",
+                         "display":"Male"
+                      },
+                      {
+                         "code":"female",
+                         "display":"Female"
+                      },
+                      {
+                         "code":"other",
+                         "display":"Other"
+                      }
+                   ]
+                }
+             ]
+          }
+       }
+    ],
+    "item":[
+       {
+          "linkId":"1",
+          "text":"Beneficiary Information",
+          "type":"group",
+          "item":[
+             {
+                "linkId":"1.1",
+                "text":"Beneficiary’s Name",
+                "type":"string",
+                "required":true,
+                "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"BeneficiaryName"
+                   }
+                ]
+             },
+             {
+                "linkId":"1.2",
+                "text":"Beneficiary’s Date Of Birth",
+                "type":"date",
+                "required":true,
+                "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"BeneficiaryDateOfBirth"
+                   }
+                ]
+             },
+             {
+                "linkId":"1.3",
+                "text":"Beneficiary’s Medicare Number",
+                "type":"string",
+                "required":true,
+                "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"BeneficiaryIdentificationNumber"
+                   }
+                ]
+             }
+          ]
+       },
+       {
+          "linkId":"2",
+          "text":"Certifying Physician/Practitioner Information",
+          "type":"group",
+          "item":[
+             {
+                "linkId":"2.1",
+                "text":"Physician/Practitioner’s Name",
+                "type":"string",
+                "required":true,
+                "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"PractitionerName"
+                   }
+                ]
+             },
+             {
+                "linkId":"2.2",
+                "text":"Physician/Practitioner’s NPI",
+                "type":"string",
+                "required":true,
+                "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"PractitionerNPI"
+                   }
+                ]
+             }
+          ]
+       },
+       {
+          "linkId":"3",
+          "text":"Diagnosis",
+          "type":"group",
+          "item":[
+         {
+                 "linkId": "3.1",
+                 "text": "Primary Diagnosis",
+                 "type": "string",
+                 "required": true,
+         "code":{
+                   "coding":[
+                      {
+                         "system":"https://www.icd10data.com",
+                         "code":"G96.12",
+                         "display":"Meningeal adhesions (cerebral) (spinal)"
+                      }
+                   ]
+                },
+         "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"Disruption of fibrous tissue from the epidural space"
+                   }
+                ]
+             },
+             {
+                 "linkId": "4.2",
+                 "text": "Date of Service",
+                 "type": "string",
+                 "required": true,
+                 "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"Date of Service"
+                   }
+                ]
+             }
+          ]
+       },
+       {
+          "linkId":"4",
+          "text":"Submitter Information",
+          "type":"group",
+          "item":[
+             {
+                "linkId":"4.1",
+                "text":"Contact Name",
+                "type":"string",
+                "required":true,
+                "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"SubmitterName"
+                   }
+                ]
+             },
+             {
+                "linkId":"4.2",
+                "text":"Telephone Number",
+                "type":"string",
+                "required":true,
+                "extension":[
+                   {
+                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                      "valueString":"SubmitterTelephone"
+                   }
+                ]
+             }
+          ]
+       }
+    ]
+ }

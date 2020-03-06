@@ -185,7 +185,7 @@
         {
           "linkId": "3.2",
           "text": "Treatments performed in full courses",
-          "type": "string",
+          "type": "text",
           "required": true,
      
           "code": {
@@ -217,18 +217,6 @@
         },
         {
           "linkId": "3.3",
-          "text": "Number of episodes  of Recurrent Acute Rhinosinusitis per year with distinct symptom free intervals between episodes",
-          "type": "integer",
-          "required": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "NumofEpisodes"
-            }
-          ]
-        },
-        {
-          "linkId": "3.4",
           "text": "Information additional to Recurrent Acute Rhinosinusitis",
           "required": true,
           "type": "string",
@@ -270,18 +258,6 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
               "valueString": "SubmitterName"
-            }
-          ]
-        },
-        {
-          "linkId": "4.2",
-          "text": "Telephone Number",
-          "type": "string",
-          "required": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "SubmitterTelephone"
             }
           ]
         }
