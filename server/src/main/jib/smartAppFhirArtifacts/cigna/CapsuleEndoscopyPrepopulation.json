@@ -1,7 +1,7 @@
 {
    "library": {
       "identifier": {
-         "id": "EpiduralAdhesiolysis"
+         "id": "CapsuleEndoscopy"
       },
       "schemaIdentifier": {
          "id": "urn:hl7-org:elm",
@@ -118,8 +118,72 @@
                }
             },
             {
-               "name": "G96.12",
-               "id": "G96.12",
+               "name": "K50.00",
+               "id": "K50.00",
+               "accessLevel": "Public",
+               "codeSystem": {
+                  "name": "ICD-10-CM"
+               }
+            },
+            {
+               "name": "C17.9",
+               "id": "C17.9",
+               "accessLevel": "Public",
+               "codeSystem": {
+                  "name": "ICD-10-CM"
+               }
+            },
+            {
+               "name": "107940005",
+               "id": "107940005",
+               "accessLevel": "Public",
+               "codeSystem": {
+                  "name": "SNOMED-CT"
+               }
+            },
+            {
+               "name": "Z13.810",
+               "id": "Z13.810",
+               "accessLevel": "Public",
+               "codeSystem": {
+                  "name": "ICD-10-CM"
+               }
+            },
+            {
+               "name": "Z18.89",
+               "id": "Z18.89",
+               "accessLevel": "Public",
+               "codeSystem": {
+                  "name": "ICD-10-CM"
+               }
+            },
+            {
+               "name": "Q85.8",
+               "id": "Q85.8",
+               "accessLevel": "Public",
+               "codeSystem": {
+                  "name": "ICD-10-CM"
+               }
+            },
+            {
+               "name": "D12.6",
+               "id": "D12.6",
+               "accessLevel": "Public",
+               "codeSystem": {
+                  "name": "ICD-10-CM"
+               }
+            },
+            {
+               "name": "K92.2",
+               "id": "K92.2",
+               "accessLevel": "Public",
+               "codeSystem": {
+                  "name": "ICD-10-CM"
+               }
+            },
+            {
+               "name": "K90.0",
+               "id": "K90.0",
                "accessLevel": "Public",
                "codeSystem": {
                   "name": "ICD-10-CM"
@@ -1488,7 +1552,7 @@
                }
             },
             {
-               "name": "Meningeal adhesions Code",
+               "name": "Crohn's Disease Code",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
@@ -1542,7 +1606,7 @@
                                  },
                                  {
                                     "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "G96.12",
+                                    "value": "K50.00",
                                     "type": "Literal"
                                  }
                               ]
@@ -1552,7 +1616,7 @@
                   },
                   "then": {
                      "valueType": "{urn:hl7-org:elm-types:r1}String",
-                     "value": "Meningeal adhesions (cerebral) (spinal)",
+                     "value": "Crohns Disease",
                      "type": "Literal"
                   },
                   "else": {
@@ -1563,16 +1627,688 @@
                }
             },
             {
-               "name": "Disruption of fibrous tissue from the epidural space",
+               "name": "Celiac Disease Code",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "name": "Meningeal adhesions Code",
-                  "type": "ExpressionRef"
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "P",
+                                 "expression": {
+                                    "dataType": "{http://hl7.org/fhir}Condition",
+                                    "type": "Retrieve"
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "K90.0",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": ", Celiac Disease",
+                     "type": "Literal"
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
                }
             },
             {
-               "name": "Date of Service",
+               "name": "Gastrointestinal Bleeding Code",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "P",
+                                 "expression": {
+                                    "dataType": "{http://hl7.org/fhir}Condition",
+                                    "type": "Retrieve"
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "K92.2",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": ", Gastrointestinal Bleeding",
+                     "type": "Literal"
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
+               }
+            },
+            {
+               "name": "Juvenile Polyposis Syndrome Code",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "P",
+                                 "expression": {
+                                    "dataType": "{http://hl7.org/fhir}Condition",
+                                    "type": "Retrieve"
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "D12.6",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": ", Juvenile Polyposis Syndrome",
+                     "type": "Literal"
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
+               }
+            },
+            {
+               "name": "Peutz-Jehgers Syndrome Code",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "P",
+                                 "expression": {
+                                    "dataType": "{http://hl7.org/fhir}Condition",
+                                    "type": "Retrieve"
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "Q85.8",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": ", Peutz-Jehgers Syndrome",
+                     "type": "Literal"
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
+               }
+            },
+            {
+               "name": "Patency Capsule Code",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "P",
+                                 "expression": {
+                                    "dataType": "{http://hl7.org/fhir}Condition",
+                                    "type": "Retrieve"
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "Z18.89",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": ", Patency Capsule",
+                     "type": "Literal"
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
+               }
+            },
+            {
+               "name": "Small Bowel Tumours Code",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "P",
+                                 "expression": {
+                                    "dataType": "{http://hl7.org/fhir}Condition",
+                                    "type": "Retrieve"
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "C17.9",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": ", Small Bowel Tumours",
+                     "type": "Literal"
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
+               }
+            },
+            {
+               "name": "Colon Capsule Endoscopy Code",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "P",
+                                 "expression": {
+                                    "dataType": "{http://hl7.org/fhir}Condition",
+                                    "type": "Retrieve"
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "107940005",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": ", Colon Capsule Endoscopy",
+                     "type": "Literal"
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
+               }
+            },
+            {
+               "name": "Esophaegal Capsule Endoscopy Code",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "P",
+                                 "expression": {
+                                    "dataType": "{http://hl7.org/fhir}Condition",
+                                    "type": "Retrieve"
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "code",
+                                       "type": "Property",
+                                       "source": {
+                                          "type": "Indexer",
+                                          "operand": [
+                                             {
+                                                "path": "coding",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "scope": "P",
+                                                   "type": "Property"
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value": "0",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "Z13.810",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": ", Esophaegal Capsule Endoscopy",
+                     "type": "Literal"
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
+               }
+            },
+            {
+               "name": "Intestinal Disease",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "Concatenate",
+                  "operand": [
+                     {
+                        "type": "Concatenate",
+                        "operand": [
+                           {
+                              "type": "Concatenate",
+                              "operand": [
+                                 {
+                                    "type": "Concatenate",
+                                    "operand": [
+                                       {
+                                          "type": "Concatenate",
+                                          "operand": [
+                                             {
+                                                "type": "Concatenate",
+                                                "operand": [
+                                                   {
+                                                      "type": "Concatenate",
+                                                      "operand": [
+                                                         {
+                                                            "type": "Concatenate",
+                                                            "operand": [
+                                                               {
+                                                                  "name": "Esophaegal Capsule Endoscopy Code",
+                                                                  "type": "ExpressionRef"
+                                                               },
+                                                               {
+                                                                  "name": "Colon Capsule Endoscopy Code",
+                                                                  "type": "ExpressionRef"
+                                                               }
+                                                            ]
+                                                         },
+                                                         {
+                                                            "name": "Small Bowel Tumours Code",
+                                                            "type": "ExpressionRef"
+                                                         }
+                                                      ]
+                                                   },
+                                                   {
+                                                      "name": "Patency Capsule Code",
+                                                      "type": "ExpressionRef"
+                                                   }
+                                                ]
+                                             },
+                                             {
+                                                "name": "Peutz-Jehgers Syndrome Code",
+                                                "type": "ExpressionRef"
+                                             }
+                                          ]
+                                       },
+                                       {
+                                          "name": "Juvenile Polyposis Syndrome Code",
+                                          "type": "ExpressionRef"
+                                       }
+                                    ]
+                                 },
+                                 {
+                                    "name": "Gastrointestinal Bleeding Code",
+                                    "type": "ExpressionRef"
+                                 }
+                              ]
+                           },
+                           {
+                              "name": "Celiac Disease Code",
+                              "type": "ExpressionRef"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "Crohn's Disease Code",
+                        "type": "ExpressionRef"
+                     }
+                  ]
+               }
+            },
+            {
+               "name": "Date of Onset",
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {

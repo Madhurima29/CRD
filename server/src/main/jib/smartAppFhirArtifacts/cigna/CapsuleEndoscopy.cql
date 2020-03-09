@@ -1,4 +1,4 @@
-library EpiduralAdhesiolysis
+library CapsuleEndoscopy
 using FHIR version '4.0.0'
 include FHIRHelpers version '4.0.0' called FHIRHelpers
 
@@ -19,8 +19,32 @@ code "46456-0" : '46456-0' from "LOINC"
 //Facility Address
 code "65833-6" : '65833-6' from "LOINC"
 
-//Meningeal adhesions (cerebral) (spinal)
-code "G96.12" : 'G96.12' from "ICD-10-CM"
+//Crohn's Disease
+code "K50.00" : 'K50.00' from "ICD-10-CM"
+
+//Small Bowel Tumours
+code "C17.9" : 'C17.9' from "ICD-10-CM"
+
+//Colon Capsule Endoscopy
+code "107940005" : '107940005' from "SNOMED-CT"
+
+//Esophaegal Capsule Endoscopy
+code "Z13.810" : 'Z13.810' from "ICD-10-CM"
+
+//Patency Capsule
+code "Z18.89" : 'Z18.89' from "ICD-10-CM"
+
+//Peutz-Jehgers Syndrome
+code "Q85.8" : 'Q85.8' from "ICD-10-CM"
+
+//Juvenile Polyposis Syndrome
+code "D12.6" : 'D12.6' from "ICD-10-CM"
+
+//Gastrointestinal Bleeding
+code "K92.2" : 'K92.2' from "ICD-10-CM"
+
+//Celiac Disease
+code "K90.0" : 'K90.0' from "ICD-10-CM"
 
 parameter "Measurement Period" Interval<DateTime>
 
@@ -121,16 +145,64 @@ define PractitionerAddress:
 
 
 //Diagnoses
-define "Meningeal adhesions Code":
+define "Crohn's Disease Code":
 	if exists([Condition]P
-		where P.code.coding[0].code.value= 'G96.12' 
-			) then 'Meningeal adhesions (cerebral) (spinal)'
+		where P.code.coding[0].code.value= 'K50.00' 
+			) then 'Crohns Disease'
 	else ''
 
-define "Disruption of fibrous tissue from the epidural space":
-	"Meningeal adhesions Code"
+define "Celiac Disease Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'K90.0' 
+			) then ', Celiac Disease'
+	else ''
 
-define "Date of Service": 
+define "Gastrointestinal Bleeding Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'K92.2' 
+			) then ', Gastrointestinal Bleeding'
+	else ''
+
+define "Juvenile Polyposis Syndrome Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'D12.6' 
+			) then ', Juvenile Polyposis Syndrome'
+	else ''
+
+define "Peutz-Jehgers Syndrome Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'Q85.8' 
+			) then ', Peutz-Jehgers Syndrome'
+	else ''
+
+define "Patency Capsule Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'Z18.89' 
+			) then ', Patency Capsule'
+	else ''
+
+define "Small Bowel Tumours Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'C17.9' 
+			) then ', Small Bowel Tumours'
+	else ''
+
+define "Colon Capsule Endoscopy Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= '107940005' 
+			) then ', Colon Capsule Endoscopy'
+	else ''
+
+define "Esophaegal Capsule Endoscopy Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'Z13.810' 
+			) then ', Esophaegal Capsule Endoscopy'
+	else ''
+
+define "Intestinal Disease":
+	"Esophaegal Capsule Endoscopy Code"+"Colon Capsule Endoscopy Code"+"Small Bowel Tumours Code"+"Patency Capsule Code"+"Peutz-Jehgers Syndrome Code"+"Juvenile Polyposis Syndrome Code"+"Gastrointestinal Bleeding Code"+"Celiac Disease Code"+"Crohn's Disease Code"
+
+define "Date of Onset": 
 	//if exists([Encounter]) then
 	Last([Encounter]).period.start.value
 
