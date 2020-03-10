@@ -44,18 +44,20 @@ define Today: Today()
 
 
 // Beneficiary info
-define BeneficiaryNameObject:
-singleton from (Patient.name name where name.use.value = 'official')
+define BeneficiaryNameObject: 
+	singleton from (Patient.name name where name.use.value='official')
 
-define BeneficiaryName:
-PatientFirstName + ' '+ PatientMiddleInitial + ' '+ PatientLastName
+define BeneficiaryName: 
+	if (PatientFirstName is not null and PatientMiddleInitial is not null and PatientLastName is not null) then
+	PatientFirstName +' '+PatientMiddleInitial + ' '+ PatientLastName
+	else PatientFirstName + ' '+ PatientLastName
 
 define PatientLastName: "BeneficiaryNameObject".family.value
 
-define PatientMiddleInitial:
-if (Length("BeneficiaryNameObject".given)>1) then GetMiddleInitials("BeneficiaryNameObject")
-else ''
-
+define PatientMiddleInitial: 
+	if (Length("BeneficiaryNameObject".given)>1) then GetMiddleInitials("BeneficiaryNameObject")
+	else ''
+	
 define PatientFirstName: "BeneficiaryNameObject".given[0].value
 
 define BeneficiaryGender: Patient.gender.value
@@ -63,39 +65,49 @@ define BeneficiaryGender: Patient.gender.value
 define BeneficiaryDateOfBirth: Patient.birthDate.value
 
 define "Coverage Subscriber":
-if exists([Coverage]) then
-([Patient]P where 'Patient/'+Patient.id.value= singleton from([Coverage]).subscriber.reference.value)
-else null
+	if exists([Coverage]) then
+	([Patient]P where 'Patient/'+Patient.id.value= singleton from([Coverage]).subscriber.reference.value)
+	else null
 
-define BeneficiaryIdentificationNumber:
-if exists("Coverage Subscriber") then
-(singleton from (
-  "Coverage Subscriber".identifier identifier
-    where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
-else ''
+define BeneficiaryIdentificationNumber: 
+	if exists("Coverage Subscriber") then
+	(Last(
+  	"Coverage Subscriber".identifier identifier
+   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='urn:oid:2.16.840.1.113883.3.787.0.0' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare' or identifier.system.value ='urn:oid:2.2.2.2.2.2')).value.value
+	else ''
+
 
 // Practitioner info
 
-define "Encounter resource":
-(Last([Encounter]E sort by start of period)).participant
+//define "Encounter resource": 
+//	(singleton from([Encounter]E where (Last(E.participant p where p.individual is not null) is not null)))enc
+//	return enc.participant
+
+//define "Encounter participant":
+//	Last(("Encounter resource" p where p.type is not null)P
+//		sort by start of period)
+
+define "Encounter resource": 
+	(Last([Encounter]E sort by start of period)).participant
 
 define "Encounter participant":
-Last("Encounter resource")
+	"Encounter resource"
 
-define Practitioner:
-if "Encounter participant" is not null then
-singleton from (
-  [Practitioner]practitioner
-    where ('Practitioner/' + practitioner.id.value) = "Encounter participant".individual.reference.value)
-else null
-   
-define PractitionerNameObject:
-if "Practitioner" is not null then
-singleton from ("Practitioner".name[0]) else null
-
-define PractitionerName:
-//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
-PractitionerFirstName + ' '+ PractitionerLastName
+define Practitioner: //Last([Practitioner])
+	if "Encounter participant" is not null then
+	Last(
+  		[Practitioner]practitioner 
+			with "Encounter participant" E
+    		such that ('Practitioner/' + practitioner.id.value) = E.individual.reference.value)
+	else Last([Practitioner])
+    
+define PractitionerNameObject: 
+	if "Practitioner" is not null then
+	singleton from ("Practitioner".name[0]) else null
+	
+define PractitionerName: 
+	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
+	PractitionerFirstName + ' '+ PractitionerLastName
 
 define PractitionerLastName: "PractitionerNameObject".family.value
 
@@ -103,25 +115,24 @@ define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
 
 define PractitionerFirstName: "PractitionerNameObject".given[0].value
 
-define PractitionerNPI:
-(singleton from (
-  "Practitioner".identifier identifier
-    where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+define PractitionerNPI:  //'1986352488'
+	(singleton from (
+  		"Practitioner".identifier identifier
+    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
-(singleton from (
-  "Practitioner".identifier identifier
-    where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
+	(singleton from (
+  		"Practitioner".identifier identifier
+    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
 
-define PractitionerAddressObject:
-if exists("Practitioner".address) then
-singleton from ("Practitioner".address[0]) else null  
+define PractitionerAddressObject: 
+	if exists("Practitioner".address) then
+	singleton from ("Practitioner".address[0]) else null  
 
-define PractitionerAddress:
-if exists("PractitionerAddressObject") then
-"PractitionerAddressObject".line[0].value +', ' +"PractitionerAddressObject".city.value +', ' +"PractitionerAddressObject".state.value+', ' +"PractitionerAddressObject".postalCode.value
-else ''
-
+define PractitionerAddress: 
+	if exists("PractitionerAddressObject") then
+	"PractitionerAddressObject".line[0].value +', ' +"PractitionerAddressObject".city.value +', ' +"PractitionerAddressObject".state.value+', ' +"PractitionerAddressObject".postalCode.value
+	else ''
 //Other info
 
 //define PerformedType: {'Initial'}
@@ -153,15 +164,15 @@ define FacilityName:
 if exists("Facility") then "Facility".name.value else ''
 
 //Requestor info
-define Requestor:
-Practitioner
-
-define RequestorNameObject:
-singleton from ("Requestor".name[0])
-
-define SubmitterName:
-//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
-RequestorFirstName + ' '+ RequestorLastName
+define Requestor: 
+	Practitioner	 
+	
+define RequestorNameObject: 
+	singleton from ("Requestor".name[0])
+	
+define SubmitterName: 
+	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
+	RequestorFirstName + ' '+ RequestorLastName
 
 define RequestorLastName: "RequestorNameObject".family.value
 
@@ -169,9 +180,11 @@ define RequestorMiddleInitial: GetMiddleInitials("RequestorNameObject")
 
 define RequestorFirstName: "RequestorNameObject".given[0].value
 
-define SubmitterTelephone:
-(singleton from (
-  "Requestor".telecom[0])).value.value
+define SubmitterTelephone: 
+	if "Requestor".telecom[0] is not null then
+	(singleton from (
+  		"Requestor".telecom[0])).value.value
+	else ''
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)

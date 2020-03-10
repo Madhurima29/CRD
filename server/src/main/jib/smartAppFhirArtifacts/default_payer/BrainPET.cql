@@ -73,9 +73,9 @@ define "Coverage Subscriber":
 
 define BeneficiaryIdentificationNumber: 
 	if exists("Coverage Subscriber") then
-	(singleton from (
+	(Last(
   	"Coverage Subscriber".identifier identifier
-   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='urn:oid:2.16.840.1.113883.3.787.0.0' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare')).value.value
+   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='urn:oid:2.16.840.1.113883.3.787.0.0' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare' or identifier.system.value ='urn:oid:2.2.2.2.2.2')).value.value
 	else ''
 
 
@@ -93,14 +93,15 @@ define "Encounter resource":
 	(Last([Encounter]E sort by start of period)).participant
 
 define "Encounter participant":
-	Last("Encounter resource")
+	"Encounter resource"
 
-define Practitioner: Last([Practitioner])
-	//if "Encounter participant" is not null then
-	//singleton from (
-  	//	[Practitioner]practitioner
-    	//	where ('Practitioner/' + practitioner.id.value) = "Encounter participant".individual.reference.value)
-	//else null
+define Practitioner: //Last([Practitioner])
+	if "Encounter participant" is not null then
+	Last(
+  		[Practitioner]practitioner 
+			with "Encounter participant" E
+    		such that ('Practitioner/' + practitioner.id.value) = E.individual.reference.value)
+	else Last([Practitioner])
     
 define PractitionerNameObject: 
 	if "Practitioner" is not null then
@@ -116,10 +117,10 @@ define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
 
 define PractitionerFirstName: "PractitionerNameObject".given[0].value
 
-define PractitionerNPI:  '1986352488'
-	//(singleton from (
-  	//	"Practitioner".identifier identifier
-    	//	where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+define PractitionerNPI:  //'1986352488'
+	(singleton from (
+  		"Practitioner".identifier identifier
+    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
 	(singleton from (
@@ -147,17 +148,17 @@ define Facility:
 define FacilityName: 
 	if exists("Facility") then "Facility".name.value else ''
 
-define FacilityNPI: '6426281977'
-	//if exists("Facility") then (singleton from (
-  	//	"Facility".identifier identifier
-    	//	where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
-	//else ''
+define FacilityNPI: 
+	if exists("Facility") then (singleton from (
+  		"Facility".identifier identifier
+    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+	else ''
 
 define FacilityTaxID:
 	if exists("Facility") then	
 	(singleton from (
   		"Facility".identifier identifier
-    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
+    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX' or identifier.type.coding[0].code.value = 'TAXID')).value.value
 	else ''
 
 define FacilityAddressObject: 
@@ -234,7 +235,7 @@ define SubmitterTelephone:
 	if "Requestor".telecom[0] is not null then
 	(singleton from (
   		"Requestor".telecom[0])).value.value
-	else '8243618190'
+	else ''
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)

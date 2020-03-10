@@ -750,8 +750,8 @@
                         "path": "value",
                         "type": "Property",
                         "source": {
-                           "type": "SingletonFrom",
-                           "operand": {
+                           "type": "Last",
+                           "source": {
                               "type": "Query",
                               "source": [
                                  {
@@ -805,21 +805,45 @@
                                        "type": "Or",
                                        "operand": [
                                           {
-                                             "type": "Equal",
+                                             "type": "Or",
                                              "operand": [
                                                 {
-                                                   "path": "value",
-                                                   "type": "Property",
-                                                   "source": {
-                                                      "path": "system",
-                                                      "scope": "identifier",
-                                                      "type": "Property"
-                                                   }
+                                                   "type": "Equal",
+                                                   "operand": [
+                                                      {
+                                                         "path": "value",
+                                                         "type": "Property",
+                                                         "source": {
+                                                            "path": "system",
+                                                            "scope": "identifier",
+                                                            "type": "Property"
+                                                         }
+                                                      },
+                                                      {
+                                                         "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                         "value": "urn:oid:1.1.1.1.1.1",
+                                                         "type": "Literal"
+                                                      }
+                                                   ]
                                                 },
                                                 {
-                                                   "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                                   "value": "urn:oid:1.1.1.1.1.1",
-                                                   "type": "Literal"
+                                                   "type": "Equal",
+                                                   "operand": [
+                                                      {
+                                                         "path": "value",
+                                                         "type": "Property",
+                                                         "source": {
+                                                            "path": "system",
+                                                            "scope": "identifier",
+                                                            "type": "Property"
+                                                         }
+                                                      },
+                                                      {
+                                                         "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                         "value": "urn:oid:2.16.840.1.113883.3.787.0.0",
+                                                         "type": "Literal"
+                                                      }
+                                                   ]
                                                 }
                                              ]
                                           },
@@ -837,7 +861,7 @@
                                                 },
                                                 {
                                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                                   "value": "urn:oid:2.16.840.1.113883.3.787.0.0",
+                                                   "value": "http://hl7.org/fhir/sid/us-medicare",
                                                    "type": "Literal"
                                                 }
                                              ]
@@ -858,7 +882,7 @@
                                           },
                                           {
                                              "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                             "value": "http://hl7.org/fhir/sid/us-medicare",
+                                             "value": "urn:oid:2.2.2.2.2.2",
                                              "type": "Literal"
                                           }
                                        ]
@@ -928,11 +952,8 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "type": "Last",
-                  "source": {
-                     "name": "Encounter resource",
-                     "type": "ExpressionRef"
-                  }
+                  "name": "Encounter resource",
+                  "type": "ExpressionRef"
                }
             },
             {
@@ -940,10 +961,89 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "type": "Last",
-                  "source": {
-                     "dataType": "{http://hl7.org/fhir}Practitioner",
-                     "type": "Retrieve"
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Not",
+                        "operand": {
+                           "type": "IsNull",
+                           "operand": {
+                              "name": "Encounter participant",
+                              "type": "ExpressionRef"
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "type": "Last",
+                     "source": {
+                        "type": "Query",
+                        "source": [
+                           {
+                              "alias": "practitioner",
+                              "expression": {
+                                 "dataType": "{http://hl7.org/fhir}Practitioner",
+                                 "type": "Retrieve"
+                              }
+                           }
+                        ],
+                        "relationship": [
+                           {
+                              "alias": "E",
+                              "type": "With",
+                              "expression": {
+                                 "name": "Encounter participant",
+                                 "type": "ExpressionRef"
+                              },
+                              "suchThat": {
+                                 "type": "Equal",
+                                 "operand": [
+                                    {
+                                       "type": "Concatenate",
+                                       "operand": [
+                                          {
+                                             "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                             "value": "Practitioner/",
+                                             "type": "Literal"
+                                          },
+                                          {
+                                             "path": "value",
+                                             "type": "Property",
+                                             "source": {
+                                                "path": "id",
+                                                "scope": "practitioner",
+                                                "type": "Property"
+                                             }
+                                          }
+                                       ]
+                                    },
+                                    {
+                                       "path": "value",
+                                       "type": "Property",
+                                       "source": {
+                                          "path": "reference",
+                                          "type": "Property",
+                                          "source": {
+                                             "path": "individual",
+                                             "scope": "E",
+                                             "type": "Property"
+                                          }
+                                       }
+                                    }
+                                 ]
+                              }
+                           }
+                        ]
+                     }
+                  },
+                  "else": {
+                     "type": "Last",
+                     "source": {
+                        "dataType": "{http://hl7.org/fhir}Practitioner",
+                        "type": "Retrieve"
+                     }
                   }
                }
             },
@@ -1092,9 +1192,51 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "valueType": "{urn:hl7-org:elm-types:r1}String",
-                  "value": "1986352488",
-                  "type": "Literal"
+                  "path": "value",
+                  "type": "Property",
+                  "source": {
+                     "path": "value",
+                     "type": "Property",
+                     "source": {
+                        "type": "SingletonFrom",
+                        "operand": {
+                           "type": "Query",
+                           "source": [
+                              {
+                                 "alias": "identifier",
+                                 "expression": {
+                                    "path": "identifier",
+                                    "type": "Property",
+                                    "source": {
+                                       "name": "Practitioner",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              }
+                           ],
+                           "relationship": [],
+                           "where": {
+                              "type": "Equal",
+                              "operand": [
+                                 {
+                                    "path": "value",
+                                    "type": "Property",
+                                    "source": {
+                                       "path": "system",
+                                       "scope": "identifier",
+                                       "type": "Property"
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                    "value": "http://hl7.org.fhir/sid/us-npi",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  }
                }
             },
             {
@@ -1540,9 +1682,73 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "valueType": "{urn:hl7-org:elm-types:r1}String",
-                  "value": "6426281977",
-                  "type": "Literal"
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Exists",
+                        "operand": {
+                           "type": "ToList",
+                           "operand": {
+                              "name": "Facility",
+                              "type": "ExpressionRef"
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "path": "value",
+                     "type": "Property",
+                     "source": {
+                        "path": "value",
+                        "type": "Property",
+                        "source": {
+                           "type": "SingletonFrom",
+                           "operand": {
+                              "type": "Query",
+                              "source": [
+                                 {
+                                    "alias": "identifier",
+                                    "expression": {
+                                       "path": "identifier",
+                                       "type": "Property",
+                                       "source": {
+                                          "name": "Facility",
+                                          "type": "ExpressionRef"
+                                       }
+                                    }
+                                 }
+                              ],
+                              "relationship": [],
+                              "where": {
+                                 "type": "Equal",
+                                 "operand": [
+                                    {
+                                       "path": "value",
+                                       "type": "Property",
+                                       "source": {
+                                          "path": "system",
+                                          "scope": "identifier",
+                                          "type": "Property"
+                                       }
+                                    },
+                                    {
+                                       "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                       "value": "http://hl7.org.fhir/sid/us-npi",
+                                       "type": "Literal"
+                                    }
+                                 ]
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
+                  }
                }
             },
             {
@@ -1590,42 +1796,84 @@
                               ],
                               "relationship": [],
                               "where": {
-                                 "type": "And",
+                                 "type": "Or",
                                  "operand": [
                                     {
-                                       "type": "Equal",
+                                       "type": "And",
                                        "operand": [
                                           {
-                                             "path": "value",
-                                             "type": "Property",
-                                             "source": {
-                                                "path": "system",
-                                                "type": "Property",
-                                                "source": {
-                                                   "type": "Indexer",
-                                                   "operand": [
-                                                      {
-                                                         "path": "coding",
-                                                         "type": "Property",
-                                                         "source": {
-                                                            "path": "type",
-                                                            "scope": "identifier",
-                                                            "type": "Property"
-                                                         }
-                                                      },
-                                                      {
-                                                         "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                         "value": "0",
-                                                         "type": "Literal"
+                                             "type": "Equal",
+                                             "operand": [
+                                                {
+                                                   "path": "value",
+                                                   "type": "Property",
+                                                   "source": {
+                                                      "path": "system",
+                                                      "type": "Property",
+                                                      "source": {
+                                                         "type": "Indexer",
+                                                         "operand": [
+                                                            {
+                                                               "path": "coding",
+                                                               "type": "Property",
+                                                               "source": {
+                                                                  "path": "type",
+                                                                  "scope": "identifier",
+                                                                  "type": "Property"
+                                                               }
+                                                            },
+                                                            {
+                                                               "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                               "value": "0",
+                                                               "type": "Literal"
+                                                            }
+                                                         ]
                                                       }
-                                                   ]
+                                                   }
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                   "value": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                                                   "type": "Literal"
                                                 }
-                                             }
+                                             ]
                                           },
                                           {
-                                             "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                             "value": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                             "type": "Literal"
+                                             "type": "Equal",
+                                             "operand": [
+                                                {
+                                                   "path": "value",
+                                                   "type": "Property",
+                                                   "source": {
+                                                      "path": "code",
+                                                      "type": "Property",
+                                                      "source": {
+                                                         "type": "Indexer",
+                                                         "operand": [
+                                                            {
+                                                               "path": "coding",
+                                                               "type": "Property",
+                                                               "source": {
+                                                                  "path": "type",
+                                                                  "scope": "identifier",
+                                                                  "type": "Property"
+                                                               }
+                                                            },
+                                                            {
+                                                               "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                               "value": "0",
+                                                               "type": "Literal"
+                                                            }
+                                                         ]
+                                                      }
+                                                   }
+                                                },
+                                                {
+                                                   "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                   "value": "TAX",
+                                                   "type": "Literal"
+                                                }
+                                             ]
                                           }
                                        ]
                                     },
@@ -1661,7 +1909,7 @@
                                           },
                                           {
                                              "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                             "value": "TAX",
+                                             "value": "TAXID",
                                              "type": "Literal"
                                           }
                                        ]
@@ -2710,7 +2958,7 @@
                   },
                   "else": {
                      "valueType": "{urn:hl7-org:elm-types:r1}String",
-                     "value": "8243618190",
+                     "value": "",
                      "type": "Literal"
                   }
                }
