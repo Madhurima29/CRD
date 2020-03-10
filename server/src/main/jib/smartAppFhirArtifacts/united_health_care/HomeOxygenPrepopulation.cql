@@ -100,17 +100,24 @@ code "8510008": '8510008' from "SNOMED-CT"
 
 // Relevant Diagnosis Code Lists
 define "COPD_Codes": { 'J44', 'J44.0', 'J44.1', 'J44.9' }
+
 define "Bronchiectasis_Codes": { 'J47', 'J47.0', 'J47.1', 'J47.9' }
+
 define "Diffuse_interstitial_lung_disease_Codes": { 'J84', 'J84.0', 'J84.01', 'J84.02', 'J84.03',
   'J84.09', 'J84.1', 'J84.10', 'J84.11', 'J84.111', 'J84.112', 'J84.113', 'J84.114', 'J84.115',
   'J84.116', 'J84.117', 'J84.17', 'J84.2', 'J84.8', 'J84.81', 'J84.82', 'J84.83', 'J84.84',
   'J84.841', 'J84.842', 'J84.843', 'J84.848', 'J84.89', 'J84.9' }
+
 define "Cystic_fibrosis_Codes": { 'E84', 'E84.0', 'E84.1', 'E84.11', 'E84.19', 'E84.8', 'E84.9' }
+
 define "Pulmonary_hypertension_Codes": { 'I27.0', 'I27.2' }
+
 define "Hypoxemia_Codes": { 'R09.02' }
 
 define "Arterial_oxygen_saturation_Codes": { '59408-5' }
+
 define "Arterial_partial_pressure_of_oxygen_Codes": { '2703-7' }
+
 define "Arterial_oxygen_saturation_during_exercise_Codes": { '89276-0' }
 
 define "Hematocrit_lab_test_Codes": { '20570-8', '31100-1', '32354-3', '41654-5', '41655-2', '4544-3', '4545-0', '71829-6', '71830-4', '71832-0', '71833-8' }
@@ -131,73 +138,135 @@ define Today: Today()
 
 // Beneficiary info
 define BeneficiaryNameObject: 
-	singleton from (Patient.name)
+	singleton from (Patient.name name where name.use.value='official')
 
 define BeneficiaryName: 
+	if (PatientFirstName is not null and PatientMiddleInitial is not null and PatientLastName is not null) then
 	PatientFirstName +' '+PatientMiddleInitial + ' '+ PatientLastName
-	//PatientFirstName + ' '+ PatientLastName
+	else PatientFirstName + ' '+ PatientLastName
 
 define PatientLastName: "BeneficiaryNameObject".family.value
 
 define PatientMiddleInitial: 
 	if (Length("BeneficiaryNameObject".given)>1) then GetMiddleInitials("BeneficiaryNameObject")
 	else ''
-
 	
-define PatientFirstName:
-	"BeneficiaryNameObject".given[0].value
+define PatientFirstName: "BeneficiaryNameObject".given[0].value
 
 define BeneficiaryGender: Patient.gender.value
 
 define BeneficiaryDateOfBirth: Patient.birthDate.value
 
-define BeneficiaryIdentificationNumber:
+define "Coverage Subscriber":
+	if exists([Coverage]) then
+	([Patient]P where 'Patient/'+Patient.id.value= singleton from([Coverage]).subscriber.reference.value)
+	else null
+
+define BeneficiaryIdentificationNumber: 
+	if exists("Coverage Subscriber") then
+	(Last(
+  	"Coverage Subscriber".identifier identifier
+   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='urn:oid:2.16.840.1.113883.3.787.0.0' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare' or identifier.system.value ='urn:oid:2.2.2.2.2.2')).value.value
+	else ''
+
+
+// Practitioner info
+
+//define "Encounter resource": 
+//	(singleton from([Encounter]E where (Last(E.participant p where p.individual is not null) is not null)))enc
+//	return enc.participant
+
+//define "Encounter participant":
+//	Last(("Encounter resource" p where p.type is not null)P
+//		sort by start of period)
+
+define "Encounter resource": 
+	(Last([Encounter]E sort by start of period)).participant
+
+define "Encounter participant":
+	"Encounter resource"
+
+define Practitioner: //Last([Practitioner])
+	if "Encounter participant" is not null then
+	Last(
+  		[Practitioner]practitioner 
+			with "Encounter participant" E
+    		such that ('Practitioner/' + practitioner.id.value) = E.individual.reference.value)
+	else Last([Practitioner])
+    
+define PractitionerNameObject: 
+	if "Practitioner" is not null then
+	singleton from ("Practitioner".name[0]) else null
+	
+define PractitionerName: 
+	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
+	PractitionerFirstName + ' '+ PractitionerLastName
+
+define PractitionerLastName: "PractitionerNameObject".family.value
+
+define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
+
+define PractitionerFirstName: "PractitionerNameObject".given[0].value
+
+define PractitionerNPI:  //'1986352488'
 	(singleton from (
-  	Patient.identifier identifier
-   	 where identifier.system.value = 'http://hl7.org/fhir/sid/us-medicare')).value.value
+  		"Practitioner".identifier identifier
+    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
+define PractitionerPTAN:
+	(singleton from (
+  		"Practitioner".identifier identifier
+    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
 
+define PractitionerAddressObject: 
+	if exists("Practitioner".address) then
+	singleton from ("Practitioner".address[0]) else null  
+
+define PractitionerAddress: 
+	if exists("PractitionerAddressObject") then
+	"PractitionerAddressObject".line[0].value +', ' +"PractitionerAddressObject".city.value +', ' +"PractitionerAddressObject".state.value+', ' +"PractitionerAddressObject".postalCode.value
+	else ''
 
 define PatientCoverageResource: singleton from (
   [Coverage] coverage
     // pull coverage resource id from the device request insurance extension
-    where ('Coverage/' + coverage.id) = (("DeviceRequestResource".extension ext where ext.url = 'http://build.fhir.org/ig/HL7/davinci-crd/STU3/ext-insurance.html')[0].value.reference.value))
+    where ('Coverage/' + coverage.id.value) = (("DeviceRequestResource".extension ext where ext.url = 'http://build.fhir.org/ig/HL7/davinci-crd/STU3/ext-insurance.html')[0].value.reference.value))
 define PatientMedicareId: "PatientCoverageResource".subscriberId.value
 
 // coverage requirement info
 define RelevantDiagnoses: {
   if exists([Condition] P
-		where P.code.coding[0].code in "COPD_Codes") then 'COPD' else 'null',
+		where P.code.coding[0].code.value in "COPD_Codes") then 'COPD' else 'null',
   if exists([Condition]  P
-		where P.code.coding[0].code in "Bronchiectasis_Codes") then 'Bronchiectasis' else 'null',
+		where P.code.coding[0].code.value in "Bronchiectasis_Codes") then 'Bronchiectasis' else 'null',
   if exists([Condition] P
-		where P.code.coding[0].code in  "Diffuse_interstitial_lung_disease_Codes") then 'Diffuse Interstitial Lung Disease' else 'null',
+		where P.code.coding[0].code.value in  "Diffuse_interstitial_lung_disease_Codes") then 'Diffuse Interstitial Lung Disease' else 'null',
   if exists([Condition] P
-		where P.code.coding[0].code in "Cystic_fibrosis_Codes") then 'Cystic Fibrosis' else 'null',
+		where P.code.coding[0].code.value in "Cystic_fibrosis_Codes") then 'Cystic Fibrosis' else 'null',
   if exists([Condition] P
-		where P.code.coding[0].code in  "Pulmonary_hypertension_Codes") then 'Pulmonary Hypertension' else 'null',
+		where P.code.coding[0].code.value in  "Pulmonary_hypertension_Codes") then 'Pulmonary Hypertension' else 'null',
   if exists([Condition] P
-		where P.code.coding[0].code in  "Hypoxemia_Codes") then 'Hypoxemia' else 'null'
+		where P.code.coding[0].code.value in  "Hypoxemia_Codes") then 'Hypoxemia' else 'null'
 }
 
 
 define ArterialOxygenSaturation: 
-	if exists([Observation] P where P.code.coding[0].code in  "Arterial_oxygen_saturation_Codes") then FHIRHelpers.ToQuantity(Last([Observation] P where P.code.coding[0].code in  "Arterial_oxygen_saturation_Codes").value).value else null
+	if exists([Observation] P where P.code.coding[0].code.value in  "Arterial_oxygen_saturation_Codes") then FHIRHelpers.ToQuantity(Last([Observation] P where P.code.coding[0].code.value in  "Arterial_oxygen_saturation_Codes").value).value else null
 	
 
 define ArterialPartialPressureOfOxygen: 
-	if exists([Observation] P where P.code.coding[0].code in  "Arterial_partial_pressure_of_oxygen_Codes") then FHIRHelpers.ToQuantity(Last([Observation] P where P.code.coding[0].code in  "Arterial_partial_pressure_of_oxygen_Codes").value).value else null
+	if exists([Observation] P where P.code.coding[0].code.value in  "Arterial_partial_pressure_of_oxygen_Codes") then FHIRHelpers.ToQuantity(Last([Observation] P where P.code.coding[0].code.value in  "Arterial_partial_pressure_of_oxygen_Codes").value).value else null
 	
 
 define ArterialOxygenSaturationExercise:
-	 if exists([Observation] P where P.code.coding[0].code in  "Arterial_oxygen_saturation_during_exercise_Codes") then FHIRHelpers.ToQuantity(Last([Observation] P where P.code.coding[0].code in  "Arterial_oxygen_saturation_during_exercise_Codes").value).value else null
+	 if exists([Observation] P where P.code.coding[0].code.value in  "Arterial_oxygen_saturation_during_exercise_Codes") then FHIRHelpers.ToQuantity(Last([Observation] P where P.code.coding[0].code.value in  "Arterial_oxygen_saturation_during_exercise_Codes").value).value else null
 	
 
 define PatientMobile: not exists([Condition] P
-		where P.code.coding[0].code in "Immobilization_Codes")
+		where P.code.coding[0].code.value in "Immobilization_Codes")
 
 define HematocritThatIsGreaterThanThreshold: 
-	if exists([Observation] P where P.code.coding[0].code in  "Hematocrit_lab_test_Codes") then FHIRHelpers.ToQuantity(Last([Observation] P where P.code.coding[0].code in  "Hematocrit_lab_test_Codes").value).value else null
+	if exists([Observation] P where P.code.coding[0].code.value in  "Hematocrit_lab_test_Codes") then FHIRHelpers.ToQuantity(Last([Observation] P where P.code.coding[0].code.value in  "Hematocrit_lab_test_Codes").value).value else null
 	
 
 define PatientHasHematocritThatIsGreaterThanThreshold: exists("HematocritThatIsGreaterThanThreshold")
@@ -214,32 +283,30 @@ define PatientHasHematocritThatIsGreaterThanThreshold: exists("HematocritThatIsG
 
 //define DeviceRequestedIsStationary: "DeviceRequestHcpcsCoding".code.value in { 'E0439', 'E0442', 'E0424', 'E0441', 'E1390', 'E1391' }
 
-// ordering provider info
-define Practitioner: 
-  [Practitioner] practitioner
-    where ('Practitioner/' + practitioner.id) = "DeviceRequestResource"[0].performer.reference.value
-
-define PractitionerNameObject: 
-	singleton from ("Practitioner"[0].name)
+//Requestor info
+define Requestor: 
+	Practitioner	 
 	
-define PractitionerName: 
+define RequestorNameObject: 
+	singleton from ("Requestor".name[0])
+	
+define SubmitterName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
-	PractitionerFirstName + ' '+ PractitionerLastName
-define PractitionerLastName: "PractitionerNameObject".family.value
-define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
-define PractitionerFirstName: "PractitionerNameObject".given[0].value
-define PractitionerNPI: 
+	RequestorFirstName + ' '+ RequestorLastName
+
+define RequestorLastName: "RequestorNameObject".family.value
+
+define RequestorMiddleInitial: GetMiddleInitials("RequestorNameObject")
+
+define RequestorFirstName: "RequestorNameObject".given[0].value
+
+define SubmitterTelephone: 
+	if "Requestor".telecom[0] is not null then
 	(singleton from (
-  		"Practitioner".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
-    
-
-define PractitionerAddressObject: singleton from ("Practitioner".address address where address.use.value = 'home')  
-define PractitionerAddress: 
-	"PractitionerAddressObject".line[0].value +', ' +"PractitionerAddressObject".city.value +', ' +"PractitionerAddressObject".state.value+', ' +"PractitionerAddressObject".postalCode.value
+  		"Requestor".telecom[0])).value.value
+	else ''
 
 
-////////////////////////////// Taken from CDS Connect Commons for FHIR, could replace with stu3 version of helper library
 define function ActiveOrRecurring(Cond Condition):
   Cond C where C.clinicalStatus.value in {'active', 'relapse'}
 
