@@ -212,7 +212,7 @@
         {
           "linkId": "4.2",
           "text": "Date of first Office visit",
-          "type": "date",
+          "type": "datetime",
           "required": true,
           "extension": [
             {
