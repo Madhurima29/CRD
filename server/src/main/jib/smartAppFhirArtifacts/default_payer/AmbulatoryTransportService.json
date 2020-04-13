@@ -881,12 +881,6 @@
                      }
                   ]
                }
-            },
-            {
-               "linkId":"8.4",
-               "text":"Any other relevant document as deemed necessary by the MAC to process the prior authorization",
-               "type":"attachment",
-               "required":false
             }
          ]
       }
