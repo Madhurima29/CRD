@@ -511,31 +511,6 @@
                ]
             },
             {
-               "linkId":"5.4",
-               "text":"Type of request",
-               "type":"open-choice",
-               "required":true,
-               "option":[
-                  {
-                     "valueCoding":{
-                        "code":"Initial"
-                     },
-			"initialSelected":true
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Resubmission review"
-                     }
-                  }
-               ],
-               "extension":[
-                  {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"Typeofrequest"
-                  }
-               ]
-            },
-            {
                "linkId":"5.5",
                "text":"Is the request expedited?",
                "type":"boolean",
@@ -654,167 +629,6 @@
                ]
             },
             {
-               "linkId":"7.2",
-               "text":"Purpose of transport [service(s) that cannot be provided in the current setting]",
-               "type":"open-choice",
-               "required":true,
-               "repeats":true,
-               "option":[
-                  {
-                     "valueCoding":{
-                        "code":"Dialysis"
-                     },
-			"initialSelected":true
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Wound care"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Radiation therapy"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Chemotherapy"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"O&P services"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Imaging"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Bed confined (Unable to ambulate, Unable to get out of bed without assistance, Unable to safely sit in a chair or wheelchair)"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Unable to maintain erect sitting position in a chair for time needed to transport, due to moderate muscular weakness and de-conditioning"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Risk of falling off wheelchair or stretcher while in motion (not related to obesity)"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Non-healed fractures requiring ambulance"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Contractures that impair mobility and result in bed confinement"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Incapacitating Osteoarthritis"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Severe muscular weakness and de-conditioned state precludes any significant physical activity"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Orthopedic device required in transit"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Amputation(s)"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"CVA with sequelae (late effect of CVA) that impair mobility and result in be confinement"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"DVT requires elevation of lower extremity"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Spinal Cord Injury – Paralysis"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Progressive demyelinating disease"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Moderate to severe pain on movement"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Unable to sit in chair or wheelchair due to Grade II or greater decubitus ulcers on buttocks"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Chronic wounds requiring immobilization"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Morbid obesity requires additional personnel/equipment to handle"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Third party attendant required to regulate or adjust oxygen en route"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Special handling en route – isolation"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"IV medications/fluids required during transport"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Restraints (physical or chemical) anticipated or used during transport"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Danger to self or others"
-                     }
-                  },
-                  {
-                     "valueCoding":{
-                        "code":"Confused, combative, lethargic, comatose"
-                     }
-                  }
-               ],
-               "extension":[
-                  {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"RelevantDiagnoses"
-                  }
-               ]
-            },
-            {
                "linkId":"7.3",
                "text":"Other reason(s) that non-emergency ground transport by ambulance is required",
                "type":"string",
@@ -881,6 +695,12 @@
                      }
                   ]
                }
+            },
+            {
+               "linkId":"8.4",
+               "text":"Any other relevant document as deemed necessary by the MAC to process the prior authorization",
+               "type":"attachment",
+               "required":false
             }
          ]
       }
