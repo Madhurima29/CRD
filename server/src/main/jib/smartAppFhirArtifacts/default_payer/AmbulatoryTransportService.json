@@ -663,8 +663,7 @@
                   {
                      "valueCoding":{
                         "code":"Dialysis"
-                     },
-			"initialSelected":true
+                     }
                   },
                   {
                      "valueCoding":{
