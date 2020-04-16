@@ -4,7 +4,7 @@
    "version": "0.0.1",
    "title": "Stress Echo Cardiography",
    "status": "draft",
-   "claimEndpoint": "https://sm.mettles.com/payerfhir/hapi-fhir-jpaserver/fhir/Claim/$submit",
+   "claimEndpoint": "https://sm.mettles.com/other_payerfhir/hapi-fhir-jpaserver/fhir/Claim/$submit",
    "type": {
       "coding": [
          {
