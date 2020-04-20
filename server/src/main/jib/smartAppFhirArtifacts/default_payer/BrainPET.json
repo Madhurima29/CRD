@@ -658,7 +658,7 @@
     },
     {
       "linkId": "7",
-      "text": "Information For PET",
+      "text": "Evaluation to certify Medical Necessity of PET",
       "type": "group",
       "item": [
         {
@@ -710,10 +710,37 @@
           "type": "reference",
           "enableWhen": [
             {
-              "question": "7.1"
+              "question": "7.1",
+              "answerCoding": {
+                "code": "Neurobehavioral Status Exam"
+              }
+            },
+            {
+              "question": "7.1",
+              "answerCoding": {
+                "code": "Neuropsychological Testing Evaluation by a Psychologist"
+              }
+            },
+            {
+              "question": "7.1",
+              "answerCoding": {
+                "code": "Test Administration and Scoring by a Psychologist"
+              }
+            },
+            {
+              "question": "7.1",
+              "answerCoding": {
+                "code": "Neuro Psychological Testing Evaluation by a Psychologist"
+              }
+            },
+            {
+              "question": "7.1",
+              "answerCoding": {
+                "code": "Test Administration and Scoring by a Technician"
+              }
             }
           ],
-          "enableBehavior": "all",
+          "enableBehavior": "any",
           "required": false,
           "extension": [
             {
@@ -726,14 +753,32 @@
     },
     {
       "linkId": "8",
-      "text": "Information For PET",
+      "text": "Relevant Blood Tests Performed ",
       "type": "group",
       "item": [
         {
           "linkId": "8.1",
+          "text": "Did the patient undergo Vitamin B12 test?",
+          "type": "boolean",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "IsB12Tested"
+            }
+          ]
+        },
+        {
+          "linkId": "8.2",
           "text": "Vitamin B12 test performed",
           "type": "string",
-          "required": true,
+          "required": false,
+          "enableWhen": [
+            {
+              "question": "8.1",
+              "answerBoolean": true
+            }
+          ],
           "code": {
             "coding": [
               {
@@ -756,22 +801,15 @@
           ]
         },
         {
-          "linkId": "8.2",
-          "text": "Vitamin B12 Result",
+          "linkId": "8.3",
+          "text": "Vitamin B12 Result in ng/mL",
           "type": "quantity",
           "enableWhen": [
             {
-              "question": "8.1"
+              "question": "8.2"
             }
           ],
           "required": false,
-          "initial": [
-            {
-              "valueQuantity": {
-                "unit": "ng/mL"
-              }
-            }
-          ],
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -780,44 +818,40 @@
           ]
         },
         {
-          "linkId": "8.3",
-          "text": "Thyroid Profile and TSH test performed",
-          "type": "string",
+          "linkId": "8.4",
+          "text": "Did the patient undergo Thyroid test?",
+          "type": "boolean",
           "required": true,
-          "code": {
-            "coding": [
-              {
-                "system": "http://loinc.org",
-                "code": "24348-5",
-                "display": "Free T4 and TSH panel - Serum or Plasma"
-              },
-              {
-                "system": "http://loinc.org",
-                "code": "3024-7",
-                "display": "Thyroxine (T4) free [Mass/volume] in Serum or Plasma"
-              },
-              {
-                "system": "http://loinc.org",
-                "code": "3026-2",
-                "display": "Thyroxine (T4)"
-              },
-              {
-                "system": "http://loinc.org",
-                "code": "3016-3",
-                "display": "Thyrotropin [Units/volume] in Serum or Plasma"
-              },
-              {
-                "system": "http://loinc.org",
-                "code": "11579-0",
-                "display": "Thyrotropin [Units/volume] in Serum or Plasma"
-              },
-              {
-                "system": "http://loinc.org",
-                "code": "11580-8",
-                "display": "Thyrotropin [Units/volume] in Serum or Plasma"
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "IsThyroidTested"
+            }
+          ]
+        },
+        {
+          "linkId": "8.5",
+          "text": "Thyroid Profile and TSH tests performed",
+          "type": "open-choice",
+          "required": false,
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Thyroid-stimulating hormone (TSH)"
               }
-            ]
-          },
+            },
+            {
+              "valueCoding": {
+                "code": "Thyroxine (T4)"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Triiodothyronine (T3) "
+              }
+            }
+          ],
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -826,14 +860,14 @@
           ]
         },
         {
-          "linkId": "8.4",
-          "text": "Thyroid Profile Result",
+          "linkId": "8.6",
+          "text": "TSH Result in mIU/L",
           "type": "quantity",
           "enableWhen": [
             {
-              "question": "8.3",
-              "answerQuantity": {
-                "unit": "mU/L"
+              "question": "8.5",
+              "answerCoding": {
+                "code": "Thyroid-stimulating hormone (TSH)"
               }
             }
           ],
@@ -842,6 +876,46 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
               "valueString": "TSHResult"
+            }
+          ]
+        },
+        {
+          "linkId": "8.7",
+          "text": "Thyroxine(T4) Result in μg/dL",
+          "type": "quantity",
+          "enableWhen": [
+            {
+              "question": "8.5",
+              "answerCoding": {
+                "code": "Thyroxine (T4)"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "T4Result"
+            }
+          ]
+        },
+        {
+          "linkId": "8.8",
+          "text": "Triiodothyronine(T3) Result in ng/dL ",
+          "type": "quantity",
+          "enableWhen": [
+            {
+              "question": "8.5",
+              "answerCoding": {
+                "code": "Triiodothyronine (T3)"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "T3Result"
             }
           ]
         }
@@ -875,6 +949,13 @@
               "valueString": "SubmitterTelephone"
             }
           ]
+        },
+        {
+          "linkId": "9.3",
+          "text": "Note:The questionnaire requires information to be filled in all the mandatory fields. Failure to provide requested information might lead to rejection of your PA request ",
+          "type": "display",
+          "required": true,
+          "readOnly": true
         }
       ]
     }
