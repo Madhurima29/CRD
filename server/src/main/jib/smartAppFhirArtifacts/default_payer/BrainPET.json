@@ -732,7 +732,7 @@
         {
           "linkId": "8.1",
           "text": "Vitamin B12 test performed",
-          "type": "quantity",
+          "type": "string",
           "required": true,
           "code": {
             "coding": [
@@ -761,13 +761,17 @@
           "type": "quantity",
           "enableWhen": [
             {
-              "question": "8.1",
-              "answerQuantity": {
+              "question": "8.1"
+            }
+          ],
+          "required": false,
+          "initial": [
+            {
+              "valueQuantity": {
                 "unit": "ng/mL"
               }
             }
           ],
-          "required": false,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -778,7 +782,7 @@
         {
           "linkId": "8.3",
           "text": "Thyroid Profile and TSH test performed",
-          "type": "quantity",
+          "type": "string",
           "required": true,
           "code": {
             "coding": [
@@ -791,6 +795,11 @@
                 "system": "http://loinc.org",
                 "code": "3024-7",
                 "display": "Thyroxine (T4) free [Mass/volume] in Serum or Plasma"
+              },
+              {
+                "system": "http://loinc.org",
+                "code": "3026-2",
+                "display": "Thyroxine (T4)"
               },
               {
                 "system": "http://loinc.org",
@@ -839,12 +848,12 @@
       ]
     },
     {
-      "linkId": "6",
+      "linkId": "9",
       "text": "Submitter Information",
       "type": "group",
       "item": [
         {
-          "linkId": "6.1",
+          "linkId": "9.1",
           "text": "Contact Name",
           "type": "string",
           "required": true,
@@ -856,7 +865,7 @@
           ]
         },
         {
-          "linkId": "6.2",
+          "linkId": "9.2",
           "text": "Telephone Number",
           "type": "string",
           "required": true,

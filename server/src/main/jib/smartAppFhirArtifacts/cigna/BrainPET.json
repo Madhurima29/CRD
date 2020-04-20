@@ -58,7 +58,7 @@
       "item": [
         {
           "linkId": "1.1",
-          "text": "Beneficiary’s Name",
+          "text": "Beneficiary's Name",
           "type": "string",
           "required": true,
           "extension": [
@@ -70,7 +70,7 @@
         },
         {
           "linkId": "1.2",
-          "text": "Beneficiary’s Date Of Birth",
+          "text": "Beneficiary's Date Of Birth",
           "type": "date",
           "required": true,
           "extension": [
@@ -82,7 +82,7 @@
         },
         {
           "linkId": "1.3",
-          "text": "Beneficiary’s Medicare Number",
+          "text": "Beneficiary's Medicare Number",
           "type": "string",
           "required": true,
           "extension": [
@@ -101,7 +101,7 @@
       "item": [
         {
           "linkId": "2.1",
-          "text": "Physician/Practitioner’s Name",
+          "text": "Physician/Practitioner's Name",
           "type": "string",
           "required": true,
           "extension": [
@@ -113,7 +113,7 @@
         },
         {
           "linkId": "2.2",
-          "text": "Physician/Practitioner’s NPI",
+          "text": "Physician/Practitioner's NPI",
           "type": "string",
           "required": true,
           "extension": [
@@ -176,43 +176,83 @@
         {
           "linkId": "4.1",
           "text": "Primary Diagnosis",
-          "type": "string",
+          "type": "open-choice",
           "required": true,
-          "code": {
-            "coding": [
-              {
-                "system": "https://www.icd10data.com",
-                "code": "F03.90",
-                "display": "Dementia"
-              },
-              {
-                "system": "https://www.icd10data.com",
-                "code": "G30.9",
-                "display": "Alzheimer's Disease"
-              },
-              {
-                "system": "https://www.icd10data.com",
-                "code": "G31.09",
-                "display": "Frontotemporal Dementia"
-              },
-              {
-                "system": "https://www.icd10data.com",
-                "code": "G40.919",
-                "display": "Epilepsy, unspecified"
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Dementia"
               }
-            ]
-          },
+            },
+            {
+              "valueCoding": {
+                "code": "Alzheimer's Disease"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Frontotemporal Dementia"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Epilepsy,Unspecified"
+              }
+            }
+          ],
           "extension": [
             {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "Dementia or AD"
+              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"BrainPET\".Dementia or AD"
+              }
             }
           ]
         },
         {
           "linkId": "4.2",
+          "text": "Relevant Diagnosis",
+          "type": "open-choice",
+          "required": true,
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Mild Cognitive Impairment(MCI)"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Severe Dementia with Behavioral Disturbance"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Severe Dementia without Behavioral Disturbance"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Normal Aging"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"BrainPET\".RelevantDiagnosis"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "4.3",
           "text": "Date of first Office visit",
-          "type": "date",
+          "type": "datetime",
           "required": true,
           "extension": [
             {
@@ -222,23 +262,47 @@
           ]
         },
         {
-          "linkId": "4.3",
-          "text": "Type of Tumour",
-          "type": "string",
+          "linkId": "4.4",
+          "text": "Date of onset of Symptoms",
+          "type": "datetime",
           "required": true,
-          "code": {
-            "coding": [
-              {
-                "system": "https://www.icd10data.com",
-                "code": "C80.1",
-                "display": "Malignant(Primary) Neoplasm"
-              }
-            ]
-          },
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "Malignant Neoplasm"
+              "valueString": "Date of Onset"
+            }
+          ]
+        },
+        {
+          "linkId": "4.5",
+          "text": "Type of Tumour",
+          "type": "open-choice",
+          "required": true,
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Benign neoplasm"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Neoplasms with unspecified behavior"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Malignant Neoplasm"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"BrainPET\".MalignantNeoplasm"
+              }
             }
           ]
         }
@@ -246,48 +310,550 @@
     },
     {
       "linkId": "5",
-      "text": "Additional Documentation Required",
+      "text": "Information For PET",
       "type": "group",
       "item": [
         {
           "linkId": "5.1",
-          "text": "Any neuropsychological testing performed",
-          "type": "attachment",
-          "required": true
+          "text": "Reason for PET study",
+          "type": "open-choice",
+          "required": true,
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Initial Staging"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Restaging, Surveillance"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Interim PET/CT for response-adapted therapy"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"OxygenTherapy\".ReasonForStudy"
+              }
+            }
+          ]
         },
         {
           "linkId": "5.2",
-          "text": "Diagnosis of clinical syndrome (normal aging; mild cognitive impairment (MCI); mild, moderate or severe dementia)",
-          "type": "attachment",
-          "required": true
-        },
-        {
-          "linkId": "5.3",
-          "text": "Mini mental status exam (MMSE) or similar test score",
-          "type": "attachment",
-          "required": true
-        },
-        {
-          "linkId": "5.4",
-          "text": "Relevant laboratory tests (B12, thyroid hormone)",
-          "type": "attachment",
-          "required": true
-        },
-        {
-          "linkId": "5.5",
-          "text": "Medical Records",
-          "type": "attachment",
-          "required": true
+          "text": "Radiotracer that applies for the PET Scan",
+          "type": "open-choice",
+          "required": true,
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Standard or Routine PET or PET/CT Imaging FDG (2 fluorine 18, fluoro 2 deoxy-d-glucose)"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "PET Bone Scan: Sodium 18F Fluoride PET/CT"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Other"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"BrainPET\".Radiotracer"
+              }
+            }
+          ]
         }
       ]
     },
     {
       "linkId": "6",
-      "text": "Submitter Information",
+      "text": "Diagnostic Report/Procedure relevant to Diagnosis",
       "type": "group",
       "item": [
         {
           "linkId": "6.1",
+          "text": "Clinical Assessment of Mental Status",
+          "type": "open-choice",
+          "required": true,
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Blessed Orientation-Memory-Concentration Test [BOMC]"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Brief interview for mental status (BIMS) [CARE]"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Brief interview for mental status [BIMS]"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Confusion Assessment Method (CAM)"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "General Practitioner Assessment of Cognition [GPCOG]"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Glasgow coma scale"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Mini-Mental State Examination [MMSE]"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Montreal Cognitive Assessment [MoCA]"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Short Informant Questionnaire on Cognitive Decline in the Elderly [IQCODE]"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "St. Louis University Mental Status (SLUMS) Examination [SLUMS]"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"BrainPET\".ClinicalAssessment"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "6.2",
+          "text": "BOMC Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "Blessed Orientation-Memory-Concentration Test [BOMC]"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "BOMCScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.3",
+          "text": "CARE Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "Brief interview for mental status (BIMS) [CARE]"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "CAREScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.4",
+          "text": "BIMS Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "Brief interview for mental status [BIMS]"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "BIMSScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.5",
+          "text": "CAM Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "Confusion Assessment Method (CAM)"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "CAMScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.6",
+          "text": "GPCOG Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "General Practitioner Assessment of Cognition [GPCOG]"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "GPCOGScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.7",
+          "text": "Glasgow coma scale Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "Glasgow coma scale"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "GlasgowComaScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.8",
+          "text": "MMSE Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "Mini-Mental State Examination [MMSE]"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "MMSEScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.9",
+          "text": "MoCA Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "Montreal Cognitive Assessment [MoCA]"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "MoCAScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.10",
+          "text": "IQCODE Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "Short Informant Questionnaire on Cognitive Decline in the Elderly [IQCODE]"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "IQCODEScore"
+            }
+          ]
+        },
+        {
+          "linkId": "6.11",
+          "text": "SLUMS Result",
+          "type": "integer",
+          "enableWhen": [
+            {
+              "question": "6.1",
+              "answerCoding": {
+                "code": "St. Louis University Mental Status (SLUMS) Examination [SLUMS]"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "SLUMSScore"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "7",
+      "text": "Information For PET",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "7.1",
+          "text": "NeuroPsychological Testing Performed",
+          "type": "open-choice",
+          "required": true,
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Neurobehavioral Status Exam"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Neuropsychological Testing Evaluation by a Psychologist"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Test Administration and Scoring by a Psychologist"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Neuro Psychological Testing Evaluation by a Psychologist"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Test Administration and Scoring by a Technician"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"BrainPET\".NeuroPsychologicalTesting"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "7.2",
+          "text": "Evaluation Report",
+          "type": "reference",
+          "enableWhen": [
+            {
+              "question": "7.1"
+            }
+          ],
+          "enableBehavior": "all",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "EvaluationReport"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "8",
+      "text": "Information For PET",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "8.1",
+          "text": "Vitamin B12 test performed",
+          "type": "string",
+          "required": true,
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "16695-9",
+                "display": "Cobalamin (Vitamin B12)"
+              },
+              {
+                "system": "http://loinc.org",
+                "code": "2132-9",
+                "display": "Cobalamin (Vitamin B12)"
+              }
+            ]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "B12Test"
+            }
+          ]
+        },
+        {
+          "linkId": "8.2",
+          "text": "Vitamin B12 Result",
+          "type": "quantity",
+          "enableWhen": [
+            {
+              "question": "8.1"
+            }
+          ],
+          "required": false,
+          "initial": [
+            {
+              "valueQuantity": {
+                "unit": "ng/mL"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "B12Result"
+            }
+          ]
+        },
+        {
+          "linkId": "8.3",
+          "text": "Thyroid Profile and TSH test performed",
+          "type": "string",
+          "required": true,
+          "code": {
+            "coding": [
+              {
+                "system": "http://loinc.org",
+                "code": "24348-5",
+                "display": "Free T4 and TSH panel - Serum or Plasma"
+              },
+              {
+                "system": "http://loinc.org",
+                "code": "3024-7",
+                "display": "Thyroxine (T4) free [Mass/volume] in Serum or Plasma"
+              },
+              {
+                "system": "http://loinc.org",
+                "code": "3026-2",
+                "display": "Thyroxine (T4)"
+              },
+              {
+                "system": "http://loinc.org",
+                "code": "3016-3",
+                "display": "Thyrotropin [Units/volume] in Serum or Plasma"
+              },
+              {
+                "system": "http://loinc.org",
+                "code": "11579-0",
+                "display": "Thyrotropin [Units/volume] in Serum or Plasma"
+              },
+              {
+                "system": "http://loinc.org",
+                "code": "11580-8",
+                "display": "Thyrotropin [Units/volume] in Serum or Plasma"
+              }
+            ]
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "ThyroidTest"
+            }
+          ]
+        },
+        {
+          "linkId": "8.4",
+          "text": "Thyroid Profile Result",
+          "type": "quantity",
+          "enableWhen": [
+            {
+              "question": "8.3",
+              "answerQuantity": {
+                "unit": "mU/L"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "TSHResult"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "9",
+      "text": "Submitter Information",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "9.1",
           "text": "Contact Name",
           "type": "string",
           "required": true,
@@ -299,7 +865,7 @@
           ]
         },
         {
-          "linkId": "6.2",
+          "linkId": "9.2",
           "text": "Telephone Number",
           "type": "string",
           "required": true,
@@ -312,6 +878,5 @@
         }
       ]
     }
-    
   ]
 }
