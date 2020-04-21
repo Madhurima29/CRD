@@ -23,6 +23,33 @@
    ],
    "contained":[
       {
+      "resourceType": "ValueSet",
+      "id": "gender",
+      "name": "Gender",
+      "status": "draft",
+      "description": "Gender",
+      "compose": {
+        "include": [
+          {
+            "concept": [
+              {
+                "code": "male",
+                "display": "Male"
+              },
+              {
+                "code": "female",
+                "display": "Female"
+              },
+              {
+                "code": "other",
+                "display": "Other"
+              }
+            ]
+          }
+        ]
+      }
+    },
+      {
          "resourceType":"ValueSet",
          "id":"gender",
          "name":"Gender",
@@ -337,21 +364,6 @@
             },
             {
                "linkId":"1.3",
-               "text":"Beneficiary Gender",
-               "type":"choice",
-               "required":true,
-               "options":{
-                  "reference":"#gender"
-               },
-               "extension":[
-                  {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"BeneficiaryGender"
-                  }
-               ]
-            },
-            {
-               "linkId":"1.4",
                "text":"Beneficiary Medicare Number",
                "type":"string",
                "required":true,
@@ -404,17 +416,29 @@
                      "valueString":"PractitionerTelephone"
                   }
                ]
+            },
+            {
+              "linkId": "2.4",
+              "text": "Physician/Practitioner's NPI",
+              "type": "string",
+              "required": true,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                  "valueString": "PractitionerNPI"
+                }
+              ]
             }
          ]
       },
       {
          "linkId":"3",
-         "text":"Ambulance Supplier Information",
+         "text":"Ambulance Supplier/Provider Information",
          "type":"group",
          "item":[
             {
                "linkId":"3.1",
-               "text":"Ambulance Supplier Name",
+               "text":"Ambulance Supplier/Provider Name",
                "type":"string",
                "required":true,
                "extension":[
@@ -425,8 +449,20 @@
                ]
             },
             {
-               "linkId":"3.2",
-               "text":"Ambulance Supplier Address",
+              "linkId": "3.2",
+              "text": "Ambulance Supplier/Provider NPI",
+              "type": "string",
+              "required": true,
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+                  "valueString": "AmbulanceSupplierNPI"
+                }
+              ]
+            },
+            {
+               "linkId":"3.3",
+               "text":"Ambulance Supplier/Provider Address",
                "type":"string",
                "required":true,
                "extension":[
@@ -471,12 +507,12 @@
       },
       {
          "linkId":"5",
-         "text":"Other Information",
+         "text":"Information for scheduling Ambulance",
          "type":"group",
          "item":[
             {
                "linkId":"5.1",
-               "text":"Number of transports requested in a 60-day period",
+               "text":"Number of transports requested in a 60-day period(Round Trip = 2 Transports)",
                "type":"integer",
                "required":true,
                "extension":[
@@ -488,19 +524,7 @@
             },
             {
                "linkId":"5.2",
-               "text":"Submission Date",
-               "type":"date",
-               "required":true,
-               "extension":[
-                  {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"SubmissionDate"
-                  }
-               ]
-            },
-            {
-               "linkId":"5.3",
-               "text":"Start Date",
+               "text":"Start of 60 Day Period (mm/dd/yyyy) *",
                "type":"date",
                "required":true,
                "extension":[
@@ -511,50 +535,47 @@
                ]
             },
             {
-               "linkId":"5.4",
+               "linkId":"5.3",
                "text":"Type of request",
                "type":"open-choice",
                "required":true,
+               "repeats": true,
                "option":[
                   {
                      "valueCoding":{
                         "code":"Initial"
-                     },
-			"initialSelected":true
+                     }
                   },
                   {
                      "valueCoding":{
                         "code":"Resubmission review"
+                     }
+                  },
+                  {
+                     "valueCoding":{
+                        "code":"Expedite this request"
                      }
                   }
                ],
                "extension":[
                   {
                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"Typeofrequest"
+                     "valueExpression": {
+                        "language": "text/cql",
+                        "expression": "\"ambulance-transport-questionnaire\".Typeofrequest"
+                      }
                   }
                ]
             },
             {
-               "linkId":"5.5",
-               "text":"Is the request expedited?",
-               "type":"boolean",
-               "extension":[
-                  {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"ExpeditedRequestBoolean"
-                  }
-               ]
-            },
-            {
-               "linkId":"5.6",
+               "linkId":"5.4",
                "text":"Reason for the request to be expedited",
                "type":"string",
                "required":true,
                "enableWhen":[
                   {
-                     "question":"5.6",
-                     "answerBoolean":true
+                     "question":"5.5",
+                     "answerCoding":"Expedite this request"
                   }
                ],
                "extension":[
@@ -565,7 +586,7 @@
                ]
             },
             {
-               "linkId":"5.7",
+               "linkId":"5.5",
                "text":"State where the ambulance is garaged",
                "type":"open-choice",
                "required":true,
@@ -575,13 +596,13 @@
                "extension":[
                   {
                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"state"
+                     "expression": "\"ambulance-transport-questionnaire\".state"
                   }
                ]
             },
             {
-               "linkId":"5.8",
-               "text":"Transport from: ",
+               "linkId":"5.6",
+               "text":"Origin of Transport",
                "type":"string",
                "required":true,
                "extension":[
@@ -592,8 +613,8 @@
                ]
             },
             {
-               "linkId":"5.9",
-               "text":"Transport to: ",
+               "linkId":"5.7",
+               "text":"Destination of Transport",
                "type":"string",
                "required":true,
                "extension":[
@@ -607,54 +628,50 @@
       },
       {
          "linkId":"6",
-         "text":"Coverage Requirements",
+         "text":"Information to establish Medical Necessity",
          "type":"group",
          "item":[
             {
-               "linkId":"6.1",
-               "text":"Is the beneficiary suffering from a medical condition such that other means of transportation are contraindicated? If yes, a documented proof needs to be attached",
-               "type":"boolean",
-               "required":true,
-               "extension":[
+               "linkId": "6.1",
+                "text": "Need for Non-Emergent Transport by
+      Ambulance ",
+                "type": "open-choice",
+                "required": true,
+                "repeats": true,
+                "option": [
                   {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"TransportContraindicated"
+                    "valueCoding": {
+                      "code": "Structural impairment"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "code": "Functional impairment"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "code": "Activity limitation"
+                    }
+                  },
+                  {
+                    "valueCoding": {
+                      "code": "Regardless of mobility, transportation is medically required"
+                    }
                   }
-               ]
-            },
-            {
+                ],
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+                    "valueExpression": {
+                      "language": "text/cql",
+                      "expression": "\"ambulance-transport-questionnaire\".Reason"
+                    }
+                  }
+                ]
+              },
+              {
                "linkId":"6.2",
-               "text":"Is the beneficiary’s medical condition, regardless of bed confinement, is such that transportation by ambulance is medically required?",
-               "type":"boolean",
-               "required":true,
-               "extension":[
-                  {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"MedicallyRequired"
-                  }
-               ]
-            }
-         ]
-      },
-      {
-         "linkId":"7",
-         "text":"Physician Certification Statement",
-         "type":"group",
-         "item":[
-            {
-               "linkId":"7.1",
-               "text":"Round trip",
-               "type":"boolean",
-               "required":true,
-               "extension":[
-                  {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"RoundTrip"
-                  }
-               ]
-            },
-            {
-               "linkId":"7.2",
                "text":"Purpose of transport [service(s) that cannot be provided in the current setting]",
                "type":"open-choice",
                "required":true,
@@ -663,8 +680,7 @@
                   {
                      "valueCoding":{
                         "code":"Dialysis"
-                     },
-			"initialSelected":true
+                     }
                   },
                   {
                      "valueCoding":{
@@ -810,13 +826,17 @@
                "extension":[
                   {
                      "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"RelevantDiagnoses"
+                     "valueExpression": 
+                     {
+                        "language": "text/cql",
+                        "expression": "\"ambulance-transport-questionnaire\".RelevantDiagnoses"
+                     }
                   }
                ]
             },
             {
                "linkId":"7.3",
-               "text":"Other reason(s) that non-emergency ground transport by ambulance is required",
+               "text":"Other reason(s) that non-emergency transport by ambulance is required",
                "type":"string",
                "required":false
             }
@@ -829,7 +849,16 @@
          "item":[
             {
                "linkId":"8.1",
-               "text":"Physician Certification Statement",
+               "text":"Documentation Requirements: The medical documentation must describe how the specific structural and/or functional
+impairments together with the activity limitations contribute to the determination that
+stretcher transport is necessary for the patient’s safety as it relates to their condition",
+               "type":"display",
+               "required":true
+            },
+            {
+               "linkId":"8.2",
+               "text":"Physician Certification Statement  indicating the origin and/or
+destination of the transport",
                "type":"attachment",
                "required":true,
                "code":{
@@ -846,49 +875,10 @@
                      }
                   ]
                }
-            },
-            {
-               "linkId":"8.2",
-               "text":"Documentation from the medical record to support the medical necessity of repetitive, scheduled non-emergent ambulance transport",
-               "type":"attachment",
-               "required":true,
-               "code":{
-                  "coding":[
-                     {
-                        "system":"http://loinc.org",
-                        "code":"11503-0",
-                        "display":"Medical records"
-                     }
-                  ]
-               }
-            },
-            {
-               "linkId":"8.3",
-               "text":"Information on the origin and destination of the transports",
-               "type":"attachment",
-               "required":true,
-               "code":{
-                  "coding":[
-                     {
-                        "system":"http://loinc.org",
-                        "code":"52000-7",
-                        "display":"Ambulance transport, Origination site latitude"
-                     },
-                     {
-                        "system":"http://loinc.org",
-                        "code":"15512-7",
-                        "display":"Ambulance transport, Destination site information Set"
-                     }
-                  ]
-               }
-            },
-            {
-               "linkId":"8.4",
-               "text":"Any other relevant document as deemed necessary by the MAC to process the prior authorization",
-               "type":"attachment",
-               "required":false
             }
          ]
       }
    ]
 }
+
+
