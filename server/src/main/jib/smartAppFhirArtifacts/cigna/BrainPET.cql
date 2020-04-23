@@ -120,7 +120,7 @@ define PractitionerFirstName: "PractitionerNameObject".given[0].value
 define PractitionerNPI:  //'1986352488'
 	(singleton from (
   		"Practitioner".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+    		where identifier.system.value = 'http://hl7.org/fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
 	(singleton from (
@@ -151,7 +151,7 @@ define FacilityName:
 define FacilityNPI: 
 	if exists("Facility") then (singleton from (
   		"Facility".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+    		where identifier.system.value = 'http://hl7.org/fhir/sid/us-npi')).value.value
 	else ''
 
 define FacilityTaxID:

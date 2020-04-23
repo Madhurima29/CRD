@@ -229,12 +229,18 @@ define PractitionerFirstName: "PractitionerNameObject".given[0].value
 define PractitionerNPI:  //'1986352488'
 	(singleton from (
   		"Practitioner".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+    		where identifier.system.value = 'http://hl7.org/fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
 	(singleton from (
   		"Practitioner".identifier identifier
     		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
+
+define PractitionerTelephone:
+	if "Practitioner".telecom[0] is not null then
+	(singleton from (
+  		"Practitioner".telecom[0])).value.value
+	else ''
 
 define PractitionerAddressObject: 
 	if exists("Practitioner".address) then
@@ -272,7 +278,7 @@ define AmbulanceSupplierName: //'Nc Curdy, Michael'
 define AmbulanceSupplierNPI: //'1935467921'
 (singleton from (
   		"AmbulanceSupplier".identifier identifier
-    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
+    		where identifier.system.value = 'http://hl7.org/fhir/sid/us-npi')).value.value
 
 define AmbulanceSupplierPTAN: (singleton from (
   "AmbulanceSupplier".identifier identifier
@@ -285,6 +291,10 @@ define AmbulanceSupplierAddress: //'711-2800 Nulla St., Mankato, Mississippi, 96
 	if exists("AmbulanceSupplierAddressObject") then
 	"AmbulanceSupplierAddressObject".line[0].value +', ' +"AmbulanceSupplierAddressObject".city.value +', ' +"AmbulanceSupplierAddressObject".state.value+', ' +"AmbulanceSupplierAddressObject".postalCode.value
 	else ''
+
+define StartDate: ("SupplyRequestObject".occurrence as dateTime).value
+
+//define NumofTransports: "SupplyRequestObject".quantity.value.value
 
 define SubmissionDate: Today
 
@@ -454,8 +464,6 @@ define RoundTrip: false
 define "ExpeditedRequestBoolean":
 	true
 
-//define NumofTransports: 2
-
 //Requestor info
 define Requestor: 
 	Practitioner	 
@@ -483,8 +491,6 @@ define Typeofrequest:
 	Tuple{
               code: 'Initial'
 	}
-
-//define StartDate: "NonEmergentAmbulanceTransport".performed.start.value
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)

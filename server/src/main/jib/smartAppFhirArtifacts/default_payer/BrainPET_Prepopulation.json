@@ -1229,7 +1229,7 @@
                                  },
                                  {
                                     "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "http://hl7.org.fhir/sid/us-npi",
+                                    "value": "http://hl7.org/fhir/sid/us-npi",
                                     "type": "Literal"
                                  }
                               ]
@@ -1735,7 +1735,7 @@
                                     },
                                     {
                                        "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                       "value": "http://hl7.org.fhir/sid/us-npi",
+                                       "value": "http://hl7.org/fhir/sid/us-npi",
                                        "type": "Literal"
                                     }
                                  ]

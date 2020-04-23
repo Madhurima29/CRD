@@ -1816,7 +1816,7 @@
                                  },
                                  {
                                     "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "http://hl7.org.fhir/sid/us-npi",
+                                    "value": "http://hl7.org/fhir/sid/us-npi",
                                     "type": "Literal"
                                  }
                               ]
@@ -1935,6 +1935,79 @@
                            }
                         }
                      }
+                  }
+               }
+            },
+            {
+               "name": "PractitionerTelephone",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "type": "If",
+                  "condition": {
+                     "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type": "As",
+                     "operand": {
+                        "type": "Not",
+                        "operand": {
+                           "type": "IsNull",
+                           "operand": {
+                              "type": "Indexer",
+                              "operand": [
+                                 {
+                                    "path": "telecom",
+                                    "type": "Property",
+                                    "source": {
+                                       "name": "Practitioner",
+                                       "type": "ExpressionRef"
+                                    }
+                                 },
+                                 {
+                                    "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value": "0",
+                                    "type": "Literal"
+                                 }
+                              ]
+                           }
+                        }
+                     }
+                  },
+                  "then": {
+                     "path": "value",
+                     "type": "Property",
+                     "source": {
+                        "path": "value",
+                        "type": "Property",
+                        "source": {
+                           "type": "SingletonFrom",
+                           "operand": {
+                              "type": "ToList",
+                              "operand": {
+                                 "type": "Indexer",
+                                 "operand": [
+                                    {
+                                       "path": "telecom",
+                                       "type": "Property",
+                                       "source": {
+                                          "name": "Practitioner",
+                                          "type": "ExpressionRef"
+                                       }
+                                    },
+                                    {
+                                       "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                       "value": "0",
+                                       "type": "Literal"
+                                    }
+                                 ]
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "else": {
+                     "valueType": "{urn:hl7-org:elm-types:r1}String",
+                     "value": "",
+                     "type": "Literal"
                   }
                }
             },
@@ -2264,7 +2337,7 @@
                                  },
                                  {
                                     "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "http://hl7.org.fhir/sid/us-npi",
+                                    "value": "http://hl7.org/fhir/sid/us-npi",
                                     "type": "Literal"
                                  }
                               ]
@@ -2529,6 +2602,31 @@
                      "valueType": "{urn:hl7-org:elm-types:r1}String",
                      "value": "",
                      "type": "Literal"
+                  }
+               }
+            },
+            {
+               "name": "StartDate",
+               "context": "Patient",
+               "accessLevel": "Public",
+               "expression": {
+                  "path": "value",
+                  "type": "Property",
+                  "source": {
+                     "strict": false,
+                     "type": "As",
+                     "operand": {
+                        "path": "occurrence",
+                        "type": "Property",
+                        "source": {
+                           "name": "SupplyRequestObject",
+                           "type": "ExpressionRef"
+                        }
+                     },
+                     "asTypeSpecifier": {
+                        "name": "{http://hl7.org/fhir}dateTime",
+                        "type": "NamedTypeSpecifier"
+                     }
                   }
                }
             },
