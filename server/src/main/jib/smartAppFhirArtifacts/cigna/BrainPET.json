@@ -252,7 +252,7 @@
         {
           "linkId": "4.3",
           "text": "Date of first Office visit",
-          "type": "datetime",
+          "type": "dateTime",
           "required": true,
           "extension": [
             {
@@ -264,7 +264,7 @@
         {
           "linkId": "4.4",
           "text": "Date of onset of Symptoms",
-          "type": "datetime",
+          "type": "dateTime",
           "required": true,
           "extension": [
             {
@@ -675,11 +675,6 @@
             },
             {
               "valueCoding": {
-                "code": "Neuropsychological Testing Evaluation by a Psychologist"
-              }
-            },
-            {
-              "valueCoding": {
                 "code": "Test Administration and Scoring by a Psychologist"
               }
             },
@@ -713,12 +708,6 @@
               "question": "7.1",
               "answerCoding": {
                 "code": "Neurobehavioral Status Exam"
-              }
-            },
-            {
-              "question": "7.1",
-              "answerCoding": {
-                "code": "Neuropsychological Testing Evaluation by a Psychologist"
               }
             },
             {

@@ -36,55 +36,7 @@
         },
         {
           "path": "code",
-          "valueSetString": "G31.84"
-        },
-        {
-          "path": "code",
-          "valueSetString": "F03.91"
-        },
-        {
-          "path": "code",
-          "valueSetString": "F03.90"
-        },
-        {
-          "path": "code",
-          "valueSetString": "R41.81"
-        },
-        {
-          "path": "code",
-          "valueSetString": "G30.9"
-        },
-        {
-          "path": "code",
-          "valueSetString": "G31.09"
-        },
-        {
-          "path": "code",
-          "valueSetString": "G40.919"
-        },
-        {
-          "path": "code",
-          "valueSetString": "C80.1"
-        },
-        {
-          "path": "code",
-          "valueSetString": "C79.9"
-        },
-        {
-          "path": "code",
-          "valueSetString": "D09.9"
-        },
-        {
-          "path": "code",
-          "valueSetString": "D36.9"
-        },
-        {
-          "path": "code",
-          "valueSetString": "D48.9"
-        },
-        {
-          "path": "code",
-          "valueSetString": "D49.9"
+          "valueSetString": "G31.84,F03.91,F03.90,R41.81,G30.9,G31.09,G40.919,C80.1,C79.9,D09.9,D36.9,D48.9,D49.9"
         },
         {
           "path": "category",
@@ -101,79 +53,7 @@
         },
         {
           "path": "code",
-          "valueSetString": "72087-0"
-        },
-        {
-          "path": "code",
-          "valueSetString": "69966-0"
-        },
-        {
-          "path": "code",
-          "valueSetString": "52491-8"
-        },
-        {
-          "path": "code",
-          "valueSetString": "52495-9"
-        },
-        {
-          "path": "code",
-          "valueSetString": "79115-2"
-        },
-        {
-          "path": "code",
-          "valueSetString": "35088-4"
-        },
-        {
-          "path": "code",
-          "valueSetString": "72107-6"
-        },
-        {
-          "path": "code",
-          "valueSetString": "72133-2"
-        },
-        {
-          "path": "code",
-          "valueSetString": "71946-8"
-        },
-        {
-          "path": "code",
-          "valueSetString": "71947-6"
-        },
-        {
-          "path": "code",
-          "valueSetString": "2132-9"
-        },
-        {
-          "path": "code",
-          "valueSetString": "16695-9"
-        },
-        {
-          "path": "code",
-          "valueSetString": "24348-5"
-        },
-        {
-          "path": "code",
-          "valueSetString": "3024-7"
-        },
-        {
-          "path": "code",
-          "valueSetString": "3016-3"
-        },
-        {
-          "path": "code",
-          "valueSetString": "11580-8"
-        },
-        {
-          "path": "code",
-          "valueSetString": "3026-2"
-        },
-        {
-          "path": "code",
-          "valueSetString": "3050-2"
-        },
-        {
-          "path": "code",
-          "valueSetString": "32215-6"
+          "valueSetString": "72087-0,69966-0,52491-8,52495-9,79115-2,35088-4,72107-6,72133-2,71946-8,71947-6,2132-9,16695-9,24348-5,3024-7,3016-3,11580-8,3026-2,3050-2,32215-6"
         }
       ]
     },
@@ -186,35 +66,7 @@
         },
         {
           "path": "code",
-          "valueSetString": "96116"
-        },
-        {
-          "path": "code",
-          "valueSetString": "96132"
-        },
-        {
-          "path": "code",
-          "valueSetString": "96133"
-        },
-        {
-          "path": "code",
-          "valueSetString": "96136"
-        },
-        {
-          "path": "code",
-          "valueSetString": "96137"
-        },
-        {
-          "path": "code",
-          "valueSetString": "96138"
-        },
-        {
-          "path": "code",
-          "valueSetString": "96139"
-        },
-        {
-          "path": "code",
-          "valueSetString": "96121"
+          "valueSetString": "96116,96132,96133,96136,96137,96138.96139,96121"
         }
       ]
     },
