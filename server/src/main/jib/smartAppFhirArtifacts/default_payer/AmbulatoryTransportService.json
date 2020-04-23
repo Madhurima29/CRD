@@ -537,7 +537,7 @@
          {
            "linkId": "5.3",
            "text": "Type of request",
-           "type": "open-choice",
+           "type": "choice",
            "required": true,
            "option": [
              {
@@ -834,7 +834,7 @@
          {
            "linkId": "7.3",
            "text": "Other reason(s) that non-emergency transport by ambulance is required",
-           "type": "string",
+           "type": "text",
            "required": false
          }
        ]

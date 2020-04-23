@@ -821,6 +821,12 @@
           "type": "open-choice",
           "required": false,
           "repeats": true,
+	   "enableWhen": [
+            {
+              "question": "8.4",
+              "answerBoolean": true
+            }
+          ],
           "option": [
             {
               "valueCoding": {
