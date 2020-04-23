@@ -318,7 +318,6 @@
           "text": "Reason for PET study",
           "type": "open-choice",
           "required": true,
-          "repeats": true,
           "option": [
             {
               "valueCoding": {
@@ -351,7 +350,6 @@
           "text": "Radiotracer that applies for the PET Scan",
           "type": "open-choice",
           "required": true,
-          "repeats": true,
           "option": [
             {
               "valueCoding": {
@@ -666,7 +664,6 @@
           "text": "NeuroPsychological Testing Performed",
           "type": "open-choice",
           "required": true,
-          "repeats": true,
           "option": [
             {
               "valueCoding": {

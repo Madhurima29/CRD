@@ -396,7 +396,7 @@
          {
            "linkId": "2.2",
            "text": "Physician/Practitioner Address",
-           "type": "string",
+           "type": "text",
            "required": true,
            "extension": [
              {
@@ -463,7 +463,7 @@
          {
            "linkId": "3.3",
            "text": "Ambulance Supplier/Provider Address",
-           "type": "string",
+           "type": "text",
            "required": true,
            "extension": [
              {
@@ -525,7 +525,7 @@
          {
            "linkId": "5.2",
            "text": "Start of 60 Day Period",
-           "type": "date",
+           "type": "dateTime",
            "required": true,
            "extension": [
              {
@@ -539,7 +539,6 @@
            "text": "Type of request",
            "type": "open-choice",
            "required": true,
-           "repeats": true,
            "option": [
              {
                "valueCoding": {
@@ -574,7 +573,7 @@
            "required": true,
            "enableWhen": [
              {
-               "question": "5.5",
+               "question": "5.3",
                "answerCoding": "Expedite this request"
              }
            ],
@@ -845,14 +844,8 @@
        "text": "Additional Documentation Required",
        "type": "group",
        "item": [
-         {
+	 {
            "linkId": "8.1",
-           "text": "Documentation Requirements: The medical documentation must describe how the specific structural and/or functional impairments together with the activity limitations contribute to the determination that stretcher transport is necessary for the patient's safety as it relates to their condition",
-           "type": "display",
-           "required": true
-         },
-         {
-           "linkId": "8.2",
            "text": "Physician Certification Statement  indicating the origin and/or destination of the transport",
            "type": "attachment",
            "required": true,
@@ -870,7 +863,14 @@
                }
              ]
            }
-         }
+         },
+         {
+           "linkId": "8.2",
+           "text": "Note: The medical documentation must describe how the specific structural and/or functional impairments together with the activity limitations contribute to the determination that stretcher transport is necessary for the patient's safety as it relates to their condition",
+           "type": "display",
+           "required": true
+         },
+         
        ]
      }
    ]

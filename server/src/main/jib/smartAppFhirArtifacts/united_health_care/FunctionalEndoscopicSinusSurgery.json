@@ -173,7 +173,7 @@
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
               "valueExpression": {
                 "language": "text/cql",
-                "expression": "\"OxygenTherapy\".Relevant Diagnoses"
+                "expression": "\"FunctionalEndoscopicSinusSurgery\".Relevant Diagnoses"
               }
             }
           ]
@@ -181,7 +181,7 @@
         {
           "linkId": "3.2",
           "text": "Date of onset of Symptoms",
-          "type": "date",
+          "type": "dateTime",
           "required": true,
           "extension": [
             {
@@ -232,9 +232,17 @@
         },
         {
           "linkId": "3.3",
-          "text": "Information additional to Recurrent Acute Rhinosinusitis",
+          "text": "Diagnosis in addition to Recurrent Acute Rhinosinusitis",
           "required": true,
           "type": "string",
+	  "enable-when": [
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Recurrent Acute Rhinosinusitis"
+              }
+            }
+          ],
           "code": {
             "coding": [
               {
@@ -317,7 +325,7 @@
         {
           "linkId": "4.2",
           "text": "Date of CTSCAN",
-          "type": "date",
+          "type": "dateTime",
           "required": true,
           "extension": [
             {
@@ -328,8 +336,8 @@
         },
         {
           "linkId": "4.3",
-          "text": "Note: Recent CT scan image(s) that show the abnormality",
-          "type": "attachment",
+          "text": "Recent CT scan image(s) that show the abnormality",
+          "type": "reference",
           "required": true,
           "extension": [
             {
