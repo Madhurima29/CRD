@@ -295,6 +295,7 @@ define AmbulanceSupplierAddress: //'711-2800 Nulla St., Mankato, Mississippi, 96
 define StartDate: ("SupplyRequestObject".occurrence as dateTime).value
 
 //define NumofTransports: "SupplyRequestObject".quantity.value.value
+define NumofTransports: 10
 
 define SubmissionDate: Today
 
@@ -488,9 +489,7 @@ define RequestorTelephone:
 	else ''
 
 define Typeofrequest: 
-	Tuple{
-              code: 'Initial'
-	}
+	'Initial'
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)
