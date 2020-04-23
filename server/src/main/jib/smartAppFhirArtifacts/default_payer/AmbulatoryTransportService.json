@@ -559,10 +559,8 @@
            "extension": [
              {
                "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-               "valueExpression": {
-                 "language": "text/cql",
-                 "expression": "\"ambulance-transport-questionnaire\".Typeofrequest"
-               }
+               "valueString":  "Typeofrequest"
+               
              }
            ]
          },
@@ -595,7 +593,7 @@
            "extension": [
              {
                "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-               "expression": "\"ambulance-transport-questionnaire\".state"
+               "valueString": "TransportState"
              }
            ]
          },
@@ -661,10 +659,7 @@
            "extension": [
              {
                "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
-               "valueExpression": {
-                 "language": "text/cql",
-                 "expression": "\"ambulance-transport-questionnaire\".Reason"
-               }
+               "valueString": "ReasonForTransport"
              }
            ]
          },
@@ -824,10 +819,8 @@
            "extension": [
              {
                "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-               "valueExpression": {
-                 "language": "text/cql",
-                 "expression": "\"ambulance-transport-questionnaire\".RelevantDiagnoses"
-               }
+               "valueString": "RelevantDiagnoses"
+               
              }
            ]
          },

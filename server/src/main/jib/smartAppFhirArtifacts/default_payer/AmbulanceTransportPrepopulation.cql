@@ -166,67 +166,85 @@ define Today: Today()
 
 // Beneficiary info
 define BeneficiaryNameObject: 
-	singleton from (Patient.name)
+	singleton from (Patient.name name where name.use.value='official')
 
 define BeneficiaryName: 
+	if (PatientFirstName is not null and PatientMiddleInitial is not null and PatientLastName is not null) then
 	PatientFirstName +' '+PatientMiddleInitial + ' '+ PatientLastName
+	else PatientFirstName + ' '+ PatientLastName
 
 define PatientLastName: "BeneficiaryNameObject".family.value
+
 define PatientMiddleInitial: 
 	if (Length("BeneficiaryNameObject".given)>1) then GetMiddleInitials("BeneficiaryNameObject")
 	else ''
+	
 define PatientFirstName: "BeneficiaryNameObject".given[0].value
 
 define BeneficiaryGender: Patient.gender.value
 
 define BeneficiaryDateOfBirth: Patient.birthDate.value
 
-define BeneficiaryMedicareNumber:
-	(singleton from (
-  	Patient.identifier identifier
-   	 where identifier.system.value = 'http://hl7.org/fhir/sid/us-medicare')).value.value
+define "Coverage Subscriber":
+	if exists([Coverage]) then
+	([Patient]P where 'Patient/'+Patient.id.value= singleton from([Coverage]).subscriber.reference.value)
+	else null
+
+define BeneficiaryMedicareNumber: 
+	if exists("Coverage Subscriber") then
+	(Last(
+  	"Coverage Subscriber".identifier identifier
+   	where identifier.system.value ='urn:oid:1.1.1.1.1.1' or identifier.system.value ='urn:oid:2.16.840.1.113883.3.787.0.0' or identifier.system.value ='http://hl7.org/fhir/sid/us-medicare' or identifier.system.value ='urn:oid:2.2.2.2.2.2')).value.value
+	else ''
 
 
-// Practitioner info
-define Practitioner: 
-	//singleton from (
-  	//	[Practitioner] practitioner where practitioner.id.value = '4526007')
-	singleton from (
-  		[Practitioner] practitioner
-    		where ('Practitioner/' + practitioner.id.value) = "NonEmergentAmbulanceTransport".performer[0].actor.reference.value)
+define "Encounter resource": 
+	(Last([Encounter]E sort by start of period)).participant
+
+define "Encounter participant":
+	"Encounter resource"
+
+define Practitioner: //Last([Practitioner])
+	if "Encounter participant" is not null then
+	Last(
+  		[Practitioner]practitioner 
+			with "Encounter participant" E
+    		such that ('Practitioner/' + practitioner.id.value) = E.individual.reference.value)
+	else Last([Practitioner])
     
 define PractitionerNameObject: 
-	singleton from ("Practitioner".name)
+	if "Practitioner" is not null then
+	singleton from ("Practitioner".name[0]) else null
 	
 define PractitionerName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
 	PractitionerFirstName + ' '+ PractitionerLastName
 
 define PractitionerLastName: "PractitionerNameObject".family.value
+
 define PractitionerMiddleInitial: GetMiddleInitials("PractitionerNameObject")
+
 define PractitionerFirstName: "PractitionerNameObject".given[0].value
 
-define PractitionerTelephone: 
-	(singleton from (
-  		"Practitioner".telecom tele
-    		where tele.system.value = 'phone' and tele.use.value='work')).value.value
-
-define PractitionerNPI: 
-	//'(257) 563-7401'
+define PractitionerNPI:  //'1986352488'
 	(singleton from (
   		"Practitioner".identifier identifier
-    		where identifier.system.value = 'http://hl7.org/fhir/sid/us-npi')).value.value
-    
-define PractitionerAddressObject: singleton from ("Practitioner".address address where address.use.value = 'home')  
+    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define PractitionerPTAN:
 	(singleton from (
   		"Practitioner".identifier identifier
-    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'PRN')).value.value
+    		where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'TAX')).value.value
+
+define PractitionerAddressObject: 
+	if exists("Practitioner".address) then
+	singleton from ("Practitioner".address[0]) else null  
 
 define PractitionerAddress: 
-	//'1234 Blvd, Overland Park, KS, 66213'
+	if exists("PractitionerAddressObject") then
 	"PractitionerAddressObject".line[0].value +', ' +"PractitionerAddressObject".city.value +', ' +"PractitionerAddressObject".state.value+', ' +"PractitionerAddressObject".postalCode.value
+	else ''
+
 
 // Ambulance Supplier info
 
@@ -238,31 +256,35 @@ define AmbulanceSupplier:
   		[Organization] org
     		where ('Organization/' + org.id.value) = "SupplyRequestObject".supplier[0].reference.value)
 
-//define AmbulanceSupplierService: 
-	//singleton from (
-  		//[HealthcareService] service
-    		//where ('HealthcareService/' + service.id.value) = supply_request.supplier[0].reference.value)
+/*define AmbulanceSupplierService: 
+	singleton from (
+  		[HealthcareService] service
+    		where ('HealthcareService/' + service.id.value) = supply_request.supplier[0].reference.value)
 
-//define AmbulanceSupplier: 
-	//if exists(AmbulanceSupplierOrg) then AmbulanceSupplierOrg
-	//else AmbulanceSupplierService
+define AmbulanceSupplier: 
+	if exists(AmbulanceSupplierOrg) then AmbulanceSupplierOrg
+	else AmbulanceSupplierService
+*/
 	
-define AmbulanceSupplierName: 'Nc Curdy, Michael'
-	//"AmbulanceSupplier".name.value
+define AmbulanceSupplierName: //'Nc Curdy, Michael'
+	"AmbulanceSupplier".name.value
 
-//define AmbulanceSupplierNPI: '1935467921'
-//(singleton from (
-  //"AmbulanceSupplier".identifier identifier
-    //where identifier.system.value = 'http://hl7.org/fhir/sid/us-npi')).value.value
+define AmbulanceSupplierNPI: //'1935467921'
+(singleton from (
+  		"AmbulanceSupplier".identifier identifier
+    		where identifier.system.value = 'http://hl7.org.fhir/sid/us-npi')).value.value
 
 define AmbulanceSupplierPTAN: (singleton from (
   "AmbulanceSupplier".identifier identifier
     where identifier.type.coding[0].system.value = 'http://terminology.hl7.org/CodeSystem/v2-0203' and identifier.type.coding[0].code.value = 'PRN')).value.value
     
-define AmbulanceSupplierAddressObject: singleton from ("AmbulanceSupplier".address)  
+define AmbulanceSupplierAddressObject: 
+	singleton from ("AmbulanceSupplier".address)  
 
-define AmbulanceSupplierAddress: '711-2800 Nulla St., Mankato, Mississippi, 96522' 
-	//"AmbulanceSupplierAddressObject".line[0].value +', ' +"AmbulanceSupplierAddressObject".city.value +', ' +"AmbulanceSupplierAddressObject".state.value+', ' +"AmbulanceSupplierAddressObject".postalCode.value
+define AmbulanceSupplierAddress: //'711-2800 Nulla St., Mankato, Mississippi, 96522' 
+	if exists("AmbulanceSupplierAddressObject") then
+	"AmbulanceSupplierAddressObject".line[0].value +', ' +"AmbulanceSupplierAddressObject".city.value +', ' +"AmbulanceSupplierAddressObject".state.value+', ' +"AmbulanceSupplierAddressObject".postalCode.value
+	else ''
 
 define SubmissionDate: Today
 
@@ -271,16 +293,16 @@ define TransportContraindicated: true
 define MedicallyRequired: true
 
 define Dialysis:
-	singleton from ([Procedure] c where c.code.coding[0].code.value= 'Z99.2')
+	[Procedure] c where c.code.coding[0].code.value= 'Z99.2'
 	
 define RadiationTherapy: 
-	singleton from ([Procedure] c where c.code.coding[0].code.value= '77470')
+	[Procedure] c where c.code.coding[0].code.value= '77470'
 	
 define WoundCareCondition:
-	singleton from ([Procedure] c where c.code.coding[0].code.value in "WoundCare")
+	[Procedure] c where c.code.coding[0].code.value in "WoundCare"
 
 define ChemotherapyCondition:
-	singleton from ([Procedure] c where c.code.coding[0].code.value in "Chemotherapy")
+	[Procedure] c where c.code.coding[0].code.value in "Chemotherapy"
 
 define BedConfined: 
 	if (exists([Observation] c where c.code.coding[0].code.value= 'Z74.01') 
@@ -297,10 +319,10 @@ define SittingPosition:
 	else false
 
 define FracturesCondition:
-	singleton from ([Condition] c where c.code.coding[0].code.value ='733.82')
+	[Condition] c where c.code.coding[0].code.value ='733.82'
 
 define Osteoarthritis:
-	singleton from ([Condition] c where c.code.coding[0].code.value ='M17.9')
+	[Condition] c where c.code.coding[0].code.value ='M17.9'
 
 define MuscularWeakness:
 	if (exists([Observation] c where c.code.coding[0].code.value= 'Z72.3') 
@@ -310,19 +332,19 @@ define MuscularWeakness:
 	else false
 
 define OrthopedicJointImplants:
-	singleton from ([Condition] c where c.code.coding[0].code.value ='Z96.698')
+	[Condition] c where c.code.coding[0].code.value ='Z96.698'
 
 define Amputation:
-	singleton from ([Condition] c where c.code.coding[0].code.value ='Z89')
+	[Condition] c where c.code.coding[0].code.value ='Z89'
 
 define CVAWithSequelae:
-	singleton from ([Condition] c where c.code.coding[0].code.value ='I69')
+	[Condition] c where c.code.coding[0].code.value ='I69'
 
 define DVT:
-	singleton from ([Condition] c where c.code.coding[0].code.value ='I82.40')
+	[Condition] c where c.code.coding[0].code.value ='I82.40'
 
 define DemyelinatingDisease:
-	singleton from ([Condition] c where c.code.coding[0].code.value ='G37.9')
+	[Condition] c where c.code.coding[0].code.value ='G37.9'
 
 define Ulcer:
 	if (exists([Condition] c where c.code.coding[0].code.value= 'L89.302'))
@@ -337,10 +359,10 @@ define MorbidObesity:
 	else false
 
 define IVMedications: 
-	singleton from ([Procedure] c where c.code.coding[0].code.value= 'A0394')
+	[Procedure] c where c.code.coding[0].code.value= 'A0394'
 
 define Isolation: 
-	singleton from ([Observation] c where c.code.coding[0].code.value= 'V07.0')
+	[Observation] c where c.code.coding[0].code.value= 'V07.0'
 
 define Danger:
 	if (exists([Observation] c where c.code.coding[0].code.value= 'Z91.5') 
@@ -358,28 +380,50 @@ define MentalCondition:
 
 define RelevantDiagnoses: 
 	{
-	if exists("Dialysis")  then 'Dialysis' else 'null',
-	if exists("RiskOfFalling") then 'Risk of falling off wheelchair or stretcher while in motion (not related to obesity)' else 'null',
-	if exists("WoundCareCondition")  then 'Wound care' else 'null',
-	if exists("RadiationTherapy")  then 'Radiation therapy' else 'null',
-	if exists("ChemotherapyCondition")  then 'Chemotherapy' else 'null',
-	if "BedConfined" then 'Bed confined (Unable to ambulate, Unable to get out of bed without assistance, Unable to safely sit in a chair or wheelchair)' else 'null',
-	if "SittingPosition"  then 'Unable to maintain erect sitting position in a chair for time needed to transport, due to moderate muscular weakness and de-conditioning' else 'null',
-	if exists("FracturesCondition")  then 'Non-healed fractures requiring ambulance' else 'null',
-	if exists("Osteoarthritis")  then 'Incapacitating Osteoarthritis' else 'null',
-	if "MuscularWeakness"  then 'Severe muscular weakness and de-conditioned state precludes any significant physical activity' else 'null',
-	if exists("OrthopedicJointImplants")  then 'Orthopedic device required in transit' else 'null',
-	if exists("Amputation")  then 'Amputation(s)' else 'null',
-	if exists("CVAWithSequelae")  then 'CVA with sequelae (late effect of CVA) that impair mobility and result in be confinement' else 'null',
-	if exists("DVT")  then 'DVT requires elevation of lower extremity' else 'null',
-	if exists("DemyelinatingDisease")  then 'Progressive demyelinating disease' else 'null',
-	if exists([Condition] c where c.code.coding[0].code.value ='R52')  then 'Moderate to severe pain on movement' else 'null',
-	if "Ulcer" then 'Unable to sit in chair or wheelchair due to Grade II or greater decubitus ulcers on buttocks' else 'null',
-	if "MorbidObesity" then 'Morbid obesity requires additional personnel/equipment to handle' else 'null',
-	if exists("IVMedications")  then 'IV medications/fluids required during transport' else 'null',
-	if exists("Isolation")  then 'Special handling en route – isolation' else 'null',
-	if "Danger" then 'Danger to self or others' else 'null',
-	if "MentalCondition" then 'Confused, combative, lethargic, comatose' else 'null'
+	if exists("Dialysis") then Tuple{code: 'Dialysis'} else null,
+	if exists("RiskOfFalling") then Tuple{code: 'Risk of falling off wheelchair or stretcher while in motion (not related to obesity)'} else null,
+
+	if exists("WoundCareCondition")  then Tuple{
+               code: 'Wound care'} else null,
+
+	if exists("RadiationTherapy")  then Tuple{code: 'Radiation therapy'} else null,
+
+	if exists("ChemotherapyCondition")  then Tuple{code: 'Chemotherapy'} else null,
+
+	if "BedConfined" then Tuple{code: 'Bed confined (Unable to ambulate, Unable to get out of bed without assistance, Unable to safely sit in a chair or wheelchair)'} else null,
+
+	if "SittingPosition"  then Tuple{code: 'Unable to maintain erect sitting position in a chair for time needed to transport, due to moderate muscular weakness and de-conditioning'} else null,
+
+	if exists("FracturesCondition")  then Tuple{code: 'Non-healed fractures requiring ambulance'} else null,
+
+	if exists("Osteoarthritis")  then Tuple{code: 'Incapacitating Osteoarthritis'} else null,
+
+	if "MuscularWeakness"  then Tuple{code: 'Severe muscular weakness and de-conditioned state precludes any significant physical activity'} else null,
+
+	if exists("OrthopedicJointImplants")  then Tuple{code: 'Orthopedic device required in transit'} else null,
+
+	if exists("Amputation")  then Tuple{code: 'Amputation(s)'} else null,
+
+	if exists("CVAWithSequelae")  then Tuple{code: 'CVA with sequelae (late effect of CVA) that impair mobility and result in be confinement'} else null,
+
+	if exists("DVT")  then Tuple{code: 'DVT requires elevation of lower extremity'} else null,
+
+	if exists("DemyelinatingDisease")  then Tuple{code: 'Progressive demyelinating disease'} else null,
+
+	if exists([Condition] c where c.code.coding[0].code.value ='R52')  then Tuple{code: 'Moderate to severe pain on movement'} else null,
+
+	if "Ulcer" then Tuple{code: 'Unable to sit in chair or wheelchair due to Grade II or greater decubitus ulcers on buttocks' } else null,
+
+	if "MorbidObesity" then Tuple{code: 'Morbid obesity requires additional personnel/equipment to handle'} else null,
+
+	if exists("IVMedications")  then Tuple{code: 'IV medications/fluids required during transport'} else null,
+
+	if exists("Isolation")  then Tuple{code: 'Special handling en route – isolation'} else null,
+
+	if "Danger" then Tuple{code: 'Danger to self or others'} else null,
+
+	if "MentalCondition" then Tuple{code: 'Confused, combative, lethargic, comatose'} else null
+
 	}
 
 define RiskOfFalling: 
@@ -393,47 +437,54 @@ define LocationToObject:
 
 define LocationFromAddressObject: singleton from ("LocationFromObject".address)  
 
-define TransportFrom: '15208 West 119th Street, Olathe, KS, 66213'
-	//"LocationFromAddressObject".line[0].value +', ' +"LocationFromAddressObject".city.value +', ' +"LocationFromAddressObject".state.value+', ' +"LocationFromAddressObject".postalCode.value
+define TransportFrom: //'15208 West 119th Street, Olathe, KS, 66213'
+	if exists(LocationFromAddressObject) then
+	"LocationFromAddressObject".line[0].value +', ' +"LocationFromAddressObject".city.value +', ' +"LocationFromAddressObject".state.value+', ' +"LocationFromAddressObject".postalCode.value
+	else ''
 
 define LocationToAddressObject: singleton from ("LocationToObject".address)  
 
-define TransportTo: '1234 Blvd, Overland Park, KS, 66213'
-	//"LocationToAddressObject".line[0].value +', ' +"LocationToAddressObject".city.value +', ' +"LocationToAddressObject".state.value+', ' +"LocationToAddressObject".postalCode.value
+define TransportTo: //'1234 Blvd, Overland Park, KS, 66213'
+	if exists(LocationToAddressObject) then
+	"LocationToAddressObject".line[0].value +', ' +"LocationToAddressObject".city.value +', ' +"LocationToAddressObject".state.value+', ' +"LocationToAddressObject".postalCode.value
+	else ''
 
 define RoundTrip: false
 
 define "ExpeditedRequestBoolean":
 	true
 
-define NumofTransports: 2
+//define NumofTransports: 2
 
 //Requestor info
 define Requestor: 
-	singleton from (
-  		[Practitioner] practitioner
-    		where ('Practitioner/' + practitioner.id.value) = "NonEmergentAmbulanceTransport".performer[0].actor.reference.value)
-    		
+	Practitioner	 
+	
 define RequestorNameObject: 
-	singleton from ("Requestor".name)
+	singleton from ("Requestor".name[0])
 	
 define RequestorName: 
 	//PractitionerFirstName + ' '+ PractitionerMiddleInitial + ' '+ PractitionerLastName
 	RequestorFirstName + ' '+ RequestorLastName
 
 define RequestorLastName: "RequestorNameObject".family.value
+
 define RequestorMiddleInitial: GetMiddleInitials("RequestorNameObject")
+
 define RequestorFirstName: "RequestorNameObject".given[0].value
 
 define RequestorTelephone: 
-//'(257) 563-7401'
+	if "Requestor".telecom[0] is not null then
 	(singleton from (
-  		"Requestor".telecom tele
-    		where tele.system.value = 'phone' and tele.use.value='work')).value.value
+  		"Requestor".telecom[0])).value.value
+	else ''
 
-//define Typeofrequest: {'Initial'}
+define Typeofrequest: 
+	Tuple{
+              code: 'Initial'
+	}
 
-define StartDate: "NonEmergentAmbulanceTransport".performed.start.value
+//define StartDate: "NonEmergentAmbulanceTransport".performed.start.value
 
 define function GetMiddleInitials(name FHIR.HumanName):
   Substring(Combine((name.given given return Substring(given.value,0,1)),', '),3)
