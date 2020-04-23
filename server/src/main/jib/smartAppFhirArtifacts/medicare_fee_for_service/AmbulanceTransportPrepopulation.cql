@@ -424,7 +424,7 @@ define RelevantDiagnoses:
 
 	if "MentalCondition" then Tuple{code: 'Confused, combative, lethargic, comatose'} else null
 
-	}
+	} except(null)
 
 define RiskOfFalling: 
 	singleton from ([Observation] c where c.code.coding[0].code.value= 'V00.811')

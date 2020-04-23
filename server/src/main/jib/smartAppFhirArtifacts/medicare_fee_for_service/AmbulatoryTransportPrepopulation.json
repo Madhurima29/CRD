@@ -4558,1013 +4558,1039 @@
                "context": "Patient",
                "accessLevel": "Public",
                "expression": {
-                  "type": "List",
-                  "element": [
+                  "type": "Except",
+                  "operand": [
                      {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "Dialysis",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Dialysis",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "type": "ToList",
+                        "type": "List",
+                        "element": [
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
                                  "operand": {
-                                    "name": "RiskOfFalling",
-                                    "type": "ExpressionRef"
-                                 }
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Risk of falling off wheelchair or stretcher while in motion (not related to obesity)",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "Dialysis",
+                                       "type": "ExpressionRef"
                                     }
                                  }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "WoundCareCondition",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Wound care",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "RadiationTherapy",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Radiation therapy",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "ChemotherapyCondition",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Chemotherapy",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "name": "BedConfined",
-                              "type": "ExpressionRef"
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Bed confined (Unable to ambulate, Unable to get out of bed without assistance, Unable to safely sit in a chair or wheelchair)",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "name": "SittingPosition",
-                              "type": "ExpressionRef"
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Unable to maintain erect sitting position in a chair for time needed to transport, due to moderate muscular weakness and de-conditioning",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "FracturesCondition",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Non-healed fractures requiring ambulance",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "Osteoarthritis",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Incapacitating Osteoarthritis",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "name": "MuscularWeakness",
-                              "type": "ExpressionRef"
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Severe muscular weakness and de-conditioned state precludes any significant physical activity",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "OrthopedicJointImplants",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Orthopedic device required in transit",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "Amputation",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Amputation(s)",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "CVAWithSequelae",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "CVA with sequelae (late effect of CVA) that impair mobility and result in be confinement",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "DVT",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "DVT requires elevation of lower extremity",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "DemyelinatingDisease",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Progressive demyelinating disease",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "type": "Query",
-                                 "source": [
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
                                     {
-                                       "alias": "c",
-                                       "expression": {
-                                          "dataType": "{http://hl7.org/fhir}Condition",
-                                          "type": "Retrieve"
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Dialysis",
+                                          "type": "Literal"
                                        }
                                     }
-                                 ],
-                                 "relationship": [],
-                                 "where": {
-                                    "type": "Equal",
-                                    "operand": [
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
                                        {
-                                          "path": "value",
-                                          "type": "Property",
-                                          "source": {
-                                             "path": "code",
-                                             "type": "Property",
-                                             "source": {
-                                                "type": "Indexer",
-                                                "operand": [
-                                                   {
-                                                      "path": "coding",
-                                                      "type": "Property",
-                                                      "source": {
-                                                         "path": "code",
-                                                         "scope": "c",
-                                                         "type": "Property"
-                                                      }
-                                                   },
-                                                   {
-                                                      "valueType": "{urn:hl7-org:elm-types:r1}Integer",
-                                                      "value": "0",
-                                                      "type": "Literal"
-                                                   }
-                                                ]
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "type": "ToList",
+                                       "operand": {
+                                          "name": "RiskOfFalling",
+                                          "type": "ExpressionRef"
+                                       }
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Risk of falling off wheelchair or stretcher while in motion (not related to obesity)",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "WoundCareCondition",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Wound care",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "RadiationTherapy",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Radiation therapy",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "ChemotherapyCondition",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Chemotherapy",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "name": "BedConfined",
+                                    "type": "ExpressionRef"
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Bed confined (Unable to ambulate, Unable to get out of bed without assistance, Unable to safely sit in a chair or wheelchair)",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "name": "SittingPosition",
+                                    "type": "ExpressionRef"
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Unable to maintain erect sitting position in a chair for time needed to transport, due to moderate muscular weakness and de-conditioning",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "FracturesCondition",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Non-healed fractures requiring ambulance",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "Osteoarthritis",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Incapacitating Osteoarthritis",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "name": "MuscularWeakness",
+                                    "type": "ExpressionRef"
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Severe muscular weakness and de-conditioned state precludes any significant physical activity",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "OrthopedicJointImplants",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Orthopedic device required in transit",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "Amputation",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Amputation(s)",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "CVAWithSequelae",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "CVA with sequelae (late effect of CVA) that impair mobility and result in be confinement",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "DVT",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "DVT requires elevation of lower extremity",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "DemyelinatingDisease",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Progressive demyelinating disease",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "type": "Query",
+                                       "source": [
+                                          {
+                                             "alias": "c",
+                                             "expression": {
+                                                "dataType": "{http://hl7.org/fhir}Condition",
+                                                "type": "Retrieve"
                                              }
                                           }
-                                       },
-                                       {
+                                       ],
+                                       "relationship": [],
+                                       "where": {
+                                          "type": "Equal",
+                                          "operand": [
+                                             {
+                                                "path": "value",
+                                                "type": "Property",
+                                                "source": {
+                                                   "path": "code",
+                                                   "type": "Property",
+                                                   "source": {
+                                                      "type": "Indexer",
+                                                      "operand": [
+                                                         {
+                                                            "path": "coding",
+                                                            "type": "Property",
+                                                            "source": {
+                                                               "path": "code",
+                                                               "scope": "c",
+                                                               "type": "Property"
+                                                            }
+                                                         },
+                                                         {
+                                                            "valueType": "{urn:hl7-org:elm-types:r1}Integer",
+                                                            "value": "0",
+                                                            "type": "Literal"
+                                                         }
+                                                      ]
+                                                   }
+                                                }
+                                             },
+                                             {
+                                                "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                                "value": "R52",
+                                                "type": "Literal"
+                                             }
+                                          ]
+                                       }
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
                                           "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                          "value": "R52",
+                                          "value": "Moderate to severe pain on movement",
                                           "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "name": "Ulcer",
+                                    "type": "ExpressionRef"
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Unable to sit in chair or wheelchair due to Grade II or greater decubitus ulcers on buttocks",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "name": "MorbidObesity",
+                                    "type": "ExpressionRef"
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Morbid obesity requires additional personnel/equipment to handle",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "IVMedications",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "IV medications/fluids required during transport",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Exists",
+                                    "operand": {
+                                       "name": "Isolation",
+                                       "type": "ExpressionRef"
+                                    }
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Special handling en route – isolation",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "name": "Danger",
+                                    "type": "ExpressionRef"
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Danger to self or others",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           },
+                           {
+                              "type": "If",
+                              "condition": {
+                                 "asType": "{urn:hl7-org:elm-types:r1}Boolean",
+                                 "type": "As",
+                                 "operand": {
+                                    "name": "MentalCondition",
+                                    "type": "ExpressionRef"
+                                 }
+                              },
+                              "then": {
+                                 "type": "Tuple",
+                                 "element": [
+                                    {
+                                       "name": "code",
+                                       "value": {
+                                          "valueType": "{urn:hl7-org:elm-types:r1}String",
+                                          "value": "Confused, combative, lethargic, comatose",
+                                          "type": "Literal"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "else": {
+                                 "type": "As",
+                                 "operand": {
+                                    "type": "Null"
+                                 },
+                                 "asTypeSpecifier": {
+                                    "type": "TupleTypeSpecifier",
+                                    "element": [
+                                       {
+                                          "name": "code",
+                                          "type": {
+                                             "name": "{urn:hl7-org:elm-types:r1}String",
+                                             "type": "NamedTypeSpecifier"
+                                          }
                                        }
                                     ]
                                  }
                               }
                            }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Moderate to severe pain on movement",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
+                        ]
                      },
                      {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "name": "Ulcer",
-                              "type": "ExpressionRef"
-                           }
+                        "type": "As",
+                        "operand": {
+                           "type": "Null"
                         },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Unable to sit in chair or wheelchair due to Grade II or greater decubitus ulcers on buttocks",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "name": "MorbidObesity",
-                              "type": "ExpressionRef"
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Morbid obesity requires additional personnel/equipment to handle",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "IVMedications",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "IV medications/fluids required during transport",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "type": "Exists",
-                              "operand": {
-                                 "name": "Isolation",
-                                 "type": "ExpressionRef"
-                              }
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Special handling en route – isolation",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "name": "Danger",
-                              "type": "ExpressionRef"
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Danger to self or others",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
-                              "type": "TupleTypeSpecifier",
-                              "element": [
-                                 {
-                                    "name": "code",
-                                    "type": {
-                                       "name": "{urn:hl7-org:elm-types:r1}String",
-                                       "type": "NamedTypeSpecifier"
-                                    }
-                                 }
-                              ]
-                           }
-                        }
-                     },
-                     {
-                        "type": "If",
-                        "condition": {
-                           "asType": "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type": "As",
-                           "operand": {
-                              "name": "MentalCondition",
-                              "type": "ExpressionRef"
-                           }
-                        },
-                        "then": {
-                           "type": "Tuple",
-                           "element": [
-                              {
-                                 "name": "code",
-                                 "value": {
-                                    "valueType": "{urn:hl7-org:elm-types:r1}String",
-                                    "value": "Confused, combative, lethargic, comatose",
-                                    "type": "Literal"
-                                 }
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "As",
-                           "operand": {
-                              "type": "Null"
-                           },
-                           "asTypeSpecifier": {
+                        "asTypeSpecifier": {
+                           "type": "ListTypeSpecifier",
+                           "elementType": {
                               "type": "TupleTypeSpecifier",
                               "element": [
                                  {
