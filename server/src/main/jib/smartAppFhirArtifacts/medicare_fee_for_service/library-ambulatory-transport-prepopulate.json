@@ -26,52 +26,39 @@
     }
   ],
   "claimEndpoint": "https://sm.mettles.com/other_payerfhir/hapi-fhir-jpaserver/fhir/Claim/$submit",
-  "dataRequirement": [ {
-      "type": "Procedure",
-      "codeFilter": [
-        {
-          "path": "code",
-          "valueSetString": "A0426"
-        }
-      ]
-    },
+  "dataRequirement": [
     {
       "type": "Procedure",
       "codeFilter": [
         {
           "path": "code",
-          "valueSetString": "A0428"
+          "valueSetString": "A0426,A0428"
         }
       ]
     },
-	{
-         "type":"Practitioner",
-         "codeFilter":[
-            {
-               "path":"_id",
-               "valueSetString":"4526007"
-            }
-         ]
-      },
-      {
-         "type":"Condition",
-         "codeFilter":[
-            {
-               "path":"clinical-status",
-         	"valueSetString":"active"	
-            }
-         ]
-      },
-		      {
-         "type":"Practitioner"
-		      },
-{
+    {
+      "type": "Condition",
+      "codeFilter": [
+        {
+          "path": "clinical-status",
+          "valueSetString": "active"
+        }
+      ]
+    },
+    {
+      "type": "Location"
+    },
+    {
+      "type": "Coverage"
+    },
+    {
       "type": "SupplyRequest",
-       "codeFilter": [
+      "codeFilter": [
         {
           "path": "requester",
           "valueSetString": "Patient.id"
         }
       ]
-    }]
+    }
+  ]
 }

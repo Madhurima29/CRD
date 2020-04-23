@@ -572,7 +572,9 @@
            "enableWhen": [
              {
                "question": "5.3",
-               "answerCoding": "Expedite this request"
+               "answerCoding": {
+                "code": "Expedite this request"
+              }
              }
            ],
            "extension": [
@@ -862,8 +864,7 @@
            "text": "Note: The medical documentation must describe how the specific structural and/or functional impairments together with the activity limitations contribute to the determination that stretcher transport is necessary for the patient's safety as it relates to their condition",
            "type": "display",
            "required": true
-         },
-         
+         }   
        ]
      }
    ]
