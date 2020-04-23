@@ -132,86 +132,101 @@
       "item": [
         {
           "linkId": "3.1",
-          "text": "Relevant Diagnosis[ICD-10]",
-          "type": "string",
+          "text": "Primary Diagnosis[ICD-10]",
+          "type": "open-choice",
           "required": true,
-          "code": {
-            "coding": [
-              {
-                "valueCoding": {
-                  "display": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks",
-                  "code": "J32.9"
-                }
-              },
-              {
-                "valueCoding": {
-                  "display": "Recurrent Acute Rhinosinusitis",
-                  "code": "J01.91"
-                }
-              },
-              {
-                "valueCoding": {
-                  "display": "Mucocele confirmed on CT scan",
-                  "code": "K11.6"
-                }
-              },
-              {
-                "valueCoding": {
-                  "display": "Concha bullosa confirmed on CT scan",
-                  "code": "J34.9"
-                }
-              },
-              {
-                "valueCoding": {
-                  "display": "Complications of sinusitis such as abscess confirmed on CT scan",
-                  "code": "J32.9"
-                }
-              },
-              {
-                "valueCoding": {
-                  "display": "Tumor confirmed (such as polyposis or malignancy) confirmed on CT scan",
-                  "code": "C80. 1"
-                }
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
               }
-            ]
-          },
+            },
+            {
+              "valueCoding": {
+                "code": "Recurrent Acute Rhinosinusitis"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Mucocele"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Concha bullosa"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Complications of sinusitis such as abscess"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Tumor confirmed (such as polyposis or malignancy)"
+              }
+            }
+          ],
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "Relevant Diagnoses"
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"OxygenTherapy\".Relevant Diagnoses"
+              }
             }
           ]
         },
         {
           "linkId": "3.2",
-          "text": "Treatments performed in full courses",
-          "type": "text",
+          "text": "Date of onset of Symptoms",
+          "type": "date",
           "required": true,
-     
-          "code": {
-            "coding":[
-              {
-                "valueCoding": {
-                  "code": "Antibiotic therapy, if bacterial infection is suspected"
-                }
-              },
-              {
-                "valueCoding": {
-                  "code": "Nasal lavage",
-		"initialSelected":true
-                }
-              },
-              {
-                "valueCoding": {
-                  "code": "Intranasal corticosteroids"
-                }
-              }
-            ]
-          },
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "Treatments performed"
+              "valueString": "DateOfOnset"
+            }
+          ]
+        },
+        {
+          "linkId": "3.3",
+          "text": "Persistence of Symptoms despite following treatments",
+          "type": "open-choice",
+          "required": true,
+          "enable-when": [
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+              }
+            }
+          ],
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Antibiotic therapy, if bacterial infection is suspected"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Nasal lavage"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Intranasal corticosteroids"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueExpression": {
+                "language": "text/cql",
+                "expression": "\"OxygenTherapy\".Treatments performed"
+              }
             }
           ]
         },
@@ -220,7 +235,6 @@
           "text": "Information additional to Recurrent Acute Rhinosinusitis",
           "required": true,
           "type": "string",
-          
           "code": {
             "coding": [
               {
@@ -246,11 +260,93 @@
     },
     {
       "linkId": "4",
-      "text": "Submitter Information",
+      "text": "Diagnostic Report/CT Scan",
       "type": "group",
       "item": [
         {
           "linkId": "4.1",
+          "text": "CT Scan Report",
+          "type": "reference",
+          "enableWhen": [
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Recurrent Acute Rhinosinusitis"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Mucocele"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Concha bullosa"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Complications of sinusitis such as abscess"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Tumor confirmed (such as polyposis or malignancy)"
+              }
+            }
+          ],
+          "enableBehavior": "any",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "DiagnosticReport"
+            }
+          ]
+        },
+        {
+          "linkId": "4.2",
+          "text": "Date of CTSCAN",
+          "type": "date",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "DateOfScan"
+            }
+          ]
+        },
+        {
+          "linkId": "4.3",
+          "text": "Note: Recent CT scan image(s) that show the abnormality",
+          "type": "attachment",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "ScanImages"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "5",
+      "text": "Submitter Information",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "5.1",
           "text": "Contact Name",
           "type": "string",
           "required": true,
@@ -260,6 +356,12 @@
               "valueString": "SubmitterName"
             }
           ]
+        },
+        {
+          "linkId": "5.2",
+          "text": "Note: Attach recent CT scan image(s) that show the abnormality for surgery",
+          "type": "display",
+          "required": true
         }
       ]
     }
