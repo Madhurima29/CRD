@@ -706,19 +706,61 @@
               "answerCoding": {
                 "code": "Neurobehavioral Status Exam"
               }
-            },
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "EvaluationReport1"
+            }
+          ]
+        },
+        {
+          "linkId": "7.3",
+          "text": "Evaluation Report",
+          "type": "reference",
+          "enableWhen": [
             {
               "question": "7.1",
               "answerCoding": {
                 "code": "Test Administration and Scoring by a Psychologist"
               }
-            },
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "EvaluationReport2"
+            }
+          ]
+        },
+        {
+          "linkId": "7.4",
+          "text": "Evaluation Report",
+          "type": "reference",
+          "enableWhen": [
             {
               "question": "7.1",
               "answerCoding": {
                 "code": "Neuro Psychological Testing Evaluation by a Psychologist"
               }
-            },
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "EvaluationReport3"
+            }
+          ]
+        },
+        {
+          "linkId": "7.5",
+          "text": "Evaluation Report",
+          "type": "reference",
+          "enableWhen": [
             {
               "question": "7.1",
               "answerCoding": {
@@ -726,12 +768,11 @@
               }
             }
           ],
-          "enableBehavior": "any",
           "required": false,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "EvaluationReport"
+              "valueString": "EvaluationReport4"
             }
           ]
         }
@@ -821,7 +862,7 @@
           "type": "open-choice",
           "required": false,
           "repeats": true,
-	   "enableWhen": [
+          "enableWhen": [
             {
               "question": "8.4",
               "answerBoolean": true
