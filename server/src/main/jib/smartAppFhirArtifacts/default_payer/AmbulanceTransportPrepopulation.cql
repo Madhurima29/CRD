@@ -391,51 +391,50 @@ define MentalCondition:
 
 define RelevantDiagnoses: 
 	{
-	if exists("Dialysis") then Tuple{code: 'Dialysis'} else null,
-	if exists("RiskOfFalling") then Tuple{code: 'Risk of falling off wheelchair or stretcher while in motion (not related to obesity)'} else null,
+	if exists("Dialysis") then 'Dialysis' else null,
+	if exists("RiskOfFalling") then 'Risk of falling off wheelchair or stretcher while in motion (not related to obesity)' else 'null',
 
-	if exists("WoundCareCondition")  then Tuple{
-               code: 'Wound care'} else null,
+	if exists("WoundCareCondition")  then 'Wound care' else null,
 
-	if exists("RadiationTherapy")  then Tuple{code: 'Radiation therapy'} else null,
+	if exists("RadiationTherapy")  then 'Radiation therapy' else 'null',
 
-	if exists("ChemotherapyCondition")  then Tuple{code: 'Chemotherapy'} else null,
+	if exists("ChemotherapyCondition")  then 'Chemotherapy' else 'null',
 
-	if "BedConfined" then Tuple{code: 'Bed confined (Unable to ambulate, Unable to get out of bed without assistance, Unable to safely sit in a chair or wheelchair)'} else null,
+	if "BedConfined" then 'Bed confined (Unable to ambulate, Unable to get out of bed without assistance, Unable to safely sit in a chair or wheelchair)' else 'null',
 
-	if "SittingPosition"  then Tuple{code: 'Unable to maintain erect sitting position in a chair for time needed to transport, due to moderate muscular weakness and de-conditioning'} else null,
+	if "SittingPosition"  then 'Unable to maintain erect sitting position in a chair for time needed to transport, due to moderate muscular weakness and de-conditioning' else 'null',
 
-	if exists("FracturesCondition")  then Tuple{code: 'Non-healed fractures requiring ambulance'} else null,
+	if exists("FracturesCondition")  then 'Non-healed fractures requiring ambulance' else 'null',
 
-	if exists("Osteoarthritis")  then Tuple{code: 'Incapacitating Osteoarthritis'} else null,
+	if exists("Osteoarthritis")  then 'Incapacitating Osteoarthritis' else 'null',
 
-	if "MuscularWeakness"  then Tuple{code: 'Severe muscular weakness and de-conditioned state precludes any significant physical activity'} else null,
+	if "MuscularWeakness"  then 'Severe muscular weakness and de-conditioned state precludes any significant physical activity' else 'null',
 
-	if exists("OrthopedicJointImplants")  then Tuple{code: 'Orthopedic device required in transit'} else null,
+	if exists("OrthopedicJointImplants")  then 'Orthopedic device required in transit' else 'null',
 
-	if exists("Amputation")  then Tuple{code: 'Amputation(s)'} else null,
+	if exists("Amputation")  then 'Amputation(s)' else 'null',
 
-	if exists("CVAWithSequelae")  then Tuple{code: 'CVA with sequelae (late effect of CVA) that impair mobility and result in be confinement'} else null,
+	if exists("CVAWithSequelae")  then 'CVA with sequelae (late effect of CVA) that impair mobility and result in be confinement' else 'null',
 
-	if exists("DVT")  then Tuple{code: 'DVT requires elevation of lower extremity'} else null,
+	if exists("DVT")  then 'DVT requires elevation of lower extremity' else 'null',
 
-	if exists("DemyelinatingDisease")  then Tuple{code: 'Progressive demyelinating disease'} else null,
+	if exists("DemyelinatingDisease")  then 'Progressive demyelinating disease' else 'null',
 
-	if exists([Condition] c where c.code.coding[0].code.value ='R52')  then Tuple{code: 'Moderate to severe pain on movement'} else null,
+	if exists([Condition] c where c.code.coding[0].code.value ='R52')  then 'Moderate to severe pain on movement' else 'null',
 
-	if "Ulcer" then Tuple{code: 'Unable to sit in chair or wheelchair due to Grade II or greater decubitus ulcers on buttocks' } else null,
+	if "Ulcer" then 'Unable to sit in chair or wheelchair due to Grade II or greater decubitus ulcers on buttocks'  else 'null',
 
-	if "MorbidObesity" then Tuple{code: 'Morbid obesity requires additional personnel/equipment to handle'} else null,
+	if "MorbidObesity" then 'Morbid obesity requires additional personnel/equipment to handle' else 'null',
 
-	if exists("IVMedications")  then Tuple{code: 'IV medications/fluids required during transport'} else null,
+	if exists("IVMedications")  then 'IV medications/fluids required during transport' else 'null',
 
-	if exists("Isolation")  then Tuple{code: 'Special handling en route – isolation'} else null,
+	if exists("Isolation")  then 'Special handling en route – isolation' else 'null',
 
-	if "Danger" then Tuple{code: 'Danger to self or others'} else null,
+	if "Danger" then 'Danger to self or others' else 'null',
 
-	if "MentalCondition" then Tuple{code: 'Confused, combative, lethargic, comatose'} else null
+	if "MentalCondition" then 'Confused, combative, lethargic, comatose' else 'null'
 
-	} except(null)
+	} except('null')
 
 define RiskOfFalling: 
 	singleton from ([Observation] c where c.code.coding[0].code.value= 'V00.811')
