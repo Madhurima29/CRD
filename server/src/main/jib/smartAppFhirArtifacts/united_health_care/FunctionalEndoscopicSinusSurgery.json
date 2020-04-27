@@ -133,7 +133,7 @@
         {
           "linkId": "3.1",
           "text": "Primary Diagnosis[ICD-10]",
-          "type": "open-choice",
+          "type": "choice",
           "required": true,
           "repeats": true,
           "option": [
@@ -231,7 +231,7 @@
           ]
         },
         {
-          "linkId": "3.3",
+          "linkId": "3.4",
           "text": "Diagnosis in addition to Recurrent Acute Rhinosinusitis",
           "required": true,
           "type": "string",
@@ -243,20 +243,6 @@
               }
             }
           ],
-          "code": {
-            "coding": [
-              {
-                "valueCoding": {
-                  "code": "Sinonasal symptoms"
-                }
-              },
-              {
-                "valueCoding": {
-                  "code": "CT evidence of ostial occlusion and/or mucosal thickening in the sinus to be treated"
-                }
-              }
-            ]
-          },
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -273,7 +259,7 @@
       "item": [
         {
           "linkId": "4.1",
-          "text": "CT Scan Report",
+          "text": "CT Scan Report supporting the Primary Diagnosis",
           "type": "reference",
           "enableWhen": [
             {
@@ -324,9 +310,48 @@
         },
         {
           "linkId": "4.2",
-          "text": "Date of CTSCAN",
+          "text": "Date of CTSCAN performed",
           "type": "dateTime",
           "required": true,
+	  "enableWhen": [
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Recurrent Acute Rhinosinusitis"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Mucocele"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Concha bullosa"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Complications of sinusitis such as abscess"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Tumor confirmed (such as polyposis or malignancy)"
+              }
+            }
+          ],
+          "enableBehavior": "any",
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -339,6 +364,45 @@
           "text": "Recent CT scan image(s) that show the abnormality",
           "type": "reference",
           "required": true,
+	  "enableWhen": [
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Recurrent Acute Rhinosinusitis"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Mucocele"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Concha bullosa"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Complications of sinusitis such as abscess"
+              }
+            },
+            {
+              "question": "3.1",
+              "answerCoding": {
+                "code": "Tumor confirmed (such as polyposis or malignancy)"
+              }
+            }
+          ],
+          "enableBehavior": "any",
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -367,7 +431,7 @@
         },
         {
           "linkId": "5.2",
-          "text": "Note: Attach recent CT scan image(s) that show the abnormality for surgery",
+          "text": "Note: Attach CT Scan Report,recent CT scan image(s) that show the abnormality for reference if not provided already.",
           "type": "display",
           "required": true
         }

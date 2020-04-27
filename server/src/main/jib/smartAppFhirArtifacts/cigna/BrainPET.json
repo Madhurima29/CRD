@@ -454,7 +454,7 @@
         },
         {
           "linkId": "6.2",
-          "text": "BOMC Result",
+          "text": "BOMC Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -474,7 +474,7 @@
         },
         {
           "linkId": "6.3",
-          "text": "CARE Result",
+          "text": "CARE Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -494,7 +494,7 @@
         },
         {
           "linkId": "6.4",
-          "text": "BIMS Result",
+          "text": "BIMS Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -514,7 +514,7 @@
         },
         {
           "linkId": "6.5",
-          "text": "CAM Result",
+          "text": "CAM Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -534,7 +534,7 @@
         },
         {
           "linkId": "6.6",
-          "text": "GPCOG Result",
+          "text": "GPCOG Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -554,7 +554,7 @@
         },
         {
           "linkId": "6.7",
-          "text": "Glasgow coma scale Result",
+          "text": "Glasgow coma scale Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -574,7 +574,7 @@
         },
         {
           "linkId": "6.8",
-          "text": "MMSE Result",
+          "text": "MMSE Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -594,7 +594,7 @@
         },
         {
           "linkId": "6.9",
-          "text": "MoCA Result",
+          "text": "MoCA Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -614,7 +614,7 @@
         },
         {
           "linkId": "6.10",
-          "text": "IQCODE Result",
+          "text": "IQCODE Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -634,7 +634,7 @@
         },
         {
           "linkId": "6.11",
-          "text": "SLUMS Result",
+          "text": "SLUMS Result(SCORE)",
           "type": "integer",
           "enableWhen": [
             {
@@ -662,7 +662,7 @@
         {
           "linkId": "7.1",
           "text": "NeuroPsychological Testing Performed",
-          "type": "open-choice",
+          "type": "choice",
           "required": true,
           "option": [
             {
@@ -806,20 +806,6 @@
               "answerBoolean": true
             }
           ],
-          "code": {
-            "coding": [
-              {
-                "system": "http://loinc.org",
-                "code": "16695-9",
-                "display": "Cobalamin (Vitamin B12)"
-              },
-              {
-                "system": "http://loinc.org",
-                "code": "2132-9",
-                "display": "Cobalamin (Vitamin B12)"
-              }
-            ]
-          },
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -833,7 +819,8 @@
           "type": "quantity",
           "enableWhen": [
             {
-              "question": "8.2"
+              "question": "8.1",
+	      "answerBoolean": true
             }
           ],
           "required": false,
