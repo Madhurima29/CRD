@@ -1,0 +1,57 @@
+{
+   "resourceType": "Library",
+   "id": "urn:hl7:davinci:crd:default_payer:library-default-prepopulate",
+   "version": "0.0.1",
+   "title": "All Payer Library",
+   "status": "draft",
+   "claimEndpoint": "https://sm.mettles.com/other_payerfhir/hapi-fhir-jpaserver/fhir/Claim/$submit",
+   "type": {
+     "coding": [
+       {
+         "code": "logic-library"
+       }
+     ]
+   },
+   "relatedArtifact": [
+     {
+       "type": "depends-on",
+       "resource": {
+         "reference": "urn:hl7:davinci:crd:library-fhir-helpers"
+       }
+     }
+   ],
+   "content": [
+     {
+       "contentType": "application/elm+json",
+       "url": "urn:hl7:davinci:crd:default_payer:defaultPrepopulation.json"
+     }
+   ],
+   "dataRequirement": [
+     {
+       "type": "Condition",
+       "codeFilter": [
+         {
+           "path": "clinical-status",
+           "valueSetString": "active"
+         },
+         {
+           "path": "category",
+           "valueSetString": "problem-list-item"
+         }
+       ]
+     },
+     {
+       "type": "Observation",
+       "codeFilter": [
+         {
+           "path": "status",
+           "valueSetString": "final"
+         }
+       ]
+     },
+     {
+       "type": "Coverage"
+     }
+   ]
+ }
+ 
