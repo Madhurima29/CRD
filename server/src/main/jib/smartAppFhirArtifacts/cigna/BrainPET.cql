@@ -203,6 +203,9 @@ define "Epilepsy Code":
 define "Dementia or AD":
 	"Dementia Code"+"Alzheimers Disease"+"Frontotemporal Dementia"+"Epilepsy Code"
 
+define "DateOfOnset": 
+	Last([Condition]).recordedDate.value
+	
 define "Date of Service": 
 	//if exists([Encounter]) then
 	Last([Encounter]).period.start.value

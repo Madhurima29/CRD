@@ -133,9 +133,9 @@
         {
           "linkId": "3.1",
           "text": "Primary Diagnosis[ICD-10]",
-          "type": "choice",
+          "type": "open-choice",
           "required": true,
-          "repeats": true,
+          "repeats":false,
           "option": [
             {
               "valueCoding": {
@@ -171,10 +171,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueExpression": {
-                "language": "text/cql",
-                "expression": "\"FunctionalEndoscopicSinusSurgery\".Relevant Diagnoses"
-              }
+              "valueString": "Relevant Diagnoses"
             }
           ]
         },
@@ -223,10 +220,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueExpression": {
-                "language": "text/cql",
-                "expression": "\"OxygenTherapy\".Treatments performed"
-              }
+              "valueString": "Treatments performed"
             }
           ]
         },
@@ -432,8 +426,7 @@
         {
           "linkId": "5.2",
           "text": "Note: Attach CT Scan Report,recent CT scan image(s) that show the abnormality for reference if not provided already.",
-          "type": "display",
-          "required": true
+          "type": "display"
         }
       ]
     }

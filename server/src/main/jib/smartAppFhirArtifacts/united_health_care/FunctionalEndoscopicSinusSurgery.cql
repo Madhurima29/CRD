@@ -171,7 +171,7 @@ define "Chronic Rhinosinusitis":
 		where P.code.coding[0].code.value= 'J32.9'
 			//and (P.onset as Period) starts during "Measurement Period" 
 			//and (duration in weeks between start of (P.onset as Period) and Today() > 12)
-		) then 'Chronic Rhinosinusitis'
+		) then 'Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks'
 	else ''
 
 define "Recurrent Acute Rhinosinusitis":
@@ -215,7 +215,7 @@ define "Polyposis":
 define "Mucocele confirmed Scan":
 	if "Mucocele confirmed" is not null then
 	if exists([ImagingStudy]P
-		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Mucocele confirmed".id.value)) then ',Mucocele confirmed Scan'
+		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Mucocele confirmed".id.value)) then ',Mucocele'
 	else ''
 	else ''
 
@@ -223,14 +223,14 @@ define "Mucocele confirmed Scan":
 define "Concha bullosa confirmed Scan":
 	if "Concha bullosa confirmed" is not null then
 	if exists([ImagingStudy]P
-		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Concha bullosa confirmed".id.value)) then ',Concha bullosa confirmed Scan'
+		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Concha bullosa confirmed".id.value)) then ',Concha bullosa'
 	else ''
 	else ''
 
 define "Malignancy Scan":
 	if "Malignancy" is not null then
 	if exists([ImagingStudy]P
-		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Malignancy".id.value)) then ',Malignancy Scan'
+		where exists((P.reasonReference) R where R.reference.value = 'Condition/'+"Malignancy".id.value)) then ',Tumor confirmed (such as polyposis or malignancy)'
 	else ''
 	else ''
 
@@ -244,6 +244,9 @@ define "Polyposis Scan":
 define "Relevant Diagnoses":
 	"Chronic Rhinosinusitis"+"Recurrent Acute Rhinosinusitis"+"Mucocele confirmed Scan"+"Concha bullosa confirmed Scan"+"Malignancy Scan"+"Polyposis Scan"
 
+
+define "DateOfOnset": 
+	Last([Condition]).recordedDate.value
 
 define "Antibiotic therapy":
 	if (exists([Procedure]P

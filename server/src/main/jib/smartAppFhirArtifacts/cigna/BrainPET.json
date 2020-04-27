@@ -187,7 +187,7 @@
             },
             {
               "valueCoding": {
-                "code": "Alzheimer's Disease"
+                "code": "Alzheimers Disease"
               }
             },
             {
@@ -197,17 +197,14 @@
             },
             {
               "valueCoding": {
-                "code": "Epilepsy,Unspecified"
+                "code": "Epilepsy"
               }
             }
           ],
           "extension": [
             {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
-              "valueExpression": {
-                "language": "text/cql",
-                "expression": "\"BrainPET\".Dementia or AD"
-              }
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "Dementia or AD"
             }
           ]
         },
@@ -269,7 +266,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "Date of Onset"
+              "valueString": "DateOfOnset"
             }
           ]
         },
@@ -662,8 +659,9 @@
         {
           "linkId": "7.1",
           "text": "NeuroPsychological Testing Performed",
-          "type": "choice",
+          "type": "open-choice",
           "required": true,
+          "repeats": false,
           "option": [
             {
               "valueCoding": {
@@ -798,8 +796,16 @@
         {
           "linkId": "8.2",
           "text": "Vitamin B12 test performed",
-          "type": "string",
+          "type": "open-choice",
           "required": false,
+          "repeats": false,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Cobalamin (Vitamin B12)"
+              }
+            }
+          ],
           "enableWhen": [
             {
               "question": "8.1",
@@ -819,8 +825,10 @@
           "type": "quantity",
           "enableWhen": [
             {
-              "question": "8.1",
-	      "answerBoolean": true
+              "question": "8.2",
+              "answerCoding": {
+                "code": "Cobalamin (Vitamin B12)"
+              }
             }
           ],
           "required": false,
@@ -973,9 +981,7 @@
         {
           "linkId": "9.3",
           "text": "Note:The questionnaire requires information to be filled in all the mandatory fields. Failure to provide requested information might lead to rejection of your PA request ",
-          "type": "display",
-          "required": true,
-          "readOnly": true
+          "type": "display"
         }
       ]
     }
