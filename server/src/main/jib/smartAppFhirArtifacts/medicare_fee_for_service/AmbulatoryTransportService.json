@@ -475,214 +475,195 @@
       ]
     },
     {
-     "linkId": "4",
-     "text": "Information to establish Medical Necessity",
-     "type": "group",
-     "item": [
-       {
-         "linkId": "4.1",
-         "text": "Need for Non-Emergent Transport by Ambulance ",
-         "type": "open-choice",
-         "required": true,
-         "repeats": true,
-         "option": [
-           {
-             "valueCoding": {
-               "code": "Structural impairment"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Functional impairment"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Activity limitation"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Regardless of mobility, transportation is medically required"
-             }
-           }
-         ],
-         "extension": [
-           {
-             "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
-             "valueString": "ReasonForTransport"
-           }
-         ]
-       },
-       {
-         "linkId": "4.2",
-         "text": "Purpose of transport [service(s) that cannot be provided in the current setting]",
-         "type": "open-choice",
-         "required": true,
-         "repeats": true,
-         "option": [
-           {
-             "valueCoding": {
-               "code": "Dialysis"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Wound care"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Radiation therapy"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Chemotherapy"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "O&P services"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Imaging"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Bed confined (Unable to ambulate, Unable to get out of bed without assistance, Unable to safely sit in a chair or wheelchair)"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Unable to maintain erect sitting position in a chair for time needed to transport, due to moderate muscular weakness and de-conditioning"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Risk of falling off wheelchair or stretcher while in motion (not related to obesity)"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Non-healed fractures requiring ambulance"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Contractures that impair mobility and result in bed confinement"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Incapacitating Osteoarthritis"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Severe muscular weakness and de-conditioned state precludes any significant physical activity"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Orthopedic device required in transit"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Amputation(s)"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "CVA with sequelae (late effect of CVA) that impair mobility and result in be confinement"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "DVT requires elevation of lower extremity"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Spinal Cord Injury Paralysis"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Progressive demyelinating disease"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Moderate to severe pain on movement"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Unable to sit in chair or wheelchair due to Grade II or greater decubitus ulcers on buttocks"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Chronic wounds requiring immobilization"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Morbid obesity requires additional personnel/equipment to handle"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Third party attendant required to regulate or adjust oxygen en route"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Special handling en route isolation"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "IV medications/fluids required during transport"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Restraints (physical or chemical) anticipated or used during transport"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Danger to self or others"
-             }
-           },
-           {
-             "valueCoding": {
-               "code": "Confused, combative, lethargic, comatose"
-             }
-           }
-         ],
-         "extension": [
-           {
-             "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-             "valueString": "RelevantDiagnoses"
-             
-           }
-         ]
-       },
-       {
-         "linkId": "4.3",
-         "text": "Other reason(s) that non-emergency transport by ambulance is required",
-         "type": "text",
-         "required": false
-       }
-     ]
-   },
+      "linkId": "4",
+      "text": "Information to establish Medical Necessity",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "4.1",
+          "text": "Need for Non-Emergent Transport by Ambulance ",
+          "type": "open-choice",
+          "required": true,
+          "repeats": true,
+          "option": [
+            {
+              "valueCoding": {
+                "code": "Z74.01",
+                "display": "Mobility: Bed confined"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "R26.89",
+                "display": "Mobility: Unable to maintain erect sitting position in a chair"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "W05. 0XXA",
+                "display": "Mobility: Risk of falling off wheelchair or stretcher"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "M84.75",
+                "display": "Musculoskeletal: Non-healed fractures requiring ambulance"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "M62.40",
+                "display": "Musculoskeletal: Contractures that impair mobility and result in be confinement"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "M19.90",
+                "display": "Musculoskeletal: Incapacitating Osteoarthritis"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "M62.81",
+                "display": "Musculoskeletal: Severe muscular weakness precludes significant activity"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Y79",
+                "display": "Musculoskeletal: Orthopedic device required in transit"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "T87.89",
+                "display": "Musculoskeletal: Amputation(s)"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "I69.3",
+                "display": "Neurological: CVA with sequelea (late effect of CVA) that impair mobility and result in bed confinement"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "I82.401",
+                "display": "Cardiovascular: DVT requires elevation of lower extremity"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "S34.109A",
+                "display": "Neurological: Spinal Cord Injury – Paralysis"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "G37.9",
+                "display": "Neurological: Progressive demyelinating disease"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "G89.11",
+                "display": "Neurological: Moderate to severe pain on movement"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "L89.312",
+                "display": "Wound: Unable to sit to Grade II or greater decubitus ulcers on buttocks"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "T81. 89X",
+                "display": "Wound: Chronic wounds requiring immobilization"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "E66.01",
+                "display": "Attendant: Morbid obesity requires additional personnel/equipment"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Z99.81",
+                "display": "Attendant: Third party attendant to regulate or adjust oxygen en route"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Z60.4",
+                "display": "Attendant: Special handling en route – isolation"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "E87.8",
+                "display": "Attendant: IV medications/fluids required during transport"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Z78.1",
+                "display": "Attendant: Restraints (physical or chemical) anticipated or used during transport"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Z91.5",
+                "display": "Mental: Danger to self or others"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "R41.82",
+                "display": "Mental: Confused, combative, lethargic, comatose"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
+              "valueString": "ReasonForTransport"
+            }
+          ]
+        },
+        {
+          "linkId": "4.2",
+          "text": "Other reason(s) that non-emergency transport by ambulance is required?",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "linkId": "4.3",
+          "text": "Specification of the Condition",
+          "type": "string",
+          "required": false,
+          "enableWhen": [
+            {
+              "question": "4.2",
+              "answerBoolean": true
+            }
+          ]
+        },
+        {
+          "linkId": "4.4",
+          "text": "Applicable Medical Code",
+          "type": "string",
+          "required": false,
+          "enableWhen": [
+            {
+              "question": "4.2",
+              "answerBoolean": true
+            }
+          ]
+        }
+      ]
+    },
     {
       "linkId": "5",
       "text": "Requestor Information",
@@ -768,8 +749,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString":  "Typeofrequest"
-              
+              "valueString": "Typeofrequest"
             }
           ]
         },
@@ -782,8 +762,8 @@
             {
               "question": "6.3",
               "answerCoding": {
-               "code": "Expedite this request"
-             }
+                "code": "Expedite this request"
+              }
             }
           ],
           "extension": [
@@ -810,9 +790,39 @@
         },
         {
           "linkId": "6.6",
+          "text": "Is transport from home ?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "linkId": "6.7",
           "text": "Origin of Transport",
           "type": "string",
           "required": true,
+          "enableWhen": [
+            {
+              "question": "6.6",
+              "answerBoolean": true
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "TransportFromHome"
+            }
+          ]
+        },
+        {
+          "linkId": "6.8",
+          "text": "Origin of Transport",
+          "type": "string",
+          "required": true,
+          "enableWhen": [
+            {
+              "question": "6.6",
+              "answerBoolean": false
+            }
+          ],
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
@@ -821,7 +831,7 @@
           ]
         },
         {
-          "linkId": "6.7",
+          "linkId": "6.9",
           "text": "Destination of Transport",
           "type": "string",
           "required": true,
@@ -839,7 +849,7 @@
       "text": "Additional Documentation Required",
       "type": "group",
       "item": [
-  {
+        {
           "linkId": "7.1",
           "text": "Physician Certification Statement  indicating the origin and/or destination of the transport",
           "type": "attachment",
@@ -863,7 +873,7 @@
           "linkId": "7.2",
           "text": "Note: The medical documentation must describe how the specific structural and/or functional impairments together with the activity limitations contribute to the determination that stretcher transport is necessary for the patient's safety as it relates to their condition",
           "type": "display"
-        }   
+        }
       ]
     }
   ]
