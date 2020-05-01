@@ -1,6 +1,9 @@
 library NonEmergentAmbulanceTransport
-using FHIR version '3.0.0'
-include FHIRHelpers version '3.0.0' called FHIRHelpers
+
+using FHIR version '4.0.0'
+
+include FHIRHelpers version '4.0.0' called FHIRHelpers
+include MATGlobalCommonFunctions_FHIR4 version '4.0.000' called Global
 
 codesystem "ICD-10-CM": 'http://hl7.org/fhir/sid/icd-10-cm'
 codesystem "ICD-9-CM": 'http://hl7.org/fhir/sid/icd-9'
@@ -145,7 +148,10 @@ code "R53.83": 'R53.83' from "ICD-10-CM"
 //Unspecified coma
 code "R40.20": 'R40.20' from "ICD-10-CM"
 
-parameter supply_request SupplyRequest
+//Limitation of activities due to disability
+code "Z73.6": 'Z73.6' from "ICD-10-CM"
+
+//parameter service_request ServiceRequest
 parameter "Measurement Period" Interval<DateTime>
 
 context Patient
@@ -205,12 +211,9 @@ define "Encounter participant":
 	"Encounter resource"
 
 define Practitioner: //Last([Practitioner])
-	if "Encounter participant" is not null then
-	Last(
-  		[Practitioner]practitioner 
-			with "Encounter participant" E
-    		such that ('Practitioner/' + practitioner.id.value) = E.individual.reference.value)
-	else Last([Practitioner])
+	singleton from([Practitioner]practitioner 
+			with [ServiceRequest]SR
+			such that ('Practitioner/' + practitioner.id.value) = SR.requester.reference.value)
     
 define PractitionerNameObject: 
 	if "Practitioner" is not null then
@@ -254,23 +257,15 @@ define PractitionerAddress:
 
 // Ambulance Supplier info
 
-define SupplyRequestObject:
-	singleton from ([SupplyRequest])
+define ServiceRequestObject:
+	singleton from ([ServiceRequest])
 
 define AmbulanceSupplier: 
 	singleton from (
   		[Organization] org
-    		where ('Organization/' + org.id.value) = "SupplyRequestObject".supplier[0].reference.value)
+    		with ("ServiceRequestObject".performer) P 
+    		such that P.reference.value = ('Organization/' + org.id.value))
 
-/*define AmbulanceSupplierService: 
-	singleton from (
-  		[HealthcareService] service
-    		where ('HealthcareService/' + service.id.value) = supply_request.supplier[0].reference.value)
-
-define AmbulanceSupplier: 
-	if exists(AmbulanceSupplierOrg) then AmbulanceSupplierOrg
-	else AmbulanceSupplierService
-*/
 	
 define AmbulanceSupplierName: //'Nc Curdy, Michael'
 	"AmbulanceSupplier".name.value
@@ -292,10 +287,11 @@ define AmbulanceSupplierAddress: //'711-2800 Nulla St., Mankato, Mississippi, 96
 	"AmbulanceSupplierAddressObject".line[0].value +', ' +"AmbulanceSupplierAddressObject".city.value +', ' +"AmbulanceSupplierAddressObject".state.value+', ' +"AmbulanceSupplierAddressObject".postalCode.value
 	else ''
 
-define StartDate: ("SupplyRequestObject".occurrence as dateTime).value
+define StartDate: (start of Global."Normalize Interval"("ServiceRequestObject".occurrence))
 
-//define NumofTransports: "SupplyRequestObject".quantity.value.value
-define NumofTransports: 10
+define NumofTransports: ("ServiceRequestObject".quantity as Quantity).value.value
+
+define TransportState: AmbulanceSupplier.address[0].state.value
 
 define SubmissionDate: Today
 
@@ -304,88 +300,153 @@ define TransportContraindicated: true
 define MedicallyRequired: true
 
 define Dialysis:
-	[Procedure] c where c.code.coding[0].code.value= 'Z99.2'
+	
+	([Procedure] c where c.code.coding[0].code.value= 'Z99.2')P
+	with [ServiceRequest]SR 
+	such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 	
 define RadiationTherapy: 
-	[Procedure] c where c.code.coding[0].code.value= '77470'
+	([Procedure] c where c.code.coding[0].code.value= '77470')P
+	with [ServiceRequest]SR 
+	such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 	
 define WoundCareCondition:
-	[Procedure] c where c.code.coding[0].code.value in "WoundCare"
+	([Procedure] c where c.code.coding[0].code.value in "WoundCare")P
+	with [ServiceRequest]SR 
+	such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define ChemotherapyCondition:
-	[Procedure] c where c.code.coding[0].code.value in "Chemotherapy"
+	([Procedure] c where c.code.coding[0].code.value in "Chemotherapy")P
+	with [ServiceRequest]SR 
+	such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define BedConfined: 
-	if (exists([Observation] c where c.code.coding[0].code.value= 'Z74.01') 
-		or exists([Observation] c where c.code.coding[0].code.value= 'R26.2')
-		or exists([Observation] c where c.code.coding[0].code.value= 'Z74.1'))
+	if (exists(([Observation] c where c.code.coding[0].code.value= 'Z74.01')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)) 
+		or exists(([Observation] c where c.code.coding[0].code.value= 'R26.2')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value))
+		or exists(([Observation] c where c.code.coding[0].code.value= 'Z74.1')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)))
 	then true
 	else false
 
 define SittingPosition:
-	if (exists([Observation] c where c.code.coding[0].code.value= 'V00.811') 
-		and exists([Condition] c where c.code.coding[0].code.value= 'M62.81')
-		and exists([Condition] c where c.code.coding[0].code.value= 'R53.81'))
+	if (exists(([Observation] c where c.code.coding[0].code.value= 'V00.811')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)) 
+		and exists(([Condition] c where c.code.coding[0].code.value= 'M62.81')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value))
+		and exists(([Condition] c where c.code.coding[0].code.value= 'R53.81')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)))
 	then true
 	else false
 
 define FracturesCondition:
-	[Condition] c where c.code.coding[0].code.value ='733.82'
+	([Condition] c where c.code.coding[0].code.value ='733.82')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define Osteoarthritis:
-	[Condition] c where c.code.coding[0].code.value ='M17.9'
+	([Condition] c where c.code.coding[0].code.value ='M17.9')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define MuscularWeakness:
-	if (exists([Observation] c where c.code.coding[0].code.value= 'Z72.3') 
-		and exists([Condition] c where c.code.coding[0].code.value= 'M62.81')
-		and exists([Condition] c where c.code.coding[0].code.value= 'R53.81'))
+	if (exists(([Observation] c where c.code.coding[0].code.value= 'Z72.3')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)) 
+		and exists(([Condition] c where c.code.coding[0].code.value= 'M62.81')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value))
+		and exists(([Condition] c where c.code.coding[0].code.value= 'R53.81')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)))
 	then true
 	else false
 
 define OrthopedicJointImplants:
-	[Condition] c where c.code.coding[0].code.value ='Z96.698'
+	([Condition] c where c.code.coding[0].code.value ='Z96.698')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define Amputation:
-	[Condition] c where c.code.coding[0].code.value ='Z89'
+	([Condition] c where c.code.coding[0].code.value ='Z89')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define CVAWithSequelae:
-	[Condition] c where c.code.coding[0].code.value ='I69'
+	([Condition] c where c.code.coding[0].code.value ='I69')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define DVT:
-	[Condition] c where c.code.coding[0].code.value ='I82.40'
+	([Condition] c where c.code.coding[0].code.value ='I82.40')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define DemyelinatingDisease:
-	[Condition] c where c.code.coding[0].code.value ='G37.9'
+	([Condition] c where c.code.coding[0].code.value ='G37.9')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define Ulcer:
-	if (exists([Condition] c where c.code.coding[0].code.value= 'L89.302'))
+	if (exists(([Condition] c where c.code.coding[0].code.value= 'L89.302')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)))
 	then true
 	else false
 
 define MorbidObesity:
-	if (exists([Observation] c where c.code.coding[0].code.value= 'Z74.1') 
-		and exists([Observation] c where c.code.coding[0].code.value= 'Z99.8') 
-		and exists([Condition] c where c.code.coding[0].code.value= 'E66.01'))
+	if (exists(([Observation] c where c.code.coding[0].code.value= 'Z74.1')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)) 
+		and exists(([Observation] c where c.code.coding[0].code.value= 'Z99.8')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)) 
+		and exists(([Condition] c where c.code.coding[0].code.value= 'E66.01')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)))
 	then true
 	else false
 
 define IVMedications: 
-	[Procedure] c where c.code.coding[0].code.value= 'A0394'
+	([Procedure] c where c.code.coding[0].code.value= 'A0394')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define Isolation: 
-	[Observation] c where c.code.coding[0].code.value= 'V07.0'
+	([Observation] c where c.code.coding[0].code.value= 'V07.0')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)
 
 define Danger:
-	if (exists([Observation] c where c.code.coding[0].code.value= 'Z91.5') 
-		or exists([Condition] c where c.code.coding[0].code.value= 'R45.6'))
+	if (exists(([Observation] c where c.code.coding[0].code.value= 'Z91.5')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)) 
+		or exists(([Condition] c where c.code.coding[0].code.value= 'R45.6')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)))
 	then true
 	else false
 
 define MentalCondition:
-	if (exists([Condition] c where c.code.coding[0].code.value= 'R41.0') 
-		or exists([Condition] c where c.code.coding[0].code.value= 'F91.9') 
-		or exists([Condition] c where c.code.coding[0].code.value= 'R53.83')
-		or exists([Condition] c where c.code.coding[0].code.value= 'R40.20'))
+	if (exists(([Condition] c where c.code.coding[0].code.value= 'R41.0')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)) 
+		or exists(([Condition] c where c.code.coding[0].code.value= 'F91.9')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)) 
+		or exists(([Condition] c where c.code.coding[0].code.value= 'R53.83')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value))
+		or exists(([Condition] c where c.code.coding[0].code.value= 'R40.20')P
+			with [ServiceRequest]SR 
+			such that exists(SR.reasonReference R where Global."GetId"(R.reference.value)= P.id.value)))
 	then true
 	else false
 
@@ -439,25 +500,29 @@ define RelevantDiagnoses:
 define RiskOfFalling: 
 	singleton from ([Observation] c where c.code.coding[0].code.value= 'V00.811')
 
-define LocationFromObject:
-	singleton from ([Location] l1 where  ('Location/' + l1.id.value) = "SupplyRequestObject".deliverFrom.reference.value)
+/*define LocationFromObject:
+	singleton from ([Location] l1 where  ('Location/' + l1.id.value) = "ServiceRequestObject".deliverFrom.reference.value)
 	
 define LocationToObject:
-	singleton from ([Location] l2 where ('Location/' + l2.id.value) = "SupplyRequestObject".deliverTo.reference.value)
+	singleton from ([Location] l2 where ('Location/' + l2.id.value) = "ServiceRequestObject".deliverTo.reference.value)
+*/
 
-define LocationFromAddressObject: singleton from ("LocationFromObject".address)  
+
+define TransportFromAddressObject: singleton from (Patient.address[0])  
 
 define TransportFrom: //'15208 West 119th Street, Olathe, KS, 66213'
-	if exists(LocationFromAddressObject) then
-	"LocationFromAddressObject".line[0].value +', ' +"LocationFromAddressObject".city.value +', ' +"LocationFromAddressObject".state.value+', ' +"LocationFromAddressObject".postalCode.value
+	if exists(TransportFromAddressObject) then
+	"TransportFromAddressObject".line[0].value +', ' +"TransportFromAddressObject".city.value +', ' +"TransportFromAddressObject".state.value+', ' +"TransportFromAddressObject".postalCode.value
 	else ''
 
+/*
 define LocationToAddressObject: singleton from ("LocationToObject".address)  
 
 define TransportTo: //'1234 Blvd, Overland Park, KS, 66213'
 	if exists(LocationToAddressObject) then
 	"LocationToAddressObject".line[0].value +', ' +"LocationToAddressObject".city.value +', ' +"LocationToAddressObject".state.value+', ' +"LocationToAddressObject".postalCode.value
 	else ''
+*/
 
 define RoundTrip: false
 
