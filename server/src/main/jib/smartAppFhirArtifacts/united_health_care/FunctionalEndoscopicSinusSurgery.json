@@ -135,36 +135,42 @@
           "text": "Primary Diagnosis[ICD-10]",
           "type": "open-choice",
           "required": true,
-          "repeats":false,
+          "repeats": false,
           "option": [
             {
               "valueCoding": {
-                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+                "code": "J32.9",
+                "display": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
               }
             },
             {
               "valueCoding": {
-                "code": "Recurrent Acute Rhinosinusitis"
+                "code": "J01.91",
+                "display": "Recurrent Acute Rhinosinusitis"
               }
             },
             {
               "valueCoding": {
-                "code": "Mucocele"
+                "code": "K11.6",
+                "display": "Mucocele"
               }
             },
             {
               "valueCoding": {
-                "code": "Concha bullosa"
+                "code": "J34.9",
+                "display": "Concha bullosa"
               }
             },
             {
               "valueCoding": {
-                "code": "Complications of sinusitis such as abscess"
+                "code": "J32.9",
+                "display": "Complications of sinusitis such as abscess"
               }
             },
             {
               "valueCoding": {
-                "code": "Tumor confirmed (such as polyposis or malignancy)"
+                "code": "C80. 1",
+                "display": "Tumor confirmed (such as polyposis or malignancy)"
               }
             }
           ],
@@ -196,24 +202,27 @@
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+                "code": "J32.9"
               }
             }
           ],
           "option": [
             {
               "valueCoding": {
-                "code": "Antibiotic therapy, if bacterial infection is suspected"
+                "code": "90772",
+                "dispaly": "Antibiotic therapy, if bacterial infection is suspected"
               }
             },
             {
               "valueCoding": {
-                "code": "Nasal lavage"
+                "code": "31000",
+                "display": "Nasal lavage"
               }
             },
             {
               "valueCoding": {
-                "code": "Intranasal corticosteroids"
+                "code": "1869710",
+                "display": "Intranasal corticosteroids"
               }
             }
           ],
@@ -229,11 +238,11 @@
           "text": "Diagnosis in addition to Recurrent Acute Rhinosinusitis",
           "required": true,
           "type": "string",
-	  "enable-when": [
+          "enable-when": [
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Recurrent Acute Rhinosinusitis"
+                "code": "J01.91"
               }
             }
           ],
@@ -259,37 +268,37 @@
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+                "code": "J32.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Recurrent Acute Rhinosinusitis"
+                "code": "J01.91"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Mucocele"
+                "code": "K11.6"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Concha bullosa"
+                "code": "J34.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Complications of sinusitis such as abscess"
+                "code": "J32.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Tumor confirmed (such as polyposis or malignancy)"
+                "code": "C80. 1"
               }
             }
           ],
@@ -307,41 +316,41 @@
           "text": "Date of CTSCAN performed",
           "type": "dateTime",
           "required": true,
-	  "enableWhen": [
+          "enableWhen": [
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+                "code": "J32.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Recurrent Acute Rhinosinusitis"
+                "code": "J01.91"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Mucocele"
+                "code": "K11.6"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Concha bullosa"
+                "code": "J34.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Complications of sinusitis such as abscess"
+                "code": "J32.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Tumor confirmed (such as polyposis or malignancy)"
+                "code": "C80. 1"
               }
             }
           ],
@@ -358,41 +367,41 @@
           "text": "Recent CT scan image(s) that show the abnormality",
           "type": "reference",
           "required": true,
-	  "enableWhen": [
+          "enableWhen": [
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Chronic Rhinosinusitis (CRS) which has lasted longer than 12 weeks"
+                "code": "J32.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Recurrent Acute Rhinosinusitis"
+                "code": "J01.91"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Mucocele"
+                "code": "K11.6"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Concha bullosa"
+                "code": "J34.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Complications of sinusitis such as abscess"
+                "code": "J32.9"
               }
             },
             {
               "question": "3.1",
               "answerCoding": {
-                "code": "Tumor confirmed (such as polyposis or malignancy)"
+                "code": "C80. 1"
               }
             }
           ],
@@ -432,3 +441,4 @@
     }
   ]
 }
+
