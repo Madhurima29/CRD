@@ -122,18 +122,6 @@
                      "valueString":"PractitionerNPI"
                   }
                ]
-            },
-            {
-               "linkId":"2.3",
-               "text":"Physician/Practitioner’s Address",
-               "type":"string",
-               "required":true,
-               "extension":[
-                  {
-                     "url":"http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-                     "valueString":"PractitionerAddress"
-                  }
-               ]
             }
          ]
       },
@@ -152,8 +140,7 @@
             {
               "valueCoding": {
                 "code": "COPD"
-              },
-                  "initialSelected":true
+              }
             },
             {
               "valueCoding": {
@@ -205,60 +192,18 @@
         },
         {
           "linkId": "3.2",
-          "text": "Arterial oxygen saturation (Patient on room air while at rest and awake when tested) (%)",
-          "type": "string",
-          "required": false,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "ArterialOxygenSaturation"
-            }
-          ]
-        },
-        {
-          "linkId": "3.3",
-          "text": "Arterial Partial Pressure of Oxygen (PO2) (Patient on room air while at rest and awake when tested) (mm[Hg])",
-          "type": "string",
-          "required": false,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "ArterialPartialPressureOfOxygen"
-            }
-          ]
-        },
-        {
-          "linkId": "3.4",
-          "text": "Arterial oxygen saturation (Patient tested during exercise)  (%)",
-          "type": "string",
-          "required": false,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "ArterialOxygenSaturationExercise"
-            }
-          ]
-        },
-        {
-          "linkId": "3.5",
-          "text": "Arterial Partial Pressure of Oxygen (PO2) (Patient tested during exercise) (mm[Hg])",
-          "type": "string",
-          "required": false
-        },
-        {
-          "linkId": "3.6",
           "text": "Is there a documented improvement of hypoxemia during exercise with oxygen?",
           "type": "boolean",
           "required": false
         },
         {
-          "linkId": "3.7",
+          "linkId": "3.3",
           "text": "Is the patient mobile within the home? ",
           "type": "boolean",
           "required": false,
           "enableWhen": [
             {
-              "question": "5.1b",
+              "question": "6.1b",
               "answerBoolean": true
             }
           ],
@@ -266,75 +211,6 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
               "valueString": "PatientMobile"
-            }
-          ]
-        },
-        {
-          "linkId": "3.8",
-          "text": "Does the patient have dependent edema due to congestive heart failure?",
-          "type": "boolean",
-          "required": false,
-          "enableWhen": [
-            {
-              "question": "3.2",
-              "answerQuantity": {
-                "value": 89,
-                "unit": "%"
-              }
-            }
-          ]
-        },
-        {
-          "linkId": "3.9",
-          "text": "Does the patient have cor pulmonale or pulmonary hypertension documented by P pulmonale on an EKG or by an echocardiogram, gated blood pool scan or direct pulmonary artery pressure measurement?",
-          "type": "boolean",
-          "required": false,
-          "enableWhen": [
-            {
-              "question": "3.2",
-              "answerQuantity": {
-                "value": 89,
-                "unit": "%"
-              }
-            }
-          ]
-        },
-        {
-          "linkId": "3.10",
-          "text": "Does the patient have a hematocrit greater than 56%?",
-          "type": "boolean",
-          "required": false,
-          "enableWhen": [
-            {
-              "question": "3.2",
-              "answerQuantity": {
-                "value": 89,
-                "unit": "%"
-              }
-            }
-          ],
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "PatientHasHematocritThatIsGreaterThanThreshold"
-            }
-          ]
-        },
-        {
-          "linkId": "3.11",
-          "text": "Recent hematocrit result (%)",
-          "type": "string",
-          "required": false,
-          "enableWhen": [
-            {
-              "question": "3.10",
-              "answerBoolean": true
-            }
-          ],
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "HematocritThatIsGreaterThanThreshold"
             }
           ]
         }
@@ -362,60 +238,28 @@
           "text": "Length of need: (months) (99 = lifetime)",
           "type": "integer",
           "required": false
+        }
+      ]
+    },
+    {
+      "linkId": "5",
+      "text": "Average Flow Rate",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "5.1",
+          "text": "LPM",
+          "type": "integer",
+          "required": true
         },
         {
-          "linkId": "4.4",
-          "text": "Peak Flow Rate",
-          "type": "group",
-          "item": [
-            {
-              "linkId": "4.4.1",
-              "text": "LPM",
-              "type": "integer",
-              "required": true
-            },
-            {
-              "linkId": "4.4.2",
-              "text": "oxygen %",
-              "type": "integer",
-              "required": true
-            }
-          ]
+          "linkId": "5.2",
+          "text": "oxygen %",
+          "type": "integer",
+          "required": true
         },
         {
-          "linkId": "4.4b",
-          "text": "Since > 4 LPM prescribed, enter arterial oxygen saturation or PO2 while patient was on 4 LPM in stable state.",
-          "type": "string",
-          "required": true,
-          "enableWhen": [
-            {
-              "operator": ">",
-              "question": "4.4.1",
-              "answerInteger": 4
-            }
-          ]
-        },
-        {
-          "linkId": "4.5",
-          "text": "Average Flow Rate",
-          "type": "group",
-          "item": [
-            {
-              "linkId": "4.5.1",
-              "text": "LPM",
-              "type": "integer",
-              "required": true
-            },
-            {
-              "linkId": "4.5.2",
-              "text": "oxygen %",
-              "type": "integer",
-              "required": true
-            }
-          ]
-        },
-        {
-          "linkId": "4.6",
+          "linkId": "5.3",
           "text": "Frequency of use (choose all that apply)",
           "type": "open-choice",
           "required": true,
@@ -441,12 +285,12 @@
       ]
     },
     {
-      "linkId": "5",
+      "linkId": "6",
       "text": "Oxygen Supply Order Details",
       "type": "group",
       "item": [
         {
-          "linkId": "5.1",
+          "linkId": "6.1",
           "text": "Current Order Description",
           "type": "string",
           "readOnly": true,
@@ -470,7 +314,7 @@
           ]
         },
         {
-          "linkId": "5.2",
+          "linkId": "6.2",
           "text": "Type",
           "type": "choice",
           "required": true,
@@ -493,7 +337,7 @@
           ]
         },
         {
-          "linkId": "5.3",
+          "linkId": "6.3",
           "text": "Means of oxygen delivery and accessories",
           "type": "open-choice",
           "required": true,
@@ -537,7 +381,7 @@
           ]
         },
         {
-          "linkId": "5.4",
+          "linkId": "6.4",
           "text": "Type of order",
           "type": "choice",
           "required": true,
@@ -565,13 +409,13 @@
           ]
         },
         {
-          "linkId": "5.5",
+          "linkId": "6.5",
           "text": "Reason for Change in Status",
           "type": "open-choice",
           "required": true,
           "enableWhen": [
             {
-              "question": "5.4",
+              "question": "6.4",
               "answerCoding": {
                 "code": "Change in status"
               }
