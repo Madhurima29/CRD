@@ -182,22 +182,30 @@
           "option": [
             {
               "valueCoding": {
-                "code": "Dementia"
+                "code": "F03.90",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Dementia"
               }
             },
             {
               "valueCoding": {
-                "code": "Alzheimers Disease"
+                "code": "G30.9",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Alzheimers Disease"
               }
             },
             {
               "valueCoding": {
-                "code": "Frontotemporal Dementia"
+                "code": "G31.09",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Frontotemporal Dementia"
               }
             },
             {
               "valueCoding": {
-                "code": "Epilepsy"
+                "code": "G40.919",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Epilepsy"
               }
             }
           ],
@@ -217,22 +225,30 @@
           "option": [
             {
               "valueCoding": {
-                "code": "Mild Cognitive Impairment(MCI)"
+                "code": "G31",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Mild Cognitive Impairment(MCI)"
               }
             },
             {
               "valueCoding": {
-                "code": "Severe Dementia with Behavioral Disturbance"
+                "code": "F03.90",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Severe Dementia with Behavioral Disturbance"
               }
             },
             {
               "valueCoding": {
-                "code": "Severe Dementia without Behavioral Disturbance"
+                "code": "F03.91",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Severe Dementia without Behavioral Disturbance"
               }
             },
             {
               "valueCoding": {
-                "code": "Normal Aging"
+                "code": "R41.81",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Normal Aging"
               }
             }
           ],
@@ -279,17 +295,44 @@
           "option": [
             {
               "valueCoding": {
-                "code": "Benign neoplasm"
+                "code": "C80.1",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Malignant Primary"
               }
             },
             {
               "valueCoding": {
-                "code": "Neoplasms with unspecified behavior"
+                "code": "C79.9",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Malignant Secondary"
               }
             },
             {
               "valueCoding": {
-                "code": "Malignant Neoplasm"
+                "code": "D09.9",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Ca in situ"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "D36.9",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Benign"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "D48.9",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Uncertain Behavior"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "D49.9",
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "display": "Unspecified Behavior"
               }
             }
           ],
@@ -350,17 +393,58 @@
           "option": [
             {
               "valueCoding": {
-                "code": "Standard or Routine PET or PET/CT Imaging FDG (2 fluorine 18, fluoro 2 deoxy-d-glucose)"
+                "code": "A9515",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+                "display": "Choline C-11, diagnostic, per study dose up to 20 millicuries"
               }
             },
             {
               "valueCoding": {
-                "code": "PET Bone Scan: Sodium 18F Fluoride PET/CT"
+                "code": "A9552",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+                "display": "Fluorodeoxyglucose F-18 FDG, diagnostic, per study dose, up to 45 millicuries"
               }
             },
             {
               "valueCoding": {
-                "code": "Other"
+                "code": "A9555 ",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+                "display": "Rubidium Rb-82, diagnostic, per study dose, up to 60 millicuries"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "A9587",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+                "display": "Gallium ga-68, dotatate, diagnostic, 0.1 millicurie"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "A9526",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+                "display": "Nitrogen N-13 ammonia, diagnostic, per study dose, up to 40 millicuries"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "A9588",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+                "display": "Fluciclovine f-18, diagnostic, 1 millicurie"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "A9597",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+                "display": "Positron emission tomography radiopharmaceutical, diagnostic, for tumor"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "A9598",
+                "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+                "display": "Positron emission tomography radiopharmaceutical, diagnostic, for non-tumor "
               }
             }
           ],
@@ -390,52 +474,62 @@
           "option": [
             {
               "valueCoding": {
-                "code": "Blessed Orientation-Memory-Concentration Test [BOMC]"
+                "code": "72087-0",
+                "display": "Blessed Orientation-Memory-Concentration Test [BOMC]"
               }
             },
             {
               "valueCoding": {
-                "code": "Brief interview for mental status (BIMS) [CARE]"
+                "code": "69966-0",
+                "display": "Brief interview for mental status (BIMS) [CARE]"
               }
             },
             {
               "valueCoding": {
-                "code": "Brief interview for mental status [BIMS]"
+                "code": "52491-8",
+                "display": "Brief interview for mental status [BIMS]"
               }
             },
             {
               "valueCoding": {
-                "code": "Confusion Assessment Method (CAM)"
+                "code": "52495-9",
+                "display": "Confusion Assessment Method (CAM)"
               }
             },
             {
               "valueCoding": {
-                "code": "General Practitioner Assessment of Cognition [GPCOG]"
+                "code": "79115-2",
+                "display": "General Practitioner Assessment of Cognition [GPCOG]"
               }
             },
             {
               "valueCoding": {
-                "code": "Glasgow coma scale"
+                "code": "35088-4",
+                "display": "Glasgow coma scale"
               }
             },
             {
               "valueCoding": {
-                "code": "Mini-Mental State Examination [MMSE]"
+                "code": "72107-6",
+                "display": "Mini-Mental State Examination [MMSE]"
               }
             },
             {
               "valueCoding": {
-                "code": "Montreal Cognitive Assessment [MoCA]"
+                "code": "72133-2",
+                "display": "Montreal Cognitive Assessment [MoCA]"
               }
             },
             {
               "valueCoding": {
-                "code": "Short Informant Questionnaire on Cognitive Decline in the Elderly [IQCODE]"
+                "code": "71946-8",
+                "display": "Short Informant Questionnaire on Cognitive Decline in the Elderly [IQCODE]"
               }
             },
             {
               "valueCoding": {
-                "code": "St. Louis University Mental Status (SLUMS) Examination [SLUMS]"
+                "code": "71947-6",
+                "display": "St. Louis University Mental Status (SLUMS) Examination [SLUMS]"
               }
             }
           ],
@@ -457,7 +551,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "Blessed Orientation-Memory-Concentration Test [BOMC]"
+                "code": "72087-0"
               }
             }
           ],
@@ -477,7 +571,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "Brief interview for mental status (BIMS) [CARE]"
+                "code": "69966-0"
               }
             }
           ],
@@ -497,7 +591,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "Brief interview for mental status [BIMS]"
+                "code": "52491-8"
               }
             }
           ],
@@ -517,7 +611,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "Confusion Assessment Method (CAM)"
+                "code": "52495-9"
               }
             }
           ],
@@ -537,7 +631,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "General Practitioner Assessment of Cognition [GPCOG]"
+                "code": "79115-2"
               }
             }
           ],
@@ -557,7 +651,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "Glasgow coma scale"
+                "code": "35088-4"
               }
             }
           ],
@@ -577,7 +671,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "Mini-Mental State Examination [MMSE]"
+                "code": "72107-6"
               }
             }
           ],
@@ -597,7 +691,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "Montreal Cognitive Assessment [MoCA]"
+                "code": "72133-2"
               }
             }
           ],
@@ -617,7 +711,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "Short Informant Questionnaire on Cognitive Decline in the Elderly [IQCODE]"
+                "code": "71946-8"
               }
             }
           ],
@@ -637,7 +731,7 @@
             {
               "question": "6.1",
               "answerCoding": {
-                "code": "St. Louis University Mental Status (SLUMS) Examination [SLUMS]"
+                "code": "71947-6"
               }
             }
           ],
@@ -665,22 +759,32 @@
           "option": [
             {
               "valueCoding": {
-                "code": "Neurobehavioral Status Exam"
+                "code": "96116",
+                "display": "Neurobehavioral Status Exam"
               }
             },
             {
               "valueCoding": {
-                "code": "Test Administration and Scoring by a Psychologist"
+                "code": "96136",
+                "display": "Test Administration and Scoring by a Psychologist"
               }
             },
             {
               "valueCoding": {
-                "code": "Neuro Psychological Testing Evaluation by a Psychologist"
+                "code": "96132",
+                "display": "Neuro Psychological Testing Evaluation by a Psychologist"
               }
             },
             {
               "valueCoding": {
-                "code": "Test Administration and Scoring by a Technician"
+                "code": "96138",
+                "display": "Test Administration and Scoring by a Technician"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "96146",
+                "display": "Psychological or neuropsychological test administration,with automated result only"
               }
             }
           ],
@@ -702,7 +806,7 @@
             {
               "question": "7.1",
               "answerCoding": {
-                "code": "Neurobehavioral Status Exam"
+                "code": "96116"
               }
             }
           ],
@@ -722,7 +826,7 @@
             {
               "question": "7.1",
               "answerCoding": {
-                "code": "Test Administration and Scoring by a Psychologist"
+                "code": "96136"
               }
             }
           ],
@@ -742,7 +846,7 @@
             {
               "question": "7.1",
               "answerCoding": {
-                "code": "Neuro Psychological Testing Evaluation by a Psychologist"
+                "code": "96132"
               }
             }
           ],
@@ -762,7 +866,7 @@
             {
               "question": "7.1",
               "answerCoding": {
-                "code": "Test Administration and Scoring by a Technician"
+                "code": "96138"
               }
             }
           ],
@@ -771,6 +875,26 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
               "valueString": "EvaluationReport4"
+            }
+          ]
+        },
+        {
+          "linkId": "7.6",
+          "text": "Evaluation Report",
+          "type": "reference",
+          "enableWhen": [
+            {
+              "question": "7.1",
+              "answerCoding": {
+                "code": "96146"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "EvaluationReport5"
             }
           ]
         }
@@ -802,7 +926,14 @@
           "option": [
             {
               "valueCoding": {
-                "code": "Cobalamin (Vitamin B12)"
+                "code": "2132-9",
+                "display": "Cobalamin (Vitamin B12)"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "2284-8",
+                "display": "Cobalamin (Vitamin B12)"
               }
             }
           ],
@@ -866,17 +997,32 @@
           "option": [
             {
               "valueCoding": {
-                "code": "Thyroid-stimulating hormone (TSH)"
+                "code": "3053-6",
+                "display": "Triiodothyronine (T3) [Mass/volume] in Serum or Plasma"
               }
             },
             {
               "valueCoding": {
-                "code": "Thyroxine (T4)"
+                "code": "14920-3",
+                "display": "Thyroxine (T4) free [Moles/volume] in Serum or Plasma"
               }
             },
             {
               "valueCoding": {
-                "code": "Triiodothyronine (T3) "
+                "code": "3016-3",
+                "display": "Thyrotropin [Units/volume] in Serum or Plasma"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "3026-2",
+                "display": "Thyroxine (T4) [Mass/volume] in Serum or Plasma"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "14928-6",
+                "display": "Triiodothyronine (T3) Free [Moles/volume] in Serum or Plasma"
               }
             }
           ],
@@ -889,13 +1035,13 @@
         },
         {
           "linkId": "8.6",
-          "text": "TSH Result in mIU/L",
+          "text": "FT3 Result in pmol/L",
           "type": "quantity",
           "enableWhen": [
             {
               "question": "8.5",
               "answerCoding": {
-                "code": "Thyroid-stimulating hormone (TSH)"
+                "code": "14928-6"
               }
             }
           ],
@@ -903,19 +1049,59 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "TSHResult"
+              "valueString": "FT3Result"
             }
           ]
         },
         {
           "linkId": "8.7",
-          "text": "Thyroxine(T4) Result in μg/dL",
+          "text": "T3 Result in ng/dL",
           "type": "quantity",
           "enableWhen": [
             {
               "question": "8.5",
               "answerCoding": {
-                "code": "Thyroxine (T4)"
+                "code": "3053-6"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "T3Result"
+            }
+          ]
+        },
+        {
+          "linkId": "8.8",
+          "text": "FT4 Result in ng/dL ",
+          "type": "quantity",
+          "enableWhen": [
+            {
+              "question": "8.5",
+              "answerCoding": {
+                "code": "14920-3"
+              }
+            }
+          ],
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
+              "valueString": "FT4Result"
+            }
+          ]
+        },
+        {
+          "linkId": "8.9",
+          "text": "T4 Result in ng/dL ",
+          "type": "quantity",
+          "enableWhen": [
+            {
+              "question": "8.5",
+              "answerCoding": {
+                "code": "3026-2"
               }
             }
           ],
@@ -928,14 +1114,14 @@
           ]
         },
         {
-          "linkId": "8.8",
-          "text": "Triiodothyronine(T3) Result in ng/dL ",
+          "linkId": "8.10",
+          "text": "TSH Result in mU/L ",
           "type": "quantity",
           "enableWhen": [
             {
               "question": "8.5",
               "answerCoding": {
-                "code": "Triiodothyronine (T3)"
+                "code": "3016-3"
               }
             }
           ],
@@ -943,7 +1129,7 @@
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/cqif-calculatedValue",
-              "valueString": "T3Result"
+              "valueString": "TSHResult"
             }
           ]
         }
