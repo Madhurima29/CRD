@@ -179,29 +179,58 @@ define FacilityPhone:
 define "Dementia Code":
 	if exists([Condition]P
 		where P.code.coding[0].code.value= 'F03.90' 
-			) then 'Dementia'
+			) then 'F03.90'
 	else ''
 
 define "Alzheimers Disease":
 	if exists([Condition]P
 		where P.code.coding[0].code.value= 'G30.9'
-			) then ',Alzheimers Disease'
+			) then 'G30.9'
 	else ''
 
 define "Frontotemporal Dementia":
 	if exists([Condition]P
 		where (P.code.coding[0].code.value= 'G31.09' or P.code.coding[0].code.value= '345088011') 
-			) then ',Frontotemporal Dementia'
+			) then 'G31.09'
 	else ''
 
 define "Epilepsy Code":
 	if exists([Condition]P
 		where P.code.coding[0].code.value= 'G40.919'
-			) then ',Epilepsy'
+			) then 'G40.919'
 	else ''
 
 define "Dementia or AD":
-	"Dementia Code"+"Alzheimers Disease"+"Frontotemporal Dementia"+"Epilepsy Code"
+	{"Dementia Code","Alzheimers Disease","Frontotemporal Dementia","Epilepsy Code"}
+
+
+define "Mild Cognitive Impairment Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'G31'
+			) then 'G31'
+	else ''
+
+define "Severe Dementia with Behavioral Disturbance Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'F03.90'
+			) then 'F03.90'
+	else ''
+
+define "Severe Dementia without Behavioral Disturbance Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'F03.91'
+			) then 'F03.91'
+	else ''
+
+define "Normal Aging Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'R41.81'
+			) then 'R41.81'
+	else ''
+
+
+define "RelevantDiagnosis":
+	{"Mild Cognitive Impairment Code","Severe Dementia with Behavioral Disturbance Code","Severe Dementia without Behavioral Disturbance Code","Normal Aging Code"}
 
 define "DateOfOnset": 
 	Last([Condition]).recordedDate.value
@@ -210,11 +239,45 @@ define "Date of Service":
 	//if exists([Encounter]) then
 	Last([Encounter]).period.start.value
 
-define "Malignant Neoplasm":
+define "Malignant Primary Code":
 	if exists([Condition]P
-		where (P.code.coding[0].code.value= 'C80.1' or P.code.coding[0].code.value= '1208875016' or P.code.coding[0].code.value= '363346000' or P.code.coding[0].code.value= '85068') 
-			) then 'Malignant Neoplasm'
+		where P.code.coding[0].code.value= 'C80.1'
+			) then 'C80.1'
 	else ''
+
+define "Malignant Secondary Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'C79.9'
+			) then 'C79.9'
+	else ''
+
+define "Ca in situ Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'D09.9'
+			) then 'D09.9'
+	else ''
+
+define "Benign Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'D36.9'
+			) then 'D36.9'
+	else ''
+
+define "Uncertain Behavior Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'D48.9'
+			) then 'D48.9'
+	else ''
+
+define "Unspecified Behavior Code":
+	if exists([Condition]P
+		where P.code.coding[0].code.value= 'D49.9'
+			) then 'D49.9'
+	else ''
+
+
+define "Malignant Neoplasm":
+	{"Malignant Primary Code","Malignant Secondary Code","Ca in situ Code","Benign Code","Uncertain Behavior Code","Unspecified Behavior Code"}
 
 
 //Requestor info

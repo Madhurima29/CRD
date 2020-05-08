@@ -257,7 +257,7 @@
               "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
               "valueExpression": {
                 "language": "text/cql",
-                "expression": "\"BrainPET\".RelevantDiagnosis"
+                "expression": "RelevantDiagnosis"
               }
             }
           ]
@@ -341,7 +341,7 @@
               "url": "http://hl7.org/fhir/StructureDefinition/cqf-expression",
               "valueExpression": {
                 "language": "text/cql",
-                "expression": "\"BrainPET\".MalignantNeoplasm"
+                "expression": "Malignant Neoplasm"
               }
             }
           ]
